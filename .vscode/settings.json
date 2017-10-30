@@ -1,0 +1,10 @@
+{
+  "editor.formatOnSave": true,
+  "files.eol": "\n",
+  "editor.tabSize": 2,
+  // prettier
+  "javascript.format.enable": false,
+  "prettier.eslintIntegration": true,
+  "prettier.semi": false,
+  "prettier.useTabs": false
+}

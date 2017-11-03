@@ -1,5 +1,6 @@
 <template>
   <div>
+    Index
   </div>
 </template>
 
@@ -11,5 +12,6 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style>
+
 </style>

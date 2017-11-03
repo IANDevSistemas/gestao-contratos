@@ -7,11 +7,11 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {}
   }
 }
 </script>
 
-<style>
+<style lang="stylus" scoped>
 </style>

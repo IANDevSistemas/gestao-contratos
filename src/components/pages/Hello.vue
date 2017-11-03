@@ -1,9 +1,5 @@
 <template>
-  <q-layout
-    ref="layout"
-    view="lHh Lpr fff"
-    :left-class="{'bg-grey-2': true}"
-  >
+  <q-layout ref="layout" view="hHh LpR lFr" :left-class="{'bg-grey-2': true}">
     <q-toolbar slot="header" class="glossy">
       <q-btn flat @click="$refs.layout.toggleLeft()">
         <q-icon name="menu" />
@@ -16,12 +12,9 @@
     </q-toolbar>
 
     <div slot="left">
-      <!--
-        Use <q-side-link> component
-        instead of <q-item> for
-        internal vue-router navigation
-      -->
-
+      <!-- Use <q-side-link> component -->
+      <!-- instead of <q-item> for -->
+      <!-- internal vue-router navigation -->
       <q-list no-border link inset-delimiter>
         <q-list-header>Essential Links</q-list-header>
         <q-item @click="launch('http://quasar-framework.org')">
@@ -43,11 +36,10 @@
       </q-list>
     </div>
 
-    <!--
-      Replace following <div> with
-      <router-view /> component
-      if using subRoutes
-    -->
+    <!-- Replace following <div> with -->
+    <!-- <router-view /> component -->
+    <!-- if using subRoutes -->
+
     <div class="layout-padding logo-container non-selectable no-pointer-events">
       <div class="logo" :style="position">
         <img src="~assets/quasar-logo-full.svg">
@@ -57,22 +49,6 @@
 </template>
 
 <script>
-import {
-  QBtn,
-  QIcon,
-  QItem,
-  QItemMain,
-  QItemSide,
-  QLayout,
-  QList,
-  QListHeader,
-  QToolbar,
-  QToolbarTitle,
-  dom,
-  event,
-  openURL
-} from "quasar"
-
 const { viewport } = dom
 const { position } = event
 const moveForce = 30
@@ -85,33 +61,13 @@ function getRotationFromAccel(accelX, accelY, accelZ) {
   const miu = 0.001
 
   return {
-    roll:
-      Math.atan2(
-        accelY,
-        sign * Math.sqrt(Math.pow(accelZ, 2) + miu * Math.pow(accelX, 2))
-      ) * RAD_TO_DEG,
-    pitch:
-      -Math.atan2(
-        accelX,
-        Math.sqrt(Math.pow(accelY, 2) + Math.pow(accelZ, 2))
-      ) * RAD_TO_DEG
+    roll: Math.atan2(accelY, sign * Math.sqrt(Math.pow(accelZ, 2) + miu * Math.pow(accelX, 2))) * RAD_TO_DEG,
+    pitch: -Math.atan2(accelX, Math.sqrt(Math.pow(accelY, 2) + Math.pow(accelZ, 2))) * RAD_TO_DEG
   }
 }
 
 export default {
   name: "index",
-  components: {
-    QLayout,
-    QToolbar,
-    QToolbarTitle,
-    QBtn,
-    QIcon,
-    QList,
-    QListHeader,
-    QItem,
-    QItemSide,
-    QItemMain
-  },
   data() {
     return {
       orienting: window.DeviceOrientationEvent && !this.$q.platform.is.desktop,
@@ -124,8 +80,7 @@ export default {
   },
   computed: {
     position() {
-      const transform = `rotateX(${this.rotateX}deg) rotateY(${this
-        .rotateY}deg)`
+      const transform = `rotateX(${this.rotateX}deg) rotateY(${this.rotateY}deg)`
       return {
         top: `${this.moveY}px`,
         left: `${this.moveX}px`,
@@ -151,11 +106,7 @@ export default {
       this.rotateX = -(top / height * rotateForce * 2 - rotateForce)
     },
     rotate(evt) {
-      if (
-        evt.rotationRate &&
-        evt.rotationRate.beta !== null &&
-        evt.rotationRate.gamma !== null
-      ) {
+      if (evt.rotationRate && evt.rotationRate.beta !== null && evt.rotationRate.gamma !== null) {
         this.rotateX = evt.rotationRate.beta * 0.7
         this.rotateY = evt.rotationRate.gamma * -0.7
       } else {
@@ -163,8 +114,7 @@ export default {
            to evt.accelerationIncludingGravity */
         const accelX = evt.acceleration.x || evt.accelerationIncludingGravity.x
         const accelY = evt.acceleration.y || evt.accelerationIncludingGravity.y
-        const accelZ =
-          evt.acceleration.z || evt.accelerationIncludingGravity.z - 9.81
+        const accelZ = evt.acceleration.z || evt.accelerationIncludingGravity.z - 9.81
         const rotation = getRotationFromAccel(accelX, accelY, accelZ)
 
         this.rotateX = rotation.roll * 0.7
@@ -207,18 +157,16 @@ export default {
 </script>
 
 <style lang="stylus">
-.logo-container {
-  width: 255px;
-  height: 242px;
-  perspective: 800px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-}
+.logo-container
+  height 242px
+  left 50%
+  perspective 800px
+  position absolute
+  top 50%
+  transform translateX(-50%) translateY(-50%)
+  width 255px
 
-.logo {
-  position: absolute;
-  transform-style: preserve-3d;
-}
+.logo
+  position absolute
+  transform-style preserve-3d
 </style>

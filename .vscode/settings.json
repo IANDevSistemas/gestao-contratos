@@ -6,5 +6,14 @@
   "javascript.format.enable": false,
   "prettier.eslintIntegration": true,
   "prettier.semi": false,
-  "prettier.useTabs": false
+  "prettier.useTabs": false,
+  "prettier.printWidth": 200,
+  "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "stylusSupremacy.insertColons": false,
+  "stylusSupremacy.insertSemicolons": false,
+  "stylusSupremacy.insertBraces": false,
+  "stylusSupremacy.sortProperties": "alphabetical",
+  "stylusSupremacy.alwaysUseNoneOverZero": true,
+  "stylusSupremacy.alwaysUseZeroWithoutUnit": true,
+  "stylusSupremacy.alwaysUseExtends": true
 }

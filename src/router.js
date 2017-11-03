@@ -5,7 +5,8 @@ Vue.use(VueRouter)
 
 function load(component) {
   // '@' is aliased to src/components
-  return () => import(`@/${component}.vue`)
+  return () => import(`@/pages${component || ""}/Index.vue`)
+  // return () => import(`@/pages/${component}/`)
 }
 
 export default new VueRouter({
@@ -25,9 +26,16 @@ export default new VueRouter({
   scrollBehavior: () => ({ y: 0 }),
 
   routes: [
-    { path: "/", component: load("Hello") },
+    // Raíz
+    { path: "/", component: load() },
+
+    // Contratos
+    { path: "/contratos/:idDiretorio/:idContrato/:action", component: load("/contratos") },
+    { path: "/contratos/:idDiretorio/:idContrato", component: load("/contratos") },
+    { path: "/contratos/:idDiretorio", component: load("/contratos") },
+    { path: "/contratos", component: load("/contratos") },
 
     // Always leave this last one
-    { path: "*", component: load("Error404") } // Not found
+    { path: "*", component: load("/error404") } // Not found
   ]
 })

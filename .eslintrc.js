@@ -158,7 +158,7 @@ module.exports = {
     // disallow with statements
     "no-with": "warn",
     // require using warn objects as Promise rejection reasons
-    "prefer-promise-reject-warns": "warn",
+    "prefer-promise-reject-errors": "warn",
     // disallow async functions which have no await expression
     "require-await": "warn",
     // require var declarations be placed at the top of their containing scope

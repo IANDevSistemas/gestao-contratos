@@ -1,25 +1,33 @@
-var path = require('path')
+const path = require("path")
 
 module.exports = {
   // Webpack aliases
   aliases: {
-    quasar: path.resolve(__dirname, '../node_modules/quasar-framework/'),
-    src: path.resolve(__dirname, '../src'),
-    assets: path.resolve(__dirname, '../src/assets'),
-    '@': path.resolve(__dirname, '../src/components'),
-    variables: path.resolve(__dirname, '../src/themes/quasar.variables.styl')
+    "quasar": path.resolve(__dirname, "../node_modules/quasar-framework/"),
+    "src": path.resolve(__dirname, "../src"),
+
+    // TODO verificar para deixar mais rápido
+    // a linha abaixo adiciona o compilador do Vue
+    // O compilador, deixa mais lento.
+    // Necessário por causa do pacote vue-html5-editor
+    // Se o pacote não for mais usado a linha abaixo pode ser removida
+    "vue": "vue/dist/vue.common.js",
+
+    "assets": path.resolve(__dirname, "../src/assets"),
+    "@": path.resolve(__dirname, "../src/components"),
+    "variables": path.resolve(__dirname, "../src/themes/quasar.variables.styl")
   },
 
   // Progress Bar Webpack plugin format
   // https://github.com/clessg/progress-bar-webpack-plugin#options
-  progressFormat: ' [:bar] ' + ':percent'.bold + ' (:msg)',
+  progressFormat: ` [:bar] ${":percent".bold} (:msg)`,
 
   // Default theme to build with ('ios' or 'mat')
-  defaultTheme: 'mat',
+  defaultTheme: "ios",
 
   build: {
-    env: require('./prod.env'),
-    publicPath: '',
+    env: require("./prod.env"),
+    publicPath: "",
     productionSourceMap: false,
 
     // Remove unused CSS
@@ -27,11 +35,11 @@ module.exports = {
     purifyCSS: true
   },
   dev: {
-    env: require('./dev.env'),
+    env: require("./dev.env"),
     cssSourceMap: true,
     // auto open browser or not
     openBrowser: true,
-    publicPath: '/',
+    publicPath: "/",
     port: 8080,
 
     // If for example you are using Quasar Play

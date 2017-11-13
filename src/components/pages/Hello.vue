@@ -82,8 +82,8 @@ export default {
     position() {
       const transform = `rotateX(${this.rotateX}deg) rotateY(${this.rotateY}deg)`
       return {
-        top: `${this.moveY}px`,
-        left: `${this.moveX}px`,
+        "top": `${this.moveY}px`,
+        "left": `${this.moveX}px`,
         "-webkit-transform": transform,
         "-ms-transform": transform,
         transform

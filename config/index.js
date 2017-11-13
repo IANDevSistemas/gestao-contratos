@@ -11,10 +11,16 @@ module.exports = {
     // O compilador, deixa mais lento.
     // Necessário por causa do pacote vue-html5-editor
     // Se o pacote não for mais usado a linha abaixo pode ser removida
-    "vue": "vue/dist/vue.common.js",
 
+    "vue": "vue/dist/vue.common.js",
     "assets": path.resolve(__dirname, "../src/assets"),
+
     "@": path.resolve(__dirname, "../src/components"),
+
+    "router": path.resolve(__dirname, "../src/router"),
+    "service": path.resolve(__dirname, "../src/service"),
+    "store": path.resolve(__dirname, "../src/store"),
+
     "variables": path.resolve(__dirname, "../src/themes/quasar.variables.styl")
   },
 
@@ -23,7 +29,7 @@ module.exports = {
   progressFormat: ` [:bar] ${":percent".bold} (:msg)`,
 
   // Default theme to build with ('ios' or 'mat')
-  defaultTheme: "ios",
+  defaultTheme: "mat",
 
   build: {
     env: require("./prod.env"),

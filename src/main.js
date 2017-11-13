@@ -6,10 +6,12 @@ import "quasar-extras/fontawesome"
 // import 'quasar-extras/animate'
 import "quasar-extras/material-icons"
 
-import Quasar, * as All from "quasar"
+import Quasar, * as AllQuasar from "quasar"
+import VMoney from "v-money"
 import Vue from "vue"
+import VueTheMask from "vue-the-mask"
 import Vuelidate from "vuelidate"
-import router from "./router"
+import router from "router"
 
 // === DEFAULT / CUSTOM STYLE ===
 // WARNING! always comment out ONE of the two require() calls below.
@@ -29,9 +31,20 @@ if (__THEME === "mat") {
 Vue.config.productionTip = false
 
 Vue.use(Quasar, {
-  components: All,
-  directives: All
+  components: AllQuasar,
+  directives: AllQuasar
 })
+
+Vue.use(VMoney, {
+  decimal: ",",
+  thousands: ".",
+  prefix: "",
+  suffix: "",
+  precision: 2,
+  masked: false
+})
+
+Vue.use(VueTheMask)
 
 Vue.use(Vuelidate)
 
@@ -40,6 +53,9 @@ Quasar.start(() => {
   new Vue({
     el: "#q-app",
     router,
-    render: (h) => h(require("./App").default)
+    render(h) {
+      const render = require("./App").default
+      return h(render)
+    }
   })
 })

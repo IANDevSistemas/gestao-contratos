@@ -230,7 +230,13 @@ module.exports = {
     // require function names to match the name of the variable or property to which they are assigned
     "func-name-matching": "warn",
     // enforce the consistent use of either function declarations or expressions
-    "func-style": ["warn", "declaration"],
+    "func-style": [
+      "warn",
+      "declaration",
+      {
+        allowArrowFunctions: true
+      }
+    ],
     // enforce consistent indentation
     // indent: ["warn", 2],
     // jsx-quotes

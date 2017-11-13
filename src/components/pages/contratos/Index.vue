@@ -1,14 +1,15 @@
 <template>
   <div>
     <q-layout ref="layout" reveal view="lHr LpR lfr">
-
-      <!-- Right Side Panel -->
-      <!-- <div slot="right">
-          Right Side of Layout
-        </div> -->
-
       <div>
-        <q-toolbar inverted color="primary">
+        <q-toolbar inverted color="primary" class="print-hide">
+
+          <div v-show="tab === 'form'">
+            <q-btn flat round small @click="gotoView">
+              <q-icon name="arrow_back" />
+            </q-btn>
+          </div>
+
           <q-toolbar-title>
             Contratos
           </q-toolbar-title>
@@ -16,22 +17,30 @@
           <q-search color="teal" v-model="search" placeholder="Busca..." />
 
           <!-- View Mode -->
-          <q-btn flat round small v-if="view" @click="toggleView">
-            <q-icon :name='`view_${view}`' />
-          </q-btn>
+          <div v-show="tab === 'view'">
+            <q-btn flat round small @click.prevent.stop="console.log">
+              <q-icon name="refresh" />
+            </q-btn>
 
-          <q-btn flat round small>
-            <q-icon name="info" />
-          </q-btn>
+            <q-btn flat round small @click.prevent.stop="toggleView">
+              <q-icon :name="`view_${view}`" />
+            </q-btn>
 
-          <q-btn flat round small>
-            <q-icon name="settings" />
-          </q-btn>
+            <q-btn flat round small @click.prevent.stop="console.log">
+              <q-icon name="info" />
+            </q-btn>
+
+            <q-btn flat round small @click.prevent.stop="console.log">
+              <q-icon name="settings" />
+            </q-btn>
+          </div>
         </q-toolbar>
-        <ul class="breadcrumb">
+
+        <ul class="breadcrumb print-hide">
           <li>
             <a>
-              <q-icon name="home" /> </a>
+              <q-icon name="home" />
+            </a>
           </li>
           <li>
             <a> Klabin </a>
@@ -47,18 +56,17 @@
           <!-- Targets -->
           <!-- Form -->
           <q-tab-pane name="form">
-            <v-form />
+            <v-form v-model="selection" />
           </q-tab-pane>
 
           <q-tab-pane name="view">
             <!-- View: List or Grid -->
             <q-tabs :value="view">
               <q-tab-pane name="module">
-                <v-view-module :contratos="contratos" :diretorios="diretorios" />
+                <v-view-module v-model="selection" :contratos="contratos" :diretorios="diretorios" />
               </q-tab-pane>
               <q-tab-pane name="list">
-                <v-view-list />
-                <!-- :contratos="contratos" :diretorios="diretorios" /> -->
+                <v-view-list v-model="selection" :contratos="contratos" :diretorios="diretorios" />
               </q-tab-pane>
             </q-tabs>
           </q-tab-pane>
@@ -77,29 +85,31 @@
 
 <script>
 import VForm from "./form/Form"
-import VList from "./view/list/List"
-import VModule from "./view/module/Module"
+import VViewList from "./view/list/List"
+import VViewModule from "./view/module/Module"
 
+import cloneDeep from "lodash/cloneDeep"
 import model from "./Model"
 import times from "lodash/times"
 
 const diretorios = []
 times(10, () => {
-  diretorios.push(model.diretorio)
+  diretorios.push(cloneDeep(model.diretorio))
 })
 
 const contratos = []
 times(16, () => {
-  contratos.push(model.contrato)
+  contratos.push(cloneDeep(model.contrato))
 })
 
 export default {
-  components: { VForm, VList, VModule },
+  components: { VForm, VViewList, VViewModule },
   props: ["idDiretorio", "idContrato", "action"],
   data() {
     return {
       contratos,
       diretorios,
+      selection: {},
       view: "list",
       tab: "form",
       search: ""
@@ -111,6 +121,12 @@ export default {
     },
     toggleView() {
       this.view = this.view === "list" ? "module" : "list"
+    },
+    gotoForm() {
+      this.tab = "form"
+    },
+    gotoView() {
+      this.tab = "view"
     }
   }
 }

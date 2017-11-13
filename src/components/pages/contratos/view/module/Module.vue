@@ -1,15 +1,15 @@
 <template>
   <div>
-    <h3>Diretórios</h3>
-    <div class="row sm-gutter">
-      <div v-for="(diretorio, index) in diretorios" :key="index" class="col-3">
-        <v-diretorio :model="diretorio" v-model="selection.diretorios[index]" />
+    <h6>Diretórios</h6>
+    <div class="row xs-gutter">
+      <div v-for="(diretorio, index) in diretorios" :key="index" class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
+        <v-diretorio :model="diretorio" :color="value === diretorio ? 'primary' : ''" @click="$emit('input', diretorio)" @dblclick="$emit('change', diretorio)" />
       </div>
     </div>
-    <h3>Contratos</h3>
-    <div class="row sm-gutter">
-      <div v-for="(contrato, index) in contratos" :key="index" class="col-3">
-        <v-contrato :model="contrato" v-model="selection.contratos[index]" />
+    <h6>Contratos</h6>
+    <div class="row xs-gutter">
+      <div v-for="(contrato, index) in contratos" :key="index" class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
+        <v-contrato :model="contrato" :color="value === contrato ? 'primary' : ''" @click="$emit('input', contrato)" @dblclick="$emit('change', contrato)" />
       </div>
     </div>
   </div>
@@ -26,6 +26,11 @@ export default {
     VDiretorio
   },
   props: {
+    value: {
+      default() {
+        return {}
+      }
+    },
     diretorios: {
       default() {
         return []
@@ -38,7 +43,7 @@ export default {
     }
   },
   data() {
-    const self = this
+    // const self = this
     return {
       selection: {
         contratos: [],
@@ -57,7 +62,10 @@ export default {
 }
 </script>
 
+
 <style lang="stylus" scoped>
-h3
-  font-size 1em
+@import '~variables'
+
+h6
+  color $teal-6
 </style>

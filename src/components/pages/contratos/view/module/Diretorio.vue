@@ -1,20 +1,50 @@
 <template>
-  <q-btn class="component" icon="folder" @click="$emit('input', !value)" :color="value ? 'primary' : 'secondary'">
-    <span class="label">{{model.descricao}}</span>
-  </q-btn>
+  <q-card :color="color" @click="$emit('click', $data)" @dblclick="$emit('dblclick', $data)">
+    <q-card-main>
+      <q-icon name="fa-file-text" />
+      <span>{{model.descricao}}</span>
+    </q-card-main>
+  </q-card>
 </template>
 
 <script>
 export default {
-  props: ["model", "value"]
+  props: ["model", "color"]
 }
 </script>
 
 <style lang="stylus" scoped>
-.component
-  width 100%
+@import '~variables'
 
-  .label
-    margin 0
-    width 100%
+.q-icon
+  background-color $white
+  border-radius 100%
+  color $secondary
+  display inline-block
+  font-size 1.2em
+  height 32px
+  padding 0 4px
+  position relative
+  width 32px
+
+  &::before
+    font-size 20px
+    left 8px
+    position absolute
+    top 6px
+
+.q-card-container
+  padding 10px
+
+span
+  cursor default
+  display inline-block
+  font-size 1em
+  overflow hidden
+  padding 0 2px
+  text-overflow ellipsis
+  vertical-align middle
+  white-space nowrap
+  width calc(100% - 38px)
 </style>
+

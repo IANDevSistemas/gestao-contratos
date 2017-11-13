@@ -3,7 +3,7 @@ export default {
     idempresa: 1,
     empresa: {},
     idpessoa: 1,
-    descricao: "Contrato Teste",
+    descricao: "Contrato Teste Com descrição longa o que fazer agora ?",
     objetocontrato: "Objeto",
     idtipocontrato: 1,
     numero: "#ert-574",

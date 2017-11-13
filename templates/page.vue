@@ -1,7 +1,15 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <div class="layout-padding">
-    <!-- your content -->
+    <q-card>
+      <q-card-title>
+        Card Title
+      </q-card-title>
+      <q-card-separator />
+      <q-card-main>
+        Card Content
+      </q-card-main>
+    </q-card>
   </div>
 </template>
 

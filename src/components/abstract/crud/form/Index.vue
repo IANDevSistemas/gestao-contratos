@@ -1,9 +1,9 @@
 <script>
-import VFormActions from "./Actions"
+import CrudFormActions from "./Actions"
 export default {
   props: ["value"],
   components: {
-    VFormActions
+    CrudFormActions
   },
   methods: {
     save() {

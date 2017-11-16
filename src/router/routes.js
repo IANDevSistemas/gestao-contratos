@@ -23,7 +23,7 @@ export default [
   { path: "/contratos", component: load("/contratos") },
 
   // Empresa
-  { path: "/empresa", component: load("/empresa") },
+  { path: "/cadastro/empresa", component: load("/cadastro/empresa") },
 
   // Always leave this last one
   { path: "*", component: load("/error404") } // Not found

@@ -5,6 +5,7 @@ export default (apelido, prefix) => {
     action: "execFunction",
     apelido: !prefix ? `GESTAOCONTRATO-service-${apelido}` : `${prefix}-${apelido}`
   }
+
   return {
     request(config) {
       return service.request(defaultsDeep({ params }, config))

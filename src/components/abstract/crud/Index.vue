@@ -3,18 +3,22 @@
     <q-card-title>
       {{title}}
     </q-card-title>
+    <q-card-actions>
+      <q-btn @click="() => tab = 'form'">Form</q-btn>
+      <q-btn @click="() => tab = 'table'">Table</q-btn>
+    </q-card-actions>
     <q-card-main>
       <crud-tab :is-showing="tab === 'table'">
-        <crud-table v-model="model" />
+        <crud-filter v-model="filter" />
+        <crud-table v-model="model" :service="service" />
       </crud-tab>
       <crud-tab :is-showing="tab === 'form'">
+        <q-card-actions>
+          <q-btn icon="save">Salvar</q-btn>
+        </q-card-actions>
         <crud-form v-model="model" />
       </crud-tab>
     </q-card-main>
-    </q-card-actions>
-    <q-btn @click="() => tab = 'form'">Form</q-btn>
-    <q-btn @click="() => tab = 'table'">Table</q-btn>
-    </q-card-actions>
   </q-card>
 </template>
 <script>
@@ -36,6 +40,7 @@ export default {
     return {
       modelHash: null,
       model: {},
+      filter: {},
       tab: "form"
     }
   },
@@ -116,13 +121,13 @@ export default {
         ]
       })
     },
-    ontableAdd() {
+    onTableAdd() {
       const model = {}
       this.modelHash = hash(model)
       this.model = model
       this.tab = "form"
     },
-    ontableEdit(model) {
+    onTableEdit(model) {
       this.modelHash = hash(model)
       this.model = model
       this.tab = "form"

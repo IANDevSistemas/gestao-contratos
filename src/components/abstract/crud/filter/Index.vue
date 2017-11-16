@@ -1,8 +1,15 @@
 <script>
-import VFilterActions from "./Actions"
+import CrudFilterActions from "./Actions"
 
 export default {
-  components: { VFilterActions }
+  components: { CrudFilterActions },
+  props: {
+    value: {
+      default() {
+        return {}
+      }
+    }
+  }
 }
 </script>
 

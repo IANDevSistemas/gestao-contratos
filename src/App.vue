@@ -14,7 +14,7 @@
       </q-toolbar>
 
       <div slot="left" class="print-hide">
-        <q-side-link item to="/empresa">
+        <q-side-link item to="/cadastro/empresa">
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Empresa" />
         </q-side-link>

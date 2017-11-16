@@ -199,8 +199,6 @@ import Vue from "vue"
 import VueHtml5Editor from "vue-html5-editor"
 import { between, email, minValue, required } from "vuelidate/lib/validators"
 
-import service from "service/pessoa"
-
 export default {
   components: {
     VueHtml5Editor: new VueHtml5Editor({})

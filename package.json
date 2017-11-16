@@ -3,8 +3,8 @@
   "productName": "Gestão de Contratos",
   "version": "0.0.1",
   "private": true,
-  "description": "Gestão de contratos",
-  "author": "Your Name <your@email.com>",
+  "description": "Gestão de Contratos",
+  "author": "Lucas Marques <lucasmarques@iandev.com.br>",
   "scripts": {
     "clean": "node build/script.clean.js",
     "dev": "node build/script.dev.js",

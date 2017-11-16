@@ -1,9 +1,9 @@
 /* global __THEME:true */
 
 // Icons
-// import 'quasar-extras/ionicons'
+// import "quasar-extras/ionicons"
 import "quasar-extras/fontawesome"
-// import 'quasar-extras/animate'
+// import "quasar-extras/animate"
 import "quasar-extras/material-icons"
 
 import Quasar, * as AllQuasar from "quasar"

@@ -3,18 +3,18 @@
     <q-card-title>
       {{title}}
     </q-card-title>
-    <q-card-actions>
-      <q-btn @click="() => tab = 'form'">Form</q-btn>
-      <q-btn @click="() => tab = 'table'">Table</q-btn>
-    </q-card-actions>
+    <!-- <q-card-actions>
+        <q-btn @click="() => tab = 'form'">Form</q-btn>
+        <q-btn @click="() => tab = 'table'">Table</q-btn>
+      </q-card-actions> -->
     <q-card-main>
       <crud-tab :is-showing="tab === 'table'">
         <crud-filter ref="filter" v-model="filter" />
-        <q-card-separator />
-        <crud-table ref="table" v-model="model" :filter="filter" :service="service" @edit="onTableEdit" />
+        <crud-table ref="table" class="crud-table" v-model="model" :filter="filter" :service="service" @edit="onTableEdit" />
       </crud-tab>
       <crud-tab :is-showing="tab === 'form'">
         <q-card-title>{{model.id ? 'Editando' : 'Incluindo'}}</q-card-title>
+        <q-card-separator />
         <crud-form ref="form" v-model="model" :service="service" @save="onFormSave" @back="onFormBack" />
       </crud-tab>
     </q-card-main>
@@ -139,4 +139,9 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.crud-table
+  margin-top 24px
+</style>
 

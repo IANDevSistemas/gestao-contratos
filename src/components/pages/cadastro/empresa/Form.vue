@@ -1,5 +1,6 @@
 <template>
   <section>
+    <crud-form-actions @back="$emit('back')" @copy="() => { value.id = null }" @clear="$emit('input', {})" @save="$emit('save')" />
 
     <h6>Informações Básicas</h6>
 
@@ -105,7 +106,6 @@
       </div>
     </div>
 
-    <crud-form-actions @back="$emit('back')" @copy="() => { value.id = null }" @clear="$emit('input', {})" @save="$emit('save')" />
   </section>
 </template>
 

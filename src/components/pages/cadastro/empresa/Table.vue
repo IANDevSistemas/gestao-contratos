@@ -32,6 +32,12 @@ export default {
               name: "cnpjcpf",
               sortField: "cnpjcpf",
               title: "CNPJ / CPF"
+            },
+            {
+              name: "__slot:row-action-edit",
+              title: "",
+              titleClass: "center aligned",
+              dataClass: "center aligned"
             }
           ]
         }
@@ -40,6 +46,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-</style>

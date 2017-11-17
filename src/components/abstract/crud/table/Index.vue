@@ -4,8 +4,7 @@ import VuetablePagination from "vuetable-2/src/components/VuetablePagination"
 import VuetablePaginationInfo from "vuetable-2/src/components/VuetablePaginationInfo"
 
 import axios from "axios"
-import defaultsDeep from "lodash/defaultsDeep"
-import defaults from "./defaults"
+import assignIn from "lodash/assignIn"
 
 export default {
   components: {
@@ -44,31 +43,81 @@ export default {
     const vm = this
     const config = vm.config || {}
 
-    const vuetable = defaultsDeep(
-      {
-        ref: "table",
-        props: {
-          httpFetch(url, options) {
-            const { params } = options
-            if (!params.sort) {
-              delete params.sort
-            }
-            return vm.service.get(defaultsDeep({ params: vm.filter }, options))
-          }
-        },
-        on: {
-          "vuetable:pagination-data"(data) {
-            vm.pagination.max = data ? Math.floor(data.total / vm.pagination.size) : 0
-            vm.$refs.paginationInfo.setPaginationData(data)
+    const vuetable = {
+      ref: "table",
+      props: {
+        fields: config.props.fields,
+        apiMode: true,
+        paginationPath: "",
+        css: {
+          tableClass: {
+            bordered: true,
+            // "horizontal-separator": true,
+            // "vertical-separator": true,
+            // "cell-separator": true,
+            striped: true,
+            // "striped-even": true,
+            // "striped-odd": true,
+            highlight: true,
+            // "compact": true,
+            // "loose": true,
+            // "flipped": true,
+            responsive: true,
+            "q-table": true
           },
-          "vuetable:row-dblclicked"(dataItem, event) {
-            vm.$emit("edit", dataItem)
+          loadingClass: "",
+          ascendingIcon: "fa fa-long-arrow-up",
+          descendingIcon: "fa fa-long-arrow-down",
+          detailRowClass: "",
+          handleIcon: "",
+          sortableIcon: "fa fa-arrows-v", // since v1.7
+          ascendingClass: "", // since v1.7
+          descendingClass: "" // since v1.7
+        },
+        queryParams: {
+          sort: "sort",
+          page: "page",
+          perPage: "size"
+        },
+        httpFetch(url, options) {
+          const { params } = options
+          if (!params.sort) {
+            delete params.sort
           }
+
+          const args = assignIn({}, { params: vm.filter }, options)
+          console.log(args, options)
+          return vm.service.get(args)
         }
       },
-      config,
-      defaults.table
-    )
+      on: {
+        "vuetable:pagination-data"(data) {
+          vm.pagination.max = data ? Math.floor(data.total / vm.pagination.size) : 0
+          vm.$refs.paginationInfo.setPaginationData(data)
+        },
+        "vuetable:row-dblclicked"(dataItem, event) {
+          vm.$emit("edit", JSON.parse(JSON.stringify(dataItem)))
+        }
+      },
+      scopedSlots: {
+        "row-action-edit"(props) {
+          return h("q-btn", {
+            props: {
+              icon: "edit",
+              color: "primary",
+              small: true,
+              flat: true,
+              round: true
+            },
+            on: {
+              click(data) {
+                vm.$emit("edit", JSON.parse(JSON.stringify(props.rowData)))
+              }
+            }
+          })
+        }
+      }
+    }
 
     const table = h("vuetable", vuetable)
 

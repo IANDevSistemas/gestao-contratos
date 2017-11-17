@@ -2,10 +2,29 @@
   <section>
 
     <h6>Informações Básicas</h6>
-    <!-- Nome Fantasia -->
-    <q-field :error="$v.value.nomefantasia.$error" error-label="Entre com um valor válido" :count="255">
-      <q-input v-model.trim="value.nomefantasia" float-label="Nome Fantasia" @blur="$v.value.nomefantasia.$touch"></q-input>
-    </q-field>
+
+    <div class="row sm-gutter">
+      <div class="col-xs-12 col-sm-2">
+        <!-- Id -->
+        <q-field>
+          <q-input v-model.trim="value.id" float-label="Cód." align="right" readonly></q-input>
+        </q-field>
+      </div>
+
+      <div class="col-xs-12 col-sm-8">
+        <!-- Nome Fantasia -->
+        <q-field :error="$v.value.nomefantasia.$error" error-label="Entre com um valor válido" :count="255">
+          <q-input v-model.trim="value.nomefantasia" float-label="Nome Fantasia" @blur="$v.value.nomefantasia.$touch"></q-input>
+        </q-field>
+      </div>
+
+      <div class="col-xs-12 col-sm-2">
+        <!-- Situação -->
+        <q-field :error="$v.value.situacao.$error" error-label="Entre com um valor válido">
+          <q-select v-model="value.situacao" float-label="Situação" :options="[ { value: 'A', label: 'Ativo' }, { value: 'I', label: 'Inativo' } ]" />
+        </q-field>
+      </div>
+    </div>
 
     <!-- Nome Razão Social -->
     <q-field :error="$v.value.nomerazaosocial.$error" error-label="Entre com um valor válido" :count="255">
@@ -15,8 +34,8 @@
     <div class="row sm-gutter">
       <div class="col-xs-12 col-sm-8">
         <!-- Apelido -->
-        <q-field :error="$v.value.apelido.$error" error-label="Entre com um valor válido" :count="255">
-          <q-input v-model.trim="value.apelido" float-label="Apelido" @blur="$v.value.apelido.$touch"></q-input>
+        <q-field :error="$v.value.apelidoempresa.$error" error-label="Entre com um valor válido" :count="255">
+          <q-input v-model.trim="value.apelidoempresa" float-label="Apelido" @blur="$v.value.apelidoempresa.$touch"></q-input>
         </q-field>
       </div>
 
@@ -63,57 +82,67 @@
 
     <div class="row sm-gutter">
       <div class="col-xs-12 col-sm-4">
-        <!-- Número -->
-        <q-field :error="$v.value.numero.$error" error-label="Valor deve ser maior que 0">
-          <q-input v-model.trim="value.numero" align="right" float-label="Nº" @blur="$v.value.numero.$touch" type="tel" v-mask="'#############'" />
+        <!-- Bairro -->
+        <q-field :error="$v.value.bairro.$error" error-label="Valor Inválido">
+          <q-input v-model.trim="value.bairro" float-label="Bairro" @blur="$v.value.bairro.$touch" />
         </q-field>
       </div>
 
       <div class="col-xs-12 col-sm-4">
         <!-- CEP -->
-        <q-field :error="$v.value.cep.$error" error-label="Valor deve ser maior que 0">
+        <q-field :error="$v.value.cep.$error" error-label="Valor Inválido">
           <q-input v-model.trim="value.cep" align="right" float-label="CEP" @blur="$v.value.cep.$touch" type="tel" v-mask="'#####-###'" />
         </q-field>
       </div>
 
       <div class="col-xs-12 col-sm-4">
         <!-- Município -->
-        <q-field :error="$v.value.municipio.$error" error-label="Valor deve ser maior que 0">
-          <q-input v-model.trim="value.municipio" align="right" float-label="Município" @blur="$v.value.municipio.$touch" />
+        <q-field :error="$v.value.municipio.$error" error-label="Valor Inválido">
+          <q-input v-model.trim="municipio" float-label="Município" @blur="$v.value.municipio.$touch">
+            <q-autocomplete @search="services.municipio.search" @selected="(item) => { autocompleteSelected('municipio', item) }" />
+          </q-input>
         </q-field>
       </div>
     </div>
 
+    <crud-form-actions @back="$emit('back')" @copy="() => { value.id = null }" @clear="$emit('input', {})" @save="$emit('save')" />
   </section>
 </template>
 
 <script>
 import Form from "@/abstract/crud/form"
 import { between, email, minValue, required } from "vuelidate/lib/validators"
+import { computed } from "@/abstract/util/mixins"
+import isArray from "lodash/isArray"
+
+import serviceMunicipio from "service/municipio"
 
 export default {
   extends: Form,
   data() {
     return {
-      telefone: []
+      telefone: [],
+      municipio: ""
     }
   },
-  computed: {
-    title() {
-      return "Cadastro Empresa"
+  ...computed({
+    services: {
+      municipio: serviceMunicipio
     }
-  },
+  }),
   validations: {
     value: {
       nomefantasia: { required },
+      situacao: { required },
       nomerazaosocial: { required },
-      apelido: {},
-      cnpjcpf: {},
+      apelidoempresa: { required },
+      cnpjcpf: { required },
       telefone: {},
-      endereco: {},
-      numero: {},
-      complemento: {},
-      cep: {},
+      endereco: { required },
+      bairro: { required },
+      numero: { required },
+      complemento: { required },
+      cep: { required },
       municipio: {}
     }
   },
@@ -122,14 +151,9 @@ export default {
       this.value.telefone = value.join(";")
     },
     value(value) {
-      this.telefone = value.telefone.split(";")
+      this.telefone = isArray(value.telefone) ? value.telefone.split(";") : []
+      this.municipio = value.municipio ? value.municipio.text : ""
     }
   }
 }
 </script>
-
-<style lang="stylus">
-.q-card
-  margin auto
-  max-width 800px
-</style>

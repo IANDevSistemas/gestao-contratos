@@ -9,20 +9,21 @@
     </q-card-actions>
     <q-card-main>
       <crud-tab :is-showing="tab === 'table'">
-        <crud-filter v-model="filter" />
-        <crud-table v-model="model" :service="service" />
+        <crud-filter ref="filter" v-model="filter" />
+        <q-card-separator />
+        <crud-table ref="table" v-model="model" :filter="filter" :service="service" @edit="onTableEdit" />
       </crud-tab>
       <crud-tab :is-showing="tab === 'form'">
-        <q-card-actions>
-          <q-btn icon="save">Salvar</q-btn>
-        </q-card-actions>
-        <crud-form v-model="model" />
+        <q-card-title>{{model.id ? 'Editando' : 'Incluindo'}}</q-card-title>
+        <crud-form ref="form" v-model="model" :service="service" @save="onFormSave" @back="onFormBack" />
       </crud-tab>
     </q-card-main>
   </q-card>
 </template>
 <script>
 import CrudTab from "./tab"
+import { Dialog } from "quasar"
+import sha1 from "sha1"
 
 const dialogBlock = {
   nobuttons: true,
@@ -38,7 +39,6 @@ export default {
   props: ["id"],
   data() {
     return {
-      modelHash: null,
       model: {},
       filter: {},
       tab: "form"
@@ -46,6 +46,13 @@ export default {
   },
   methods: {
     onFormSave() {
+      const { form } = this.$refs
+
+      if (!form.validate()) {
+        Dialog.create({ title: "Dados inválidos", message: "Verifique os dados inseridos e tente novamente." })
+        return
+      }
+
       // Etapa 1: Bloqueia a tela e efetua a ação
       const dialog = Dialog.create({ title: "Salvando...", message: "Aguarde enquanto os dados são salvos.", ...dialogBlock })
 
@@ -59,10 +66,7 @@ export default {
         })
         .catch(error => {
           dialog.close()
-          Dialog.create({
-            title: "Erro !",
-            message: "Erro ao salvar os dados."
-          })
+          Dialog.create({ title: "Erro !", message: "Erro ao salvar os dados." })
           console.error(error)
         })
     },
@@ -99,38 +103,38 @@ export default {
     onFormBack() {
       const self = this
 
-      if (self.modelHash === hash(self.model)) {
-        // Não houve alteração
-        self.model = {}
-        self.tab = "table"
-        return
-      }
+      // if (self.model._hash === sha1(JSON.stringify(self.model))) {
+      // Não houve alteração
+      self.model = {}
+      self.tab = "table"
+      //   return
+      // }
 
-      Dialog.create({
-        title: "Voltar a tela anterior ?",
-        message: "Deseja descartar as alterações e voltar a tela anterior ?",
-        buttons: [
-          "Não",
-          {
-            label: "Sim",
-            handler() {
-              self.model = {}
-              self.tab = "table"
-            }
-          }
-        ]
-      })
+      // Dialog.create({
+      //   title: "Voltar a tela anterior ?",
+      //   message: "Deseja descartar as alterações e voltar a tela anterior ?",
+      //   buttons: [
+      //     "Não",
+      //     {
+      //       label: "Sim",
+      //       handler() {
+      //         self.model = {}
+      //         self.tab = "table"
+      //       }
+      //     }
+      //   ]
+      // })
     },
     onTableAdd() {
       const model = {}
-      this.modelHash = hash(model)
       this.model = model
+      this.model._hash = sha1(JSON.stringify(model))
       this.tab = "form"
     },
     onTableEdit(model) {
-      this.modelHash = hash(model)
-      this.model = model
       this.tab = "form"
+      this.model = model
+      this.model._hash = sha1(JSON.stringify(model))
     }
   }
 }

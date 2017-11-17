@@ -4,7 +4,8 @@ import VuetablePagination from "vuetable-2/src/components/VuetablePagination"
 import VuetablePaginationInfo from "vuetable-2/src/components/VuetablePaginationInfo"
 
 import axios from "axios"
-import * as defaults from "./defaults"
+import defaultsDeep from "lodash/defaultsDeep"
+import defaults from "./defaults"
 
 export default {
   components: {
@@ -15,11 +16,6 @@ export default {
   props: {
     service: {
       required: true
-    },
-    config: {
-      default() {
-        return {}
-      }
     },
     filter: {
       default() {
@@ -39,37 +35,42 @@ export default {
   watch: {
     "pagination.value"(value) {
       this.$refs.table.changePage(value)
+    },
+    filter(value) {
+      this.$refs.table.refresh()
     }
   },
   render(h) {
     const vm = this
+    const config = vm.config || {}
 
-    const table = h("vuetable", {
-      ref: "table",
-      props: {
-        // ...vm.table,
-        fields: [
-          {
-            name: "name",
-            sortField: "name"
-          },
-          "email",
-          "birthdate"
-        ],
-        httpFetch(apiUrl, httpOptions) {
-          return vm.service.get(httpOptions)
+    const vuetable = defaultsDeep(
+      {
+        ref: "table",
+        props: {
+          httpFetch(url, options) {
+            const { params } = options
+            if (!params.sort) {
+              delete params.sort
+            }
+            return vm.service.get(defaultsDeep({ params: vm.filter }, options))
+          }
         },
-        ...defaults.table.props
-      },
-      on: {
-        "vuetable:pagination-data"(data) {
-          console.log(data)
-          // vm.pagination = data
-          // pagination.page = data
-          // paginationInfo.setPaginationData(data)
+        on: {
+          "vuetable:pagination-data"(data) {
+            vm.pagination.max = data ? Math.floor(data.total / vm.pagination.size) : 0
+            vm.$refs.paginationInfo.setPaginationData(data)
+          },
+          "vuetable:row-dblclicked"(dataItem, event) {
+            vm.$emit("edit", dataItem)
+          }
         }
-      }
-    })
+      },
+      config,
+      defaults.table
+    )
+
+    const table = h("vuetable", vuetable)
 
     const pagination = h("q-pagination", {
       ref: "pagination",

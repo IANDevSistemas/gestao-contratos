@@ -7,8 +7,6 @@ import CrudTable from "./Table"
 import { computed } from "@/abstract/util/mixins"
 import service from "service/empresa"
 
-console.log(computed({ teste: 12 }))
-
 export default {
   extends: Crud,
   components: {
@@ -23,5 +21,11 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
+.q-card-main
+  min-height 680px
+
+.q-card
+  margin auto
+  max-width 900px
 </style>

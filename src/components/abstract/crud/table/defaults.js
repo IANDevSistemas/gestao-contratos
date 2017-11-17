@@ -1,4 +1,4 @@
-export const table = {
+const table = {
   props: {
     apiMode: true,
     paginationPath: "",
@@ -26,11 +26,13 @@ export const table = {
       sortableIcon: "fa fa-arrows-v", // since v1.7
       ascendingClass: "", // since v1.7
       descendingClass: "" // since v1.7
+    },
+    queryParams: {
+      sort: "sort",
+      page: "page",
+      perPage: "size"
     }
-    // queryParams: {
-    //   sort: "sort",
-    //   page: "page",
-    //   perPage: "size"
-    // }
   }
 }
+
+export default { table }

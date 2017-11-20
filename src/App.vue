@@ -18,6 +18,14 @@
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Empresa" />
         </q-side-link>
+        <q-side-link item to="/cadastro/tipo-contrato">
+          <q-item-side icon="fa-file-text" />
+          <q-item-main label="Tipo Contrato" />
+        </q-side-link>
+        <q-side-link item to="/cadastro/motivo-contrato">
+          <q-item-side icon="fa-file-text" />
+          <q-item-main label="Motivo Contrato" />
+        </q-side-link>
         <q-side-link item to="/contratos">
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Contratos" />

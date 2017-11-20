@@ -3,19 +3,24 @@
     <q-card-title>
       {{title}}
     </q-card-title>
-    <!-- <q-card-actions>
-        <q-btn @click="() => tab = 'form'">Form</q-btn>
-        <q-btn @click="() => tab = 'table'">Table</q-btn>
-      </q-card-actions> -->
     <q-card-main>
       <crud-tab :is-showing="tab === 'table'">
         <crud-filter ref="filter" v-model="filter" />
+        <q-card-actions>
+          <div class="col-12">
+            <div class="row justify-end">
+              <q-btn @click="onAdd()" round color="primary" icon="add">
+                <q-tooltip>Incluir</q-tooltip>
+              </q-btn>
+            </div>
+          </div>
+        </q-card-actions>
         <crud-table ref="table" class="crud-table" v-model="model" :filter="filter" :service="service" @edit="onTableEdit" />
       </crud-tab>
       <crud-tab :is-showing="tab === 'form'">
         <q-card-title>{{model.id ? 'Editando' : 'Incluindo'}}</q-card-title>
         <q-card-separator />
-        <crud-form ref="form" v-model="model" :service="service" @save="onFormSave" @back="onFormBack" />
+        <crud-form ref="form" v-model="model" :service="service" @save="onFormSave" @back="onFormBack" @delete="onFormDelete" />
       </crud-tab>
     </q-card-main>
   </q-card>
@@ -36,12 +41,11 @@ const dialogBlock = {
 
 export default {
   components: { CrudTab },
-  props: ["id"],
   data() {
     return {
       model: {},
       filter: {},
-      tab: "form"
+      tab: "table"
     }
   },
   methods: {
@@ -70,12 +74,12 @@ export default {
           console.error(error)
         })
     },
-    onFormRemove() {
+    onFormDelete() {
       const { form } = this.$refs
 
       const confirm = {
         label: "Sim",
-        handler() {
+        handler: () => {
           dialog1.close()
 
           // Etapa 2: Bloqueia a tela e efetua a ação
@@ -85,8 +89,9 @@ export default {
             .delete()
             .then(response => {
               // Etapa 3: Mostra a mensagem de sucesso e volta para a tabela
+              console.log("back")
               dialog2.close()
-              Dialog.create({ title: "Sucesso!", message: "Os dados foram removidos com sucesso" })
+              // Dialog.create({ title: "Sucesso!", message: "Os dados foram removidos com sucesso" })
               this.tab = "table"
             })
             .catch(error => {
@@ -125,7 +130,7 @@ export default {
       //   ]
       // })
     },
-    onTableAdd() {
+    onAdd() {
       const model = {}
       this.model = model
       this.model._hash = sha1(JSON.stringify(model))
@@ -135,6 +140,13 @@ export default {
       this.tab = "form"
       this.model = model
       this.model._hash = sha1(JSON.stringify(model))
+    }
+  },
+  watch: {
+    tab(value) {
+      if (value === "table") {
+        this.$refs.table.refresh()
+      }
     }
   }
 }

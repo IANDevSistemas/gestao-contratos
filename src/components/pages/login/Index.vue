@@ -20,7 +20,12 @@
               </q-field>
             </q-card-main>
             <q-card-actions align="end">
-              <q-btn type="submit" color="primary" class="full-width">Entrar</q-btn>
+              <q-btn v-model="isSubmiting" @click="submit" color="primary" class="full-width">
+                <span slot="loading">
+                  <q-spinner-radio class="on-left" />
+                </span>
+                <span>Entrar</span>
+              </q-btn>
             </q-card-actions>
           </form>
         </q-card>
@@ -30,6 +35,7 @@
 </template>
 
 <script>
+import { Dialog } from "quasar"
 import service from "service"
 import sha1 from "sha1"
 import store from "store"
@@ -42,7 +48,8 @@ export default {
     return {
       form: {
         save: false
-      }
+      },
+      isSubmiting: false
     }
   },
   computed: {
@@ -51,7 +58,6 @@ export default {
   methods: {
     ...mapActions(["login"]),
     submit(event, done) {
-      // this.login(this.form)
       service
         .post("", {
           action: "login",
@@ -59,10 +65,18 @@ export default {
           pwd: `!${sha1(this.auth.pwd)}`
         })
         .then(response => {
+          done()
           if (response.data === "odwctrl?action=menu") {
             this.login(this.auth)
             this.$router.push({ path: "/" })
+          } else {
+            Dialog.create({ title: "Erro !", message: "Verifique os dados de acesso e tente novamente." })
           }
+        })
+        .catch(error => {
+          done()
+          Dialog.create({ title: "Erro !", message: "Verifique sua conexão e tente novamente." })
+          console.error(error)
         })
     }
   },

@@ -57,7 +57,11 @@ export default {
     },
     doDelete(resolve, reject) {
       return this.service
-        .delete({ id: this.value.id })
+        .delete({
+          params: {
+            id: this.value.id
+          }
+        })
         .then(response => {
           resolve(response)
         })

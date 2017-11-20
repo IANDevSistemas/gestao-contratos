@@ -25,6 +25,12 @@ export default [
   // Empresa
   { path: "/cadastro/empresa", component: load("/cadastro/empresa") },
 
+  // Tipo Contrato
+  { path: "/cadastro/tipo-contrato", component: load("/cadastro/tipo-contrato") },
+
+  // Motivo Contrato
+  { path: "/cadastro/motivo-contrato", component: load("/cadastro/motivo-contrato") },
+
   // Always leave this last one
   { path: "*", component: load("/error404") } // Not found
 ]

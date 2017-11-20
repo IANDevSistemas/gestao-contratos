@@ -4,7 +4,7 @@ import VuetablePagination from "vuetable-2/src/components/VuetablePagination"
 import VuetablePaginationInfo from "vuetable-2/src/components/VuetablePaginationInfo"
 
 import axios from "axios"
-import assignIn from "lodash/assignIn"
+import merge from "lodash/merge"
 
 export default {
   components: {
@@ -27,7 +27,7 @@ export default {
       pagination: {
         value: 1,
         max: 12,
-        size: 10
+        size: 5
       }
     }
   },
@@ -36,6 +36,11 @@ export default {
       this.$refs.table.changePage(value)
     },
     filter(value) {
+      this.refresh()
+    }
+  },
+  methods: {
+    refresh() {
       this.$refs.table.refresh()
     }
   },
@@ -63,7 +68,7 @@ export default {
             // "loose": true,
             // "flipped": true,
             responsive: true,
-            "q-table": true
+            ["q-table"]: true
           },
           loadingClass: "",
           ascendingIcon: "fa fa-long-arrow-up",
@@ -85,8 +90,8 @@ export default {
             delete params.sort
           }
 
-          const args = assignIn({}, { params: vm.filter }, options)
-          console.log(args, options)
+          const args = merge({}, { params: vm.filter }, options)
+          // console.log(vm.filter, args, options)
           return vm.service.get(args)
         }
       },

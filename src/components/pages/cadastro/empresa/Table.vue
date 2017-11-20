@@ -9,6 +9,11 @@ export default {
         props: {
           fields: [
             {
+              name: "idempresa",
+              sortField: "idempresa",
+              title: "Cód."
+            },
+            {
               name: "nomerazaosocial",
               sortField: "nomerazaosocial",
               title: "Razão Social"
@@ -22,11 +27,6 @@ export default {
               name: "apelidoempresa",
               sortField: "apelidoempresa",
               title: "Apelido"
-            },
-            {
-              name: "empresagrupo",
-              sortField: "empresagrupo",
-              title: "Grupo"
             },
             {
               name: "cnpjcpf",

@@ -2,27 +2,18 @@
   <section>
     <form @submit.prevent.stop="$emit('input', JSON.parse(JSON.stringify(value)))">
       <div class="row sm-gutter">
-        <div class="col-xs-12 col-sm-4">
-          <!-- Razão Social -->
+        <div class="col-xs-12 col-sm-8">
+          <!-- Descrição -->
           <q-field :count="255">
-            <q-input v-model.trim="value.nomerazaosocial" float-label="Razão Social" />
+            <q-input v-model.trim="value.descricao" float-label="Descrição" />
           </q-field>
         </div>
-
-        <div class="col-xs-12 col-sm-4">
-          <!-- Apelido -->
-          <q-field :count="255">
-            <q-input v-model.trim="value.apelido" float-label="Apelido"></q-input>
-          </q-field>
-        </div>
-
         <div class="col-xs-12 col-sm-2">
-          <!-- CNPJ / CPF -->
+          <!-- Situação -->
           <q-field>
-            <q-input v-model.trim="value.cnpjcpf" align="right" float-label="CNPJ / CPF" type="tel" v-mask="[ '###.###.###-##', '##.###.###/####-##' ]" />
+            <q-select v-model="value.situacao" float-label="Situação" :options="[ { value: 'A', label: 'Ativo' }, { value: 'I', label: 'Inativo' } ]" />
           </q-field>
         </div>
-
         <div class="col-xs-12 col-sm-2">
           <crud-filter-actions @filter="$emit('input', JSON.parse(JSON.stringify(value)))" @clear="$emit('input', {})" />
         </div>

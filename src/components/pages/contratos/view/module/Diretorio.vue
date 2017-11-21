@@ -1,7 +1,7 @@
 <template>
   <q-card :color="color" @click="$emit('click', $data)" @dblclick="$emit('dblclick', $data)">
     <q-card-main>
-      <q-icon name="fa-file-text" />
+      <q-icon :name="model.favorito === 'S' ? 'fa-star-o' : 'fa-folder-o'" />
       <span>{{model.descricao}}</span>
     </q-card-main>
   </q-card>
@@ -29,7 +29,7 @@ export default {
 
   &::before
     font-size 20px
-    left 8px
+    left 7px
     position absolute
     top 6px
 

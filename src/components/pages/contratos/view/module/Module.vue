@@ -3,7 +3,14 @@
     <h6>Diretórios</h6>
     <div class="row xs-gutter">
       <div v-for="(diretorio, index) in diretorios" :key="index" class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
-        <v-diretorio :model="diretorio" :color="value === diretorio ? 'primary' : ''" @click="$emit('input', diretorio)" @dblclick="$emit('change', diretorio)" />
+        <v-diretorio :model="diretorio" :color="value === diretorio ? 'primary' : diretorio.cor" @click="$emit('input', diretorio)" @dblclick="$emit('change', diretorio)" />
+        <q-context-menu @open="$emit('input', diretorio)">
+          <q-list link separator style="min-width: 150px; max-height: 300px;">
+            <q-item>
+              <q-item-main label="Editar" @click="$emit('edit', diretorio)" />
+            </q-item>
+          </q-list>
+        </q-context-menu>
       </div>
       <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
         <v-new @click="$emit('add', 'diretorio')" />
@@ -76,4 +83,10 @@ export default {
 
 h6
   color $teal-6
+
+.q-card
+  user-select none /* Likely future */
+  -moz-user-select none /* Firefox all */
+  -ms-user-select none /* IE 10+ */
+  -webkit-user-select none /* Chrome all / Safari all */
 </style>

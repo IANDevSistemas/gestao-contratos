@@ -29,7 +29,7 @@ export default {
 
   &::before
     font-size 20px
-    left 8px
+    left 7px
     position absolute
     top 6px
 

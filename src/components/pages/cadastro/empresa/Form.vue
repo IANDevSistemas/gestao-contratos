@@ -113,9 +113,16 @@
 import Form from "@/abstract/crud/form"
 import { between, email, minValue, required } from "vuelidate/lib/validators"
 import { computed } from "@/abstract/util/mixins"
+import { ref, withParams } from "vuelidate/lib/validators/common"
 import isArray from "lodash/isArray"
 
+import { checkCpfCnpj } from "@/abstract/util/validation"
+
 import serviceMunicipio from "service/municipio"
+
+const vuelidateCpfCnpj = withParams({ type: "required" }, value => {
+  return checkCpfCnpj(value)
+})
 
 export default {
   extends: Form,
@@ -136,7 +143,7 @@ export default {
       situacao: { required },
       nomerazaosocial: { required },
       apelidoempresa: { required },
-      cnpjcpf: { required },
+      cnpjcpf: { required: vuelidateCpfCnpj },
       telefone: {},
       endereco: { required },
       bairro: { required },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-card>
-      <vuetable ref="vuetable" api-url="https://vuetable.ratiw.net/api/users" :httpFetch="httpFetch" :fields="['name', 'email', 'birthdate']" :css="{ tableClass: 'q-table bordered highlight striped-odd responsive' }"></vuetable>
+      <vuetable ref="vuetable" :fields="['name', 'email', 'birthdate']" :css="{ tableClass: 'q-table bordered highlight striped-odd responsive' }"></vuetable>
     </q-card>
   </div>
 </template>
@@ -32,9 +32,6 @@ export default {
     return {}
   },
   methods: {
-    httpFetch() {
-      console.log(arguments)
-    },
     rowClick(row) {
       const time = new Date().getTime()
       const event = time - 500 < row[lastClick] ? "change" : "input"
@@ -44,6 +41,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-</style>

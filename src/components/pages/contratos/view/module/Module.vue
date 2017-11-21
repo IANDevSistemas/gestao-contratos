@@ -5,11 +5,17 @@
       <div v-for="(diretorio, index) in diretorios" :key="index" class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
         <v-diretorio :model="diretorio" :color="value === diretorio ? 'primary' : ''" @click="$emit('input', diretorio)" @dblclick="$emit('change', diretorio)" />
       </div>
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
+        <v-new @click="$emit('add', 'diretorio')" />
+      </div>
     </div>
     <h6>Contratos</h6>
     <div class="row xs-gutter">
       <div v-for="(contrato, index) in contratos" :key="index" class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
         <v-contrato :model="contrato" :color="value === contrato ? 'primary' : ''" @click="$emit('input', contrato)" @dblclick="$emit('change', contrato)" />
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
+        <v-new @click="$emit('add', 'contrato')" />
       </div>
     </div>
   </div>
@@ -18,12 +24,14 @@
 <script>
 import VContrato from "./Contrato"
 import VDiretorio from "./Diretorio"
+import VNew from "./New"
 import fill from "lodash/fill"
 
 export default {
   components: {
     VContrato,
-    VDiretorio
+    VDiretorio,
+    VNew
   },
   props: {
     value: {

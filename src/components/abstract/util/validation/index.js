@@ -1,27 +1,4 @@
 /**
- * Verifica se é CPF ou CNPJ
- * @param {string} valor valor que será avaliado
- * @returns {string} "CPF" ou "CNPJ"
- * @throws error caso não seja cpf ou cnpj
- * @see http://www.todoespacoonline.com/w/
- */
-function testCpfCnpj(valor) {
-  const text = `${valor}`
-  // Verifica CPF
-  if (text.length === 11) {
-    return "CPF"
-  }
-
-  if (text.length === 14) {
-    // Verifica CNPJ
-    return "CNPJ"
-  }
-
-  // Não retorna nada
-  throw new Error("valor não é nem cpf e nem cnpj")
-}
-
-/**
  * Multiplica dígitos vezes posições
  *
  * @param {string} digitos digitos Os digitos desejados
@@ -77,13 +54,37 @@ function calcDigitosPosicoes(digitos, posicoes = 10, somaDigitos = 0) {
 }
 
 /**
+ * Verifica se é CPF ou CNPJ
+ * @param {string} valor valor que será avaliado
+ * @returns {string} "CPF" ou "CNPJ"
+ * @throws error caso não seja cpf ou cnpj
+ * @see http://www.todoespacoonline.com/w/
+ */
+export const testCpfCnpj = (valor) => {
+  const text = `${valor}`
+  // Verifica CPF
+  if (text.length === 11) {
+    return "CPF"
+  }
+
+  if (text.length === 14) {
+    // Verifica CNPJ
+    return "CNPJ"
+  }
+
+  // Não retorna nada
+  throw new Error("valor não é nem cpf e nem cnpj")
+}
+
+
+/**
  * Valida se for CPF
  *
  * @param {string} cpf O CPF com ou sem pontos e traço
  * @return {bool} true para CPF correto - false para CPF incorreto
  * @see http://www.todoespacoonline.com/w/
 */
-function checkCpf(cpf) {
+export const checkCpf = (cpf) => {
   const valor = `${cpf}`
     // Garante que o valor é uma string
     .toString()
@@ -114,7 +115,7 @@ function checkCpf(cpf) {
  * @return {bool} true para CNPJ correto
  * @see http://www.todoespacoonline.com/w/
 */
-function checkCnpj(cnpj) {
+export const checkCnpj = (cnpj) => {
   const valor = `${cnpj}`
     // Garante que o valor é uma string
     .toString()
@@ -144,7 +145,7 @@ function checkCnpj(cnpj) {
  * @return {bool} true para válido, false para inválido
  * @see http://www.todoespacoonline.com/w/
 */
-function checkCpfCnpj(cpfCnpj) {
+export const checkCpfCnpj = (cpfCnpj) => {
   try {
     const valor = `${cpfCnpj}`
       // Garante que o valor é uma string

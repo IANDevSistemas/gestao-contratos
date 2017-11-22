@@ -21,7 +21,6 @@
     <crud-tab :is-showing="tab === 'form'">
       <q-card-main>
         <q-card-title>{{model.id ? 'Editando' : 'Incluindo'}}</q-card-title>
-        <q-card-separator />
         <crud-form ref="form" v-model="model" :service="service" @save="onFormSave" @back="onFormBack" @delete="onFormDelete" />
       </q-card-main>
     </crud-tab>
@@ -46,7 +45,7 @@ export default {
   data() {
     return {
       model: {},
-      filter: SessionStorage.get.item(`${location.path}/filter`),
+      filter: SessionStorage.get.item(`${location.path}/filter`) || {},
       tab: "table"
     }
   },

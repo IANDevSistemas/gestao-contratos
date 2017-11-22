@@ -37,7 +37,7 @@ export default {
       if (this.value.id) {
         promisse = this.service.put({ id: this.value.id, model: JSON.stringify(this.value) })
       } else {
-        promisse = this.service.put({ id: this.value.id, model: JSON.stringify(this.value) })
+        promisse = this.service.post({ id: this.value.id, model: JSON.stringify(this.value) })
       }
 
       promisse

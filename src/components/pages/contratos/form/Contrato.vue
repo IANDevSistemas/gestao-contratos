@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section>
     <q-card class="contrato">
       <q-card-main>
         <section>
@@ -8,6 +8,8 @@
               {{model.idcontrato ? `Contrato #${model.idcontrato}` : "Novo Contrato"}}
             </q-toolbar-title>
           </q-toolbar>
+
+          <crud-form-actions @back="$emit('back')" @copy="() => { value.id = null }" @clear="$emit('input', {})" @save="$emit('save')" @delete="$emit('delete')" />
 
           <!-- Descrição -->
           <q-field :error="$v.model.descricao.$error" error-label="Entre com uma descrição válida" :count="255">
@@ -163,13 +165,6 @@
       </div>
     </q-fixed-position>
 
-    <!-- Save -->
-    <q-fixed-position corner="bottom-right" :offset="[16, 16]">
-      <q-btn v-model="isSaving" loader @click="submit" round color="primary" icon="save">
-        <q-spinner-facebook slot="loading"></q-spinner-facebook>
-      </q-btn>
-    </q-fixed-position>
-
     <!-- Modal -->
     <q-modal ref="modalEditor" maximized :content-css="{ width: '60vw', height: '500px' }" @close="modalEditorOnClose">
       <q-modal-layout>
@@ -190,18 +185,48 @@
       </q-modal-layout>
     </q-modal>
     <!-- /Modal -->
-  </div>
+  </section>
 </template>
 
 <script>
+import { Dialog, Toast } from "quasar"
 import { between, email, minValue, required } from "vuelidate/lib/validators"
-import { Toast } from "quasar"
+import AbsctractCrudForm from "@/abstract/crud/form"
 import Vue from "vue"
 import VueHtml5Editor from "vue-html5-editor"
+import { baseURL } from "service/config"
+
+// ID do contrato deve ser passado de forma dinamica então é criado um encapsulador
+let id = ""
+function Id() {}
+Id.prototype.toString = function() {
+  return `${id}`
+}
+
+const dialogBlock = {
+  nobuttons: true,
+  progress: {
+    indeterminate: true
+  },
+  noBackdropDismiss: true,
+  noEscDismiss: true
+}
 
 export default {
+  extends: AbsctractCrudForm,
   components: {
-    VueHtml5Editor: new VueHtml5Editor({})
+    VueHtml5Editor: new VueHtml5Editor({
+      // language: "pt-br",
+      image: {
+        upload: {
+          url: `${baseURL}?action=execTarefa&apelido=GESTAOCONTRATOS-service-contrato-documento-arquivo-upload&tKey=`,
+          fieldName: "arquivo",
+          params: {
+            idcontrato: new Id()
+          }
+        }
+      }
+    })
   },
   props: {
     model: {
@@ -265,7 +290,26 @@ export default {
     editModel(title, target) {
       const content = this.model[target] || ""
       this.editor = { title, target, content }
-      this.$refs.modalEditor.open()
+
+      if (this.value.id) {
+        this.$refs.modalEditor.open()
+        return
+      }
+
+      const dialog = Dialog.create({ title: "Criando novo contrato", message: "Aguarde um instante.", ...dialogBlock })
+      this.save()
+        .then(response => {
+          // console.log(response)
+          this.value.id = response.msg
+          id = response.msg
+          dialog.close()
+          this.$refs.modalEditor.open()
+        })
+        .catch(error => {
+          dialog.close()
+          Dialog.create({ title: "Erro !", message: "Erro ao salvar os dados." })
+          console.error(error)
+        })
     },
     submit(event, done) {
       // this.$v.model.$touch()
@@ -277,6 +321,12 @@ export default {
 
       done()
       Toast.create("Salvo")
+    }
+  },
+  watch: {
+    model(value) {
+      const newId = value
+      id = newId
     }
   }
 }

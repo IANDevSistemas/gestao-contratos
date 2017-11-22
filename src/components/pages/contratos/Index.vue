@@ -50,7 +50,7 @@
           <!-- Targets -->
           <!-- Form Contrato -->
           <q-tab-pane name="form-contrato">
-            <crud-form-contrato ref="form-contrato" v-model="selection" :service="services.diretorio" @back="onFormBack" @save="onFormSave('form-contrato')" @delete="onFormDelete('form-contrato')" />
+            <crud-form-contrato ref="form-contrato" v-model="selection" :service="services.contrato" @back="onFormBack" @save="onFormSave('form-contrato')" @delete="onFormDelete('form-contrato')" />
           </q-tab-pane>
           <!-- Form Diretório -->
           <q-tab-pane name="form-diretorio">
@@ -84,14 +84,14 @@ import VViewModule from "./view/module/Module"
 import serviceContrato from "service/contrato"
 import serviceDiretorio from "service/diretorio-contrato"
 
-// const dialogBlock = {
-//   nobuttons: true,
-//   progress: {
-//     indeterminate: true
-//   },
-//   noBackdropDismiss: true,
-//   noEscDismiss: true
-// }
+const dialogBlock = {
+  nobuttons: true,
+  progress: {
+    indeterminate: true
+  },
+  noBackdropDismiss: true,
+  noEscDismiss: true
+}
 
 export default {
   components: { CrudFormContrato, CrudFormDiretorio, VViewList, VViewModule },
@@ -119,8 +119,8 @@ export default {
   },
   methods: {
     onAdd(type) {
-      this.tab = `form-${type}`
       this.selection = {}
+      this.tab = `form-${type}`
     },
     onEdit() {
       const { selection } = this
@@ -231,8 +231,7 @@ export default {
         this.selection.diretoriocontratopai = this.diretorio
       }
     },
-    selection(value) {
-    },
+    selection(value) {},
     diretorio(value) {
       console.log(value)
       this.selection = {}

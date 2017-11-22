@@ -31,14 +31,17 @@ export default {
             {
               name: "tipopessoa",
               sortField: "tipopessoa",
-              title: "Tipo"
+              title: "Tipo",
+              callback(value) {
+                return ["Fornecedor", "Cliente", "Usuário"]["FCU".indexOf(value)]
+              }
             },
             {
               name: "situacao",
               sortField: "situacao",
               title: "Situação",
               callback(value) {
-                return value === "A" ? "Ativo" : value === "I" ? "Inativo" : ""
+                return ["Ativo", "Inativo"]["AI".indexOf(value)]
               }
             },
             {

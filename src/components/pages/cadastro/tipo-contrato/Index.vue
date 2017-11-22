@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.q-card-main
+.q-card
   min-height 680px
 
 .q-card

@@ -31,7 +31,6 @@
 <script>
 import Form from "@/abstract/crud/form"
 import { required } from "vuelidate/lib/validators"
-import { computed } from "@/abstract/util/mixins"
 
 export default {
   extends: Form,

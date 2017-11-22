@@ -7,9 +7,8 @@
 </template>
 
 <script>
-import service from "service"
 import { mapActions } from "vuex"
-import { minLength, required } from "vuelidate/lib/validators"
+import service from "service"
 
 export default {
   methods: {

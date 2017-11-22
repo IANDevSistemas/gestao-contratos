@@ -35,12 +35,12 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex"
 import { Dialog } from "quasar"
+import { required } from "vuelidate/lib/validators"
 import service from "service"
 import sha1 from "sha1"
 import store from "store"
-import { mapActions, mapGetters } from "vuex"
-import { required } from "vuelidate/lib/validators"
 
 export default {
   store,

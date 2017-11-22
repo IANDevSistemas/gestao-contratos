@@ -194,10 +194,10 @@
 </template>
 
 <script>
+import { between, email, minValue, required } from "vuelidate/lib/validators"
 import { Toast } from "quasar"
 import Vue from "vue"
 import VueHtml5Editor from "vue-html5-editor"
-import { between, email, minValue, required } from "vuelidate/lib/validators"
 
 export default {
   components: {

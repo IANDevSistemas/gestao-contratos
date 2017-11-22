@@ -26,6 +26,10 @@
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Motivo Contrato" />
         </q-side-link>
+        <q-side-link item to="/cadastro/pessoa">
+          <q-item-side icon="fa-file-text" />
+          <q-item-main label="Pessoas" />
+        </q-side-link>
         <q-side-link item to="/contratos">
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Contratos" />
@@ -42,7 +46,6 @@
 </template>
 
 <script>
-import isEmpty from "lodash/isEmpty"
 import { mapGetters } from "vuex"
 import store from "store"
 
@@ -80,8 +83,8 @@ export default {
 
       const route = isLoginRoute ? true : loggedIn ? true : loginRoute
 
-      // next(route)
-      next()
+      next(route)
+      // next()
       // this.$router.push(route)
     })
 

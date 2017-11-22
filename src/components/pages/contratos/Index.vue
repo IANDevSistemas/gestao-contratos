@@ -84,14 +84,14 @@ import VViewModule from "./view/module/Module"
 import serviceContrato from "service/contrato"
 import serviceDiretorio from "service/diretorio-contrato"
 
-const dialogBlock = {
-  nobuttons: true,
-  progress: {
-    indeterminate: true
-  },
-  noBackdropDismiss: true,
-  noEscDismiss: true
-}
+// const dialogBlock = {
+//   nobuttons: true,
+//   progress: {
+//     indeterminate: true
+//   },
+//   noBackdropDismiss: true,
+//   noEscDismiss: true
+// }
 
 export default {
   components: { CrudFormContrato, CrudFormDiretorio, VViewList, VViewModule },
@@ -231,7 +231,8 @@ export default {
         this.selection.diretoriocontratopai = this.diretorio
       }
     },
-    selection(value) {},
+    selection(value) {
+    },
     diretorio(value) {
       console.log(value)
       this.selection = {}
@@ -245,7 +246,7 @@ export default {
             }
           })
           .then(({ data }) => {
-            const { path } = data.data[0]
+            const [{ path }] = data.data
             this.diretorio.path = path
             this.refresh()
           })

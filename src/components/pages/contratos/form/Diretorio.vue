@@ -36,10 +36,8 @@
 </template>
 
 <script>
-import { Toast } from "quasar"
-import Vue from "vue"
-import { between, email, minValue, required } from "vuelidate/lib/validators"
 import AbsctractCrudForm from "@/abstract/crud/form"
+import { required } from "vuelidate/lib/validators"
 
 const cores = [
   "red",
@@ -85,9 +83,7 @@ export default {
   },
   computed: {
     cores() {
-      return cores.map(e => {
-        return { icon: "folder", leftColor: e, value: e, label: e }
-      })
+      return cores.map(e => ({ icon: "folder", leftColor: e, value: e, label: e }))
     }
   }
 }

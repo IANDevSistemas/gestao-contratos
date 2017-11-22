@@ -32,9 +32,15 @@ export default {
       })
     },
     doSave(resolve, reject) {
-      this.service
-        [this.value.id ? "put" : "post"]({ id: this.value.id, model: JSON.stringify(this.value) })
-        // .post({ model: JSON.stringify(this.value) })
+      let promisse
+
+      if (this.value.id) {
+        promisse = this.service.put({ id: this.value.id, model: JSON.stringify(this.value) })
+      } else {
+        promisse = this.service.put({ id: this.value.id, model: JSON.stringify(this.value) })
+      }
+
+      promisse
         .then(({ data }) => {
           if (data.error) {
             reject(new Error(data))

@@ -3,7 +3,7 @@ import Vuetable from "vuetable-2"
 import VuetablePagination from "vuetable-2/src/components/VuetablePagination"
 import VuetablePaginationInfo from "vuetable-2/src/components/VuetablePaginationInfo"
 
-import axios from "axios"
+import kebabCase from "lodash/kebabCase"
 import merge from "lodash/merge"
 
 export default {
@@ -45,8 +45,8 @@ export default {
     }
   },
   render(h) {
-    const vm = this
-    const config = vm.config || {}
+    const self = this
+    const config = self.config || {}
 
     const vuetable = {
       ref: "table",
@@ -68,7 +68,7 @@ export default {
             // "loose": true,
             // "flipped": true,
             responsive: true,
-            ["q-table"]: true
+            [kebabCase("qTable")]: true
           },
           loadingClass: "",
           ascendingIcon: "fa fa-long-arrow-up",
@@ -90,18 +90,18 @@ export default {
             delete params.sort
           }
 
-          const args = merge({}, { params: vm.filter }, options)
-          // console.log(vm.filter, args, options)
-          return vm.service.get(args)
+          const args = merge({}, { params: self.filter }, options)
+          // console.log(self.filter, args, options)
+          return self.service.get(args)
         }
       },
       on: {
         "vuetable:pagination-data"(data) {
-          vm.pagination.max = data ? Math.floor(data.total / vm.pagination.size) : 0
-          vm.$refs.paginationInfo.setPaginationData(data)
+          self.pagination.max = data ? Math.floor(data.total / self.pagination.size) : 0
+          self.$refs.paginationInfo.setPaginationData(data)
         },
         "vuetable:row-dblclicked"(dataItem, event) {
-          vm.$emit("edit", JSON.parse(JSON.stringify(dataItem)))
+          self.$emit("edit", JSON.parse(JSON.stringify(dataItem)))
         }
       },
       scopedSlots: {
@@ -116,7 +116,7 @@ export default {
             },
             on: {
               click(data) {
-                vm.$emit("edit", JSON.parse(JSON.stringify(props.rowData)))
+                self.$emit("edit", JSON.parse(JSON.stringify(props.rowData)))
               }
             }
           })
@@ -128,11 +128,11 @@ export default {
 
     const pagination = h("q-pagination", {
       ref: "pagination",
-      props: { ...vm.pagination },
+      props: { ...self.pagination },
       on: {
         change(value) {
-          // console.log(vm, table)
-          vm.pagination.value = value
+          // console.log(self, table)
+          self.pagination.value = value
         }
       }
     })

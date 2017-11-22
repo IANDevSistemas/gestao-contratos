@@ -110,22 +110,18 @@
 </template>
 
 <script>
-import Form from "@/abstract/crud/form"
-import { between, email, minValue, required } from "vuelidate/lib/validators"
-import { computed } from "@/abstract/util/mixins"
-import { ref, withParams } from "vuelidate/lib/validators/common"
-import isArray from "lodash/isArray"
-
+import AbstractForm from "@/abstract/crud/form"
 import { checkCpfCnpj } from "@/abstract/util/validation"
-
+import { computed } from "@/abstract/util/mixins"
+import isArray from "lodash/isArray"
+import { required } from "vuelidate/lib/validators"
 import serviceMunicipio from "service/municipio"
+import { withParams } from "vuelidate/lib/validators/common"
 
-const vuelidateCpfCnpj = withParams({ type: "required" }, value => {
-  return checkCpfCnpj(value)
-})
+const vuelidateCpfCnpj = withParams({ type: "required" }, value => checkCpfCnpj(value))
 
 export default {
-  extends: Form,
+  extends: AbstractForm,
   data() {
     return {
       telefone: [],

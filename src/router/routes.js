@@ -31,6 +31,9 @@ export default [
   // Motivo Contrato
   { path: "/cadastro/motivo-contrato", component: load("/cadastro/motivo-contrato") },
 
+  // Pessoa
+  { path: "/cadastro/pessoa", component: load("/cadastro/pessoa") },
+
   // Always leave this last one
   { path: "*", component: load("/error404") } // Not found
 ]

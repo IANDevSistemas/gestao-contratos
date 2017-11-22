@@ -10,7 +10,7 @@ const service = axios.create({
   withCredentials: true
 })
 
-service.interceptors.request.use((request) => {
+service.interceptors.request.use(request => {
   if (request.data && request.headers["Content-Type"] === "application/x-www-form-urlencoded; charset=utf-8") {
     request.data = qs.stringify(request.data)
   }

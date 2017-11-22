@@ -6,7 +6,7 @@
  * @param {number} somaDigitos soma_digitos A soma das multiplicações entre posições e dígitos
  * @return {string} Os dígitos enviados concatenados com o último dígito
  * @see http://www.todoespacoonline.com/w/
-*/
+ */
 function calcDigitosPosicoes(digitos, posicoes = 10, somaDigitos = 0) {
   let sum = somaDigitos
   let pos = posicoes
@@ -15,7 +15,7 @@ function calcDigitosPosicoes(digitos, posicoes = 10, somaDigitos = 0) {
   //   0    2    5    4    6    2    8    8   4
   // x10   x9   x8   x7   x6   x5   x4   x3  x2
   //   0 + 18 + 40 + 28 + 36 + 10 + 32 + 24 + 8 = 196
-  for (let i = 0, { length } = digitos; i < length; i++) {
+  for (let i = 0, l = digitos.length; i < l; i++) {
     // Preenche a soma com o dígito vezes a posição
     sum = sum + digitos[i] * pos
 
@@ -60,7 +60,7 @@ function calcDigitosPosicoes(digitos, posicoes = 10, somaDigitos = 0) {
  * @throws error caso não seja cpf ou cnpj
  * @see http://www.todoespacoonline.com/w/
  */
-export const testCpfCnpj = (valor) => {
+export const testCpfCnpj = valor => {
   const text = `${valor}`
   // Verifica CPF
   if (text.length === 11) {
@@ -83,8 +83,8 @@ export const testCpfCnpj = (valor) => {
  * @param {string} cpf O CPF com ou sem pontos e traço
  * @return {bool} true para CPF correto - false para CPF incorreto
  * @see http://www.todoespacoonline.com/w/
-*/
-export const checkCpf = (cpf) => {
+ */
+export const checkCpf = cpf => {
   const valor = `${cpf}`
     // Garante que o valor é uma string
     .toString()
@@ -100,7 +100,7 @@ export const checkCpf = (cpf) => {
   const esperado = calcDigitosPosicoes(calcDigitosPosicoes(digitos), 11)
 
   // Verifica se o novo CPF gerado é idêntico ao CPF enviado
-  if (esperado === cpf) {
+  if (esperado === valor) {
     // CPF válido
     return true
   }
@@ -114,8 +114,8 @@ export const checkCpf = (cpf) => {
  * @param {string} cnpj O CNPJ com ou sem pontos e traço
  * @return {bool} true para CNPJ correto
  * @see http://www.todoespacoonline.com/w/
-*/
-export const checkCnpj = (cnpj) => {
+ */
+export const checkCnpj = cnpj => {
   const valor = `${cnpj}`
     // Garante que o valor é uma string
     .toString()
@@ -144,8 +144,8 @@ export const checkCnpj = (cnpj) => {
  * @param {string} cpfCnpj O valor a ser testado
  * @return {bool} true para válido, false para inválido
  * @see http://www.todoespacoonline.com/w/
-*/
-export const checkCpfCnpj = (cpfCnpj) => {
+ */
+export const checkCpfCnpj = cpfCnpj => {
   try {
     const valor = `${cpfCnpj}`
       // Garante que o valor é uma string

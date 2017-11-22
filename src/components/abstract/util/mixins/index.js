@@ -1,29 +1,32 @@
-export const props = (args) => {
+export const props = args => {
   const props = {}
 
   for (const arg in args) {
-    props[arg] = ((arg) => ({
-      default() {
-        return args[arg]
-      }
+    props[arg] = (arg => ({
+      default: () => args[arg]
     }))(arg)
   }
 
-  return { props }
+  return {
+    props
+  }
 }
 
-export const computed = (args) => {
+export const computed = args => {
   const computed = {}
 
   for (const arg in args) {
-    computed[arg] = ((arg) => ({
-      get() {
-        return args[arg]
-      }
+    computed[arg] = (arg => ({
+      get: () => args[arg]
     }))(arg)
   }
 
-  return { computed }
+  return {
+    computed
+  }
 }
 
-export default { props, computed }
+export default {
+  props,
+  computed
+}

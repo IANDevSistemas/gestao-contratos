@@ -3,8 +3,8 @@
     <q-card-title>
       {{title}}
     </q-card-title>
-    <q-card-main>
-      <crud-tab :is-showing="tab === 'table'">
+    <crud-tab :is-showing="tab === 'table'">
+      <q-card-main>
         <crud-filter ref="filter" v-model="filter" />
         <q-card-actions>
           <div class="col-12">
@@ -15,19 +15,21 @@
             </div>
           </div>
         </q-card-actions>
-        <crud-table ref="table" class="crud-table" v-model="model" :filter="filter" :service="service" @edit="onTableEdit" />
-      </crud-tab>
-      <crud-tab :is-showing="tab === 'form'">
+      </q-card-main>
+      <crud-table ref="table" class="crud-table" v-model="model" :filter="filter" :service="service" @edit="onTableEdit" />
+    </crud-tab>
+    <crud-tab :is-showing="tab === 'form'">
+      <q-card-main>
         <q-card-title>{{model.id ? 'Editando' : 'Incluindo'}}</q-card-title>
         <q-card-separator />
         <crud-form ref="form" v-model="model" :service="service" @save="onFormSave" @back="onFormBack" @delete="onFormDelete" />
-      </crud-tab>
-    </q-card-main>
+      </q-card-main>
+    </crud-tab>
   </q-card>
 </template>
 <script>
+import { Dialog, SessionStorage } from "quasar"
 import CrudTab from "./tab"
-import { Dialog } from "quasar"
 import sha1 from "sha1"
 
 const dialogBlock = {
@@ -44,7 +46,7 @@ export default {
   data() {
     return {
       model: {},
-      filter: {},
+      filter: SessionStorage.get.item(`${location.path}/filter`),
       tab: "table"
     }
   },
@@ -133,13 +135,13 @@ export default {
     onAdd() {
       const model = {}
       this.model = model
-      this.model._hash = sha1(JSON.stringify(model))
+      this.model.hash = sha1(JSON.stringify(model))
       this.tab = "form"
     },
     onTableEdit(model) {
       this.tab = "form"
       this.model = model
-      this.model._hash = sha1(JSON.stringify(model))
+      this.model.hash = sha1(JSON.stringify(model))
     }
   },
   watch: {
@@ -147,6 +149,9 @@ export default {
       if (value === "table") {
         this.$refs.table.refresh()
       }
+    },
+    filter(value) {
+      SessionStorage.set(`${location.path}/filter`, value)
     }
   }
 }

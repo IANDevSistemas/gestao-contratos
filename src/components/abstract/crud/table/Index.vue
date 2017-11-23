@@ -5,6 +5,7 @@ import VuetablePaginationInfo from "vuetable-2/src/components/VuetablePagination
 
 import kebabCase from "lodash/kebabCase"
 import merge from "lodash/merge"
+import services from "service/all"
 
 export default {
   components: {
@@ -13,7 +14,7 @@ export default {
     VuetablePaginationInfo
   },
   props: {
-    service: {
+    serviceName: {
       required: true
     },
     filter: {
@@ -29,6 +30,14 @@ export default {
         max: 12,
         size: 5
       }
+    }
+  },
+  computed: {
+    services() {
+      return services
+    },
+    service() {
+      return services[this.serviceName]
     }
   },
   watch: {

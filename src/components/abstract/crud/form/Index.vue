@@ -1,8 +1,14 @@
 <script>
 import CrudFormActions from "./Actions"
+import Vue from "vue"
+import services from "service/all"
+
 export default {
+  components: {
+    CrudFormActions
+  },
   props: {
-    service: {
+    serviceName: {
       required: true
     },
     value: {
@@ -11,12 +17,23 @@ export default {
       }
     }
   },
-  components: {
-    CrudFormActions
+  data() {
+    return {
+      autocomplete: {}
+    }
+  },
+  computed: {
+    services() {
+      return services
+    },
+    service() {
+      return services[this.serviceName]
+    }
   },
   methods: {
     autocompleteSelected(name, value) {
-      this.value[name] = value
+      Vue.set(this.value, name, value)
+      Vue.set(this.autocomplete, name, value.label)
     },
     validate() {
       this.$v.value.$touch()

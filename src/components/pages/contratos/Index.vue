@@ -50,11 +50,11 @@
           <!-- Targets -->
           <!-- Form Contrato -->
           <q-tab-pane name="form-contrato">
-            <crud-form-contrato ref="form-contrato" v-model="selection" :service="services.contrato" @back="onFormBack" @save="onFormSave('form-contrato')" @delete="onFormDelete('form-contrato')" />
+            <crud-form-contrato ref="form-contrato" v-model="selection" service-name="contrato" @back="onFormBack" @save="onFormSave('form-contrato')" @delete="onFormDelete('form-contrato')" />
           </q-tab-pane>
           <!-- Form Diretório -->
           <q-tab-pane name="form-diretorio">
-            <crud-form-diretorio ref="form-diretorio" v-model="selection" :service="services.diretorio" @back="onFormBack" @save="onFormSave('form-diretorio')" @delete="onFormDelete('form-diretorio')" />
+            <crud-form-diretorio ref="form-diretorio" v-model="selection" service-name="diretorioContrato" @back="onFormBack" @save="onFormSave('form-diretorio')" @delete="onFormDelete('form-diretorio')" />
           </q-tab-pane>
 
           <q-tab-pane name="view">
@@ -81,8 +81,7 @@ import { Dialog } from "quasar"
 import VViewList from "./view/list/List"
 import VViewModule from "./view/module/Module"
 
-import serviceContrato from "service/contrato"
-import serviceDiretorio from "service/diretorio-contrato"
+import services from "service/all"
 
 const dialogBlock = {
   nobuttons: true,
@@ -110,12 +109,7 @@ export default {
     }
   },
   computed: {
-    services() {
-      return {
-        contrato: serviceContrato,
-        diretorio: serviceDiretorio
-      }
-    }
+    services: () => services
   },
   methods: {
     onAdd(type) {
@@ -186,30 +180,38 @@ export default {
       const dialog1 = Dialog.create({ title: "Remover os dados ?", message: "Tem certeza que os dados devem ser removidos ?", buttons: ["Não", confirm] })
     },
     refresh() {
-      const config = {
+      const configContrato = {
+        params: {}
+      }
+
+      // TODO add search
+      configContrato.params.iddiretoriocontrato = this.diretorio.iddiretoriocontrato || 0
+
+      this.list.contrato = []
+      services.contrato
+        .get(configContrato)
+        .then(({ data }) => {
+          this.list.contrato = data.data
+        })
+        .catch(error => {
+          // TODO show some message
+          this.list.contrato = []
+          console.error(error)
+        })
+
+      const configDiretorio = {
         params: {}
       }
 
       // TODO add search
       if (this.diretorio.iddiretoriocontrato) {
-        config.params.iddiretoriocontratopai = this.diretorio.iddiretoriocontrato
+        configDiretorio.params.iddiretoriocontratopai = this.diretorio.iddiretoriocontrato
       } else {
-        config.params.depth = 0
+        configDiretorio.params.depth = 0
       }
 
-      this.list.contrato = []
-      // serviceContrato
-      //   .get(config)
-      //   .then(({ data }) => {
-      //     this.list.contrato = data.data
-      //   })
-      //   .catch(error => {
-      //     // TODO show some message
-      //     console.error(error)
-      //   })
-
-      serviceDiretorio
-        .get(config)
+      services.diretorioContrato
+        .get(configDiretorio)
         .then(({ data }) => {
           this.list.diretorio = data.data
         })
@@ -238,7 +240,7 @@ export default {
 
       // Busca o path
       if (value.id) {
-        serviceDiretorio
+        service.diretorio
           .get({
             params: {
               iddiretoriocontrato: value.id

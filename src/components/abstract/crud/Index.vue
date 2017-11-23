@@ -16,12 +16,12 @@
           </div>
         </q-card-actions>
       </q-card-main>
-      <crud-table ref="table" class="crud-table" v-model="model" :filter="filter" :service="service" @edit="onTableEdit" />
+      <crud-table ref="table" class="crud-table" v-model="model" :filter="filter" :service-name="serviceName" @edit="onTableEdit" />
     </crud-tab>
     <crud-tab :is-showing="tab === 'form'">
       <q-card-main>
         <q-card-title>{{model.id ? 'Editando' : 'Incluindo'}}</q-card-title>
-        <crud-form ref="form" v-model="model" :service="service" @save="onFormSave" @back="onFormBack" @delete="onFormDelete" />
+        <crud-form ref="form" v-model="model" :service-name="serviceName" @save="onFormSave" @back="onFormBack" @delete="onFormDelete" />
       </q-card-main>
     </crud-tab>
   </q-card>

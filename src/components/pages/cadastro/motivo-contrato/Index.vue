@@ -5,7 +5,6 @@ import CrudForm from "./Form"
 import CrudTable from "./Table"
 
 import { computed } from "@/abstract/util/mixins"
-import service from "service/motivo-contrato"
 
 export default {
   extends: Crud,
@@ -16,7 +15,7 @@ export default {
   },
   ...computed({
     title: "Motivo de Contrato",
-    service
+    serviceName: "motivoContrato"
   })
 }
 </script>

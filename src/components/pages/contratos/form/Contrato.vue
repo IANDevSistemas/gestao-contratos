@@ -5,65 +5,67 @@
         <section>
           <q-toolbar inverted>
             <q-toolbar-title>
-              {{model.idcontrato ? `Contrato #${model.idcontrato}` : "Novo Contrato"}}
+              {{value.id ? `Contrato #${value.id}` : "Novo Contrato"}}
             </q-toolbar-title>
           </q-toolbar>
 
           <crud-form-actions @back="$emit('back')" @copy="() => { value.id = null }" @clear="$emit('input', {})" @save="$emit('save')" @delete="$emit('delete')" />
 
           <!-- Descrição -->
-          <q-field :error="$v.model.descricao.$error" error-label="Entre com uma descrição válida" :count="255">
-            <q-input v-model.trim="model.descricao" float-label="Descrição" @blur="$v.model.descricao.$touch"></q-input>
+          <q-field :error="$v.value.descricao.$error" error-label="Entre com uma descrição válida" :count="255">
+            <q-input v-model.trim="value.descricao" float-label="Descrição" @blur="$v.value.descricao.$touch"></q-input>
           </q-field>
 
           <div class="row sm-gutter">
             <div class="col-xs-12 col-sm-6">
               <!-- Pessoa -->
-              <q-field :error="$v.model.pessoa.$error" error-label="Selecione um valor">
-                <q-select v-model="model.pessoa" float-label="Contratante / Contratado" radio :options="[ { label: 'Google', value: 'goog' }, { label: 'Facebook', value: 'fb' } ]" @blur="$v.model.pessoa.$touch" />
+              <q-field :error="$v.value.pessoa.$error" error-label="Selecione um valor">
+                <q-input v-model="autocomplete.pessoa" float-label="Contratante / Contratado" @blur="$v.value.pessoa.$touch">
+                  <q-autocomplete @search="services.pessoa.search" :min-characters="3" @selected="(value) => { autocompleteSelected('pessoa', value) }" />
+                </q-input>
               </q-field>
             </div>
 
             <div class="col-xs-12 col-sm-3">
               <!-- Tipo Contrato -->
-              <q-field :error="$v.model.tipocontrato.$error" error-label="Selecione um valor">
-                <q-select v-model="model.tipocontrato" float-label="Tipo Contrato" radio :options="[ { label: 'Google', value: 'goog' }, { label: 'Facebook', value: 'fb' } ]" @blur="$v.model.tipocontrato.$touch" />
+              <q-field :error="$v.value.tipocontrato.$error" error-label="Selecione um valor">
+                <q-select v-model="value.tipocontrato" float-label="Tipo Contrato" radio :options="[ { label: 'Google', value: 'goog' }, { label: 'Facebook', value: 'fb' } ]" @blur="$v.value.tipocontrato.$touch" />
               </q-field>
             </div>
 
             <div class="col-xs-12 col-sm-3">
               <!-- Número -->
-              <q-field :error="$v.model.numero.$error" error-label="Entre com um número válido" :count="255">
-                <q-input v-model.trim="model.numero" float-label="N°" @blur="$v.model.numero.$touch"></q-input>
+              <q-field :error="$v.value.numero.$error" error-label="Entre com um número válido" :count="255">
+                <q-input v-model.trim="value.numero" float-label="N°" @blur="$v.value.numero.$touch"></q-input>
               </q-field>
             </div>
           </div>
 
           <!-- Unidades -->
-          <q-field :error="$v.model.unidades.$error" error-label="Selecione as unidades">
-            <q-select v-model="model.unidades" multiple chips float-label="Unidades" :options="[ { label: 'Google', value: 'goog' }, { label: 'Facebook', value: 'fb' } ]" @blur="$v.model.unidades.$touch" />
+          <q-field :error="$v.value.unidades.$error" error-label="Selecione as unidades">
+            <q-select v-model="value.unidades" multiple chips float-label="Unidades" :options="[ { label: 'Google', value: 'goog' }, { label: 'Facebook', value: 'fb' } ]" @blur="$v.value.unidades.$touch" />
           </q-field>
 
           <h6>Vigência</h6>
           <div class="row sm-gutter">
             <div class="col-xs-12 col-sm-4">
               <!-- Data Inicial -->
-              <q-field :error="$v.model.datainicial.$error" error-label="Inválida">
-                <q-datetime v-model="model" type="date" format="DD/MM/YYYY" :max="model.datafinal" v-model.trim="model.datainicial" float-label="Data Inicial" @blur="$v.model.datainicial.$touch" />
+              <q-field :error="$v.value.datainicial.$error" error-label="Inválida">
+                <q-datetime v-model="value" type="date" format="DD/MM/YYYY" :max="value.datafinal" v-model.trim="value.datainicial" float-label="Data Inicial" @blur="$v.value.datainicial.$touch" />
               </q-field>
             </div>
 
             <div class="col-xs-12 col-sm-4">
               <!-- Data Final -->
-              <q-field :error="$v.model.datafinal.$error" error-label="Inválida">
-                <q-datetime v-model="model" type="date" format="DD/MM/YYYY" :min="model.datainicial" v-model.trim="model.datafinal" float-label="Data Final" @blur="$v.model.datafinal.$touch" />
+              <q-field :error="$v.value.datafinal.$error" error-label="Inválida">
+                <q-datetime v-model="value" type="date" format="DD/MM/YYYY" :min="value.datainicial" v-model.trim="value.datafinal" float-label="Data Final" @blur="$v.value.datafinal.$touch" />
               </q-field>
             </div>
 
             <div class="col-xs-12 col-sm-4">
               <!-- Data Próxima Renovação -->
-              <q-field :error="$v.model.dataproximarenovacao.$error" error-label="Inválida">
-                <q-datetime v-model="model" type="date" format="DD/MM/YYYY" :min="model.datainicial" v-model.trim="model.dataproximarenovacao" float-label="Próxima Renovação" @blur="$v.model.dataproximarenovacao.$touch" />
+              <q-field :error="$v.value.dataproximarenovacao.$error" error-label="Inválida">
+                <q-datetime v-model="value" type="date" format="DD/MM/YYYY" :min="value.datainicial" v-model.trim="value.dataproximarenovacao" float-label="Próxima Renovação" @blur="$v.value.dataproximarenovacao.$touch" />
               </q-field>
             </div>
           </div>
@@ -72,22 +74,22 @@
           <div class="row sm-gutter">
             <div class="col-xs-12 col-sm-4">
               <!-- Dia Vencimento Inicial -->
-              <q-field :error="$v.model.diavencimentoinicial.$error" error-label="Valor deve estar entre 1 e 31">
-                <q-input v-model="model.diavencimentoinicial" align="right" v-money="{ precision: 0 }" float-label="Dia Vencimento Inicial" @blur="$v.model.diavencimentoinicial.$touch" />
+              <q-field :error="$v.value.diavencimentoinicial.$error" error-label="Valor deve estar entre 1 e 31">
+                <q-input v-model="value.diavencimentoinicial" align="right" v-money="{ precision: 0 }" float-label="Dia Vencimento Inicial" @blur="$v.value.diavencimentoinicial.$touch" />
               </q-field>
             </div>
 
             <div class="col-xs-12 col-sm-4">
               <!-- Dia Vencimento Final -->
-              <q-field :error="$v.model.diavencimentofinal.$error" error-label="Valor deve estar entre 1 e 31">
-                <q-input v-model="model.diavencimentofinal" align="right" v-money="{ precision: 0 }" float-label="Dia Vencimento Final" @blur="$v.model.diavencimentofinal.$touch" />
+              <q-field :error="$v.value.diavencimentofinal.$error" error-label="Valor deve estar entre 1 e 31">
+                <q-input v-model="value.diavencimentofinal" align="right" v-money="{ precision: 0 }" float-label="Dia Vencimento Final" @blur="$v.value.diavencimentofinal.$touch" />
               </q-field>
             </div>
 
             <div class="col-xs-12 col-sm-4">
               <!-- Dia Limite Questionamento -->
-              <q-field :error="$v.model.dialimitequestionamento.$error" error-label="Valor deve estar entre 0 e 31">
-                <q-input v-model="model.dialimitequestionamento" align="right" v-money="{ precision: 0 }" float-label="Dia Limite Questionamento" @blur="$v.model.dialimitequestionamento.$touch" />
+              <q-field :error="$v.value.dialimitequestionamento.$error" error-label="Valor deve estar entre 0 e 31">
+                <q-input v-model="value.dialimitequestionamento" align="right" v-money="{ precision: 0 }" float-label="Dia Limite Questionamento" @blur="$v.value.dialimitequestionamento.$touch" />
               </q-field>
             </div>
           </div>
@@ -96,22 +98,22 @@
           <div class="row sm-gutter">
             <div class="col-xs-12 col-sm-4">
               <!-- Multa Atraso Percentual -->
-              <q-field :error="$v.model.multapercentualatraso.$error" error-label="Valor deve ser maior que 0">
-                <q-input v-model="model.multapercentualatraso" align="right" v-money="{ precision: 3, suffix: ' %' }" float-label="Multa Atraso Percentual" @blur="$v.model.multapercentualatraso.$touch" />
+              <q-field :error="$v.value.multapercentualatraso.$error" error-label="Valor deve ser maior que 0">
+                <q-input v-model="value.multapercentualatraso" align="right" v-money="{ precision: 3, suffix: ' %' }" float-label="Multa Atraso Percentual" @blur="$v.value.multapercentualatraso.$touch" />
               </q-field>
             </div>
 
             <div class="col-xs-12 col-sm-4">
               <!-- Valor Multa Atraso -->
-              <q-field :error="$v.model.multavaloratraso.$error" error-label="Valor deve ser maior que R$ 0,00">
-                <q-input v-model="model.multavaloratraso" align="right" v-money="{ prefix: 'R$ ' }" float-label="Valor Multa Atraso" @blur="$v.model.multavaloratraso.$touch" />
+              <q-field :error="$v.value.multavaloratraso.$error" error-label="Valor deve ser maior que R$ 0,00">
+                <q-input v-model="value.multavaloratraso" align="right" v-money="{ prefix: 'R$ ' }" float-label="Valor Multa Atraso" @blur="$v.value.multavaloratraso.$touch" />
               </q-field>
             </div>
 
             <div class="col-xs-12 col-sm-4">
               <!-- Dias Tolerancia Multa -->
-              <q-field :error="$v.model.diastoleranciamulta.$error" error-label="Valor deve ser maior que 0">
-                <q-input v-model="model.diastoleranciamulta" align="right" v-money="{ precision: 0 }" float-label="Dias Tolerância Multa" @blur="$v.model.diastoleranciamulta.$touch" />
+              <q-field :error="$v.value.diastoleranciamulta.$error" error-label="Valor deve ser maior que 0">
+                <q-input v-model="value.diastoleranciamulta" align="right" v-money="{ precision: 0 }" float-label="Dias Tolerância Multa" @blur="$v.value.diastoleranciamulta.$touch" />
               </q-field>
             </div>
           </div>
@@ -120,40 +122,40 @@
         <!-- Objeto do contrato -->
         <section>
           <q-toolbar inverted>
-            <q-btn flat small @click="editModel('Editar Objeto do Contrato', 'objetocontrato')">
+            <q-btn flat small @click="editValue('Editar Objeto do Contrato', 'objetocontrato')">
               <q-icon name="mode_edit" />
             </q-btn>
             <q-toolbar-title>
               Objeto do Contrato
             </q-toolbar-title>
           </q-toolbar>
-          <div v-html="model.objetocontrato"></div>
+          <div v-html="value.objetocontrato"></div>
         </section>
 
         <!-- Condições Pagamento -->
         <section>
           <q-toolbar inverted>
-            <q-btn flat small @click="editModel('Editar Condições de Pagamento', 'condicoespagamento')">
+            <q-btn flat small @click="editValue('Editar Condições de Pagamento', 'condicoespagamento')">
               <q-icon name="mode_edit" />
             </q-btn>
             <q-toolbar-title>
               Condições de Pagamento
             </q-toolbar-title>
           </q-toolbar>
-          <div v-html="model.condicoespagamento"></div>
+          <div v-html="value.condicoespagamento"></div>
         </section>
 
         <!-- Condições Renovação -->
         <section>
           <q-toolbar inverted>
-            <q-btn flat small @click="editModel('Editar Condições de Renovação', 'condicoesrenovacao')">
+            <q-btn flat small @click="editValue('Editar Condições de Renovação', 'condicoesrenovacao')">
               <q-icon name="mode_edit" />
             </q-btn>
             <q-toolbar-title>
               Condições de Renovação
             </q-toolbar-title>
           </q-toolbar>
-          <div v-html="model.condicoesrenovacao"></div>
+          <div v-html="value.condicoesrenovacao"></div>
         </section>
       </q-card-main>
     </q-card>
@@ -228,15 +230,6 @@ export default {
       }
     })
   },
-  props: {
-    model: {
-      default() {
-        return {
-          unidades: []
-        }
-      }
-    }
-  },
   data() {
     return {
       editor: {
@@ -248,7 +241,7 @@ export default {
     }
   },
   validations: {
-    model: {
+    value: {
       descricao: { required },
       email: { email, required },
       pessoa: { required },
@@ -282,13 +275,13 @@ export default {
     },
     modalEditorOnApply() {
       if (this.editor.target) {
-        Vue.set(this.model, this.editor.target, this.editor.content)
+        Vue.set(this.value, this.editor.target, this.editor.content)
         this.$refs.modalEditor.close()
         // this.$forceUpdate()
       }
     },
-    editModel(title, target) {
-      const content = this.model[target] || ""
+    editValue(title, target) {
+      const content = this.value[target] || ""
       this.editor = { title, target, content }
 
       if (this.value.id) {
@@ -312,8 +305,8 @@ export default {
         })
     },
     submit(event, done) {
-      // this.$v.model.$touch()
-      if (this.$v.model.$error) {
+      // this.$v.value.$touch()
+      if (this.$v.value.$error) {
         done()
         Toast.create("Dados inválidos")
         return
@@ -324,7 +317,7 @@ export default {
     }
   },
   watch: {
-    model(value) {
+    value(value) {
       const newId = value
       id = newId
     }

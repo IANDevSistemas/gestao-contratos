@@ -19,7 +19,7 @@
         <div class="col-xs-12 col-sm-2">
           <!-- CNPJ / CPF -->
           <q-field>
-            <q-checkbox v-model="value.situacao" val="A" label="Ativo" />
+            <q-checkbox v-model="situacao" val="A" label="Ativo" />
           </q-field>
         </div>
 
@@ -34,7 +34,17 @@
 <script>
 import AbstractFilter from "@/abstract/crud/filter"
 export default {
-  extends: AbstractFilter
+  extends: AbstractFilter,
+  data() {
+    return {
+      situacao: true
+    }
+  },
+  watch: {
+    situacao(value) {
+      this.value.situacao = value
+    }
+  }
 }
 </script>
 

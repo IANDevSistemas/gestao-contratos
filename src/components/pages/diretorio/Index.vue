@@ -35,7 +35,7 @@
 
         <ul class="breadcrumb print-hide">
           <li>
-            <a @click="onNavTo({})">
+            <a @click="onNavTo({ iddiretorio: 0 })">
               <q-icon name="home" />
             </a>
           </li>
@@ -48,13 +48,13 @@
 
         <q-tabs class="explorer" :value="tab">
           <!-- Targets -->
-          <!-- Form Contrato -->
-          <q-tab-pane name="form-contrato">
-            <crud-form-contrato ref="form-contrato" v-model="selection" service-name="contrato" @back="onFormBack" @save="onFormSave('form-contrato')" @delete="onFormDelete('form-contrato')" />
-          </q-tab-pane>
-          <!-- Form Diretório -->
+          <!-- Form -->
           <q-tab-pane name="form-diretorio">
-            <crud-form-diretorio ref="form-diretorio" v-model="selection" service-name="diretorioContrato" @back="onFormBack" @save="onFormSave('form-diretorio')" @delete="onFormDelete('form-diretorio')" />
+            <crud-form-diretorio ref="form-diretorio" v-model="selection" service-name="diretorio" @back="onFormBack('form-diretorio')" @save="onFormSave('form-diretorio')" @delete="onFormDelete('form-diretorio')" />
+          </q-tab-pane>
+
+          <q-tab-pane name="form-contrato">
+            <crud-form-contrato ref="form-contrato" v-model="selection" service-name="contrato" @back="onFormBack('form-contrato')" @save="onFormSave('form-contrato')" @delete="onFormDelete('form-contrato')" />
           </q-tab-pane>
 
           <q-tab-pane name="view">
@@ -75,8 +75,9 @@
 </template>
 
 <script>
-import CrudFormContrato from "./form/Contrato"
 import CrudFormDiretorio from "./form/Diretorio"
+import CrudFormContrato from "../contrato/form/Contrato"
+
 import { Dialog } from "quasar"
 import VViewList from "./view/list/List"
 import VViewModule from "./view/module/Module"
@@ -93,8 +94,7 @@ const dialogBlock = {
 }
 
 export default {
-  components: { CrudFormContrato, CrudFormDiretorio, VViewList, VViewModule },
-  props: ["idDiretorio", "idContrato", "action"],
+  components: { CrudFormDiretorio, CrudFormContrato, VViewList, VViewModule },
   data() {
     return {
       diretorio: {},
@@ -103,8 +103,8 @@ export default {
         diretorio: []
       },
       selection: {},
-      view: "list",
-      tab: "",
+      view: "module",
+      tab: "view",
       search: ""
     }
   },
@@ -112,32 +112,42 @@ export default {
     services: () => services
   },
   methods: {
-    onAdd(type) {
+    onAdd(ref) {
       this.selection = {}
-      this.tab = `form-${type}`
+      if (ref === "diretorio") {
+        this.selection.diretoriopai = this.diretorio
+      } else {
+        this.selection.diretorio = this.diretorio
+      }
+      this.tab = `form-${ref}`
     },
-    onEdit() {
+    onEdit(ref) {
       const { selection } = this
-      if (selection.iddiretoriocontrato) {
+      if (selection.iddiretorio) {
+        this.selection.diretoriopai = this.diretorio
         this.tab = "form-diretorio"
       }
+
       if (selection.idcontrato) {
+        this.selection.diretoriopai = this.diretorio
         this.tab = "form-contrato"
       }
     },
     onNavBack() {
       console.log("not implemented yet")
     },
-    onNavTo(diretorio) {
-      diretorio.id = diretorio.iddiretoriocontrato
-      this.diretorio = diretorio
+    onNavTo({ iddiretorio }) {
       this.tab = "view"
+      this.$router.push({ name: "diretorio", params: { id: iddiretorio }, query: { view: this.view } })
     },
     onChange() {
-      this.diretorio = this.selection
+      if (this.selection.iddiretorio) {
+        this.onNavTo(this.selection)
+      }
     },
     onFormBack() {
       this.tab = "view"
+      this.refresh()
     },
     onFormSave(ref) {
       const form = this.$refs[ref]
@@ -147,10 +157,20 @@ export default {
         return
       }
 
+      let dialog
+      if (ref === "form-contrato") {
+        dialog = Dialog.create({ title: "Salvando dados", message: "Verifique os dados inseridos e tente novamente.", ...dialogBlock })
+      }
+
       form
         .save()
         .then(response => {
-          this.tab = "view"
+          if (ref === "form-diretorio") {
+            this.tab = "view"
+            this.refresh()
+          } else {
+            dialog.close()
+          }
         })
         .catch(error => {
           Dialog.create({ title: "Erro !", message: "Erro ao salvar os dados." })
@@ -169,6 +189,7 @@ export default {
             .delete()
             .then(response => {
               this.tab = "view"
+              this.refresh()
             })
             .catch(error => {
               console.error(error)
@@ -180,44 +201,47 @@ export default {
       const dialog1 = Dialog.create({ title: "Remover os dados ?", message: "Tem certeza que os dados devem ser removidos ?", buttons: ["Não", confirm] })
     },
     refresh() {
-      const configContrato = {
-        params: {}
-      }
+      const { id } = this.$route.params
 
-      // TODO add search
-      configContrato.params.iddiretoriocontrato = this.diretorio.iddiretoriocontrato || 0
-
-      this.list.contrato = []
-      services.contrato
-        .get(configContrato)
-        .then(({ data }) => {
-          this.list.contrato = data.data
+      services.diretorio
+        .get({
+          params: {
+            iddiretoriopai: id || 0
+          }
         })
-        .catch(error => {
-          // TODO show some message
-          this.list.contrato = []
-          console.error(error)
-        })
-
-      const configDiretorio = {
-        params: {}
-      }
-
-      // TODO add search
-      if (this.diretorio.iddiretoriocontrato) {
-        configDiretorio.params.iddiretoriocontratopai = this.diretorio.iddiretoriocontrato
-      } else {
-        configDiretorio.params.depth = 0
-      }
-
-      services.diretorioContrato
-        .get(configDiretorio)
         .then(({ data }) => {
           this.list.diretorio = data.data
         })
         .catch(error => {
           // TODO show some message
-          this.list.diretorio = []
+          console.error(error)
+        })
+
+      services.diretorio
+        .get({
+          params: {
+            iddiretorio: id || 0
+          }
+        })
+        .then(({ data }) => {
+          this.diretorio = data.data[0]
+        })
+        .catch(error => {
+          // TODO show some message
+          console.error(error)
+        })
+
+      services.contrato
+        .get({
+          params: {
+            iddiretorio: id || 0
+          }
+        })
+        .then(({ data }) => {
+          this.list.contrato = data.data
+        })
+        .catch(error => {
+          // TODO show some message
           console.error(error)
         })
     },
@@ -226,42 +250,13 @@ export default {
     }
   },
   watch: {
-    tab(value) {
-      if (value === "view") {
-        this.refresh()
-      } else {
-        this.selection.diretoriocontratopai = this.diretorio
-      }
-    },
-    selection(value) {},
-    diretorio(value) {
-      console.log(value)
-      this.selection = {}
-
-      // Busca o path
-      if (value.id) {
-        service.diretorio
-          .get({
-            params: {
-              iddiretoriocontrato: value.id
-            }
-          })
-          .then(({ data }) => {
-            const [{ path }] = data.data
-            this.diretorio.path = path
-            this.refresh()
-          })
-          .catch(error => {
-            // TODO show some message
-            console.error(error)
-          })
-      } else {
-        this.refresh()
-      }
+    $route(to, from) {
+      this.tab = "view"
+      this.refresh()
     }
   },
   mounted() {
-    this.tab = "view"
+    this.refresh()
   }
 }
 </script>

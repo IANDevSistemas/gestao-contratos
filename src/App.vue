@@ -30,7 +30,7 @@
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Motivo Contrato" />
         </q-side-link>
-        <q-side-link item to="/contratos">
+        <q-side-link item to="/diretorio/0">
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Contratos" />
         </q-side-link>
@@ -108,5 +108,8 @@ export default {
 
 .q-card, .q-data-table
   background-color $white
+
+.vue-html5-editor>.toolbar>ul>li[title='full screen'], .vue-html5-editor>.toolbar>ul>li[title='info']
+  display none
 </style>
 

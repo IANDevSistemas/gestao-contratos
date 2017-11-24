@@ -1,14 +1,16 @@
 import contrato from "./contrato"
-import diretorioContrato from "./diretorioContrato"
+import contratoResponsavel from "./contratoResponsavel"
+import diretorio from "./diretorio"
 import empresa from "./empresa"
 import motivoContrato from "./motivoContrato"
 import municipio from "./municipio"
 import pessoa from "./pessoa"
-import tipoContrato from "./tipo-contrato"
+import tipoContrato from "./tipoContrato"
 
 export default {
   contrato,
-  diretorioContrato,
+  contratoResponsavel,
+  diretorio,
   empresa,
   motivoContrato,
   municipio,

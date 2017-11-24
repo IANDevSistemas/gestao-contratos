@@ -16,35 +16,42 @@
             <q-input v-model.trim="value.descricao" float-label="Descrição" @blur="$v.value.descricao.$touch"></q-input>
           </q-field>
 
-          <div class="row sm-gutter">
-            <div class="col-xs-12 col-sm-6">
-              <!-- Pessoa -->
-              <q-field :error="$v.value.pessoa.$error" error-label="Selecione um valor">
-                <q-input v-model="autocomplete.pessoa" float-label="Contratante / Contratado" @blur="$v.value.pessoa.$touch">
-                  <q-autocomplete @search="services.pessoa.search" :min-characters="3" @selected="(value) => { autocompleteSelected('pessoa', value) }" />
-                </q-input>
-              </q-field>
-            </div>
+          <!-- Toolbar -->
+          <q-toolbar inverted v-show="value.id">
+            <router-link :to="{ name: 'contrato-responsavel', params: { id: value.id } }">
+              <q-btn flat>
+                Responsáveis
+              </q-btn>
+            </router-link>
+            <router-link :to="{ name: 'contrato-aprovacao', params: { id: value.id } }">
+              <q-btn flat>
+                Aprovação
+              </q-btn>
+            </router-link>
+          </q-toolbar>
 
-            <div class="col-xs-12 col-sm-3">
+          <!-- Pessoa -->
+          <q-field :error="$v.value.pessoa.$error" error-label="Selecione um valor">
+            <q-input v-model="autocomplete.pessoa" float-label="Contratante / Contratado" @blur="$v.value.pessoa.$touch">
+              <q-autocomplete @search="services.pessoa.search" @selected="(value) => { autocompleteSelected('pessoa', value) }" />
+            </q-input>
+          </q-field>
+
+          <div class="row sm-gutter">
+            <div class="col-xs-12 col-sm-9">
               <!-- Tipo Contrato -->
-              <q-field :error="$v.value.tipocontrato.$error" error-label="Selecione um valor">
-                <q-select v-model="value.tipocontrato" float-label="Tipo Contrato" radio :options="[ { label: 'Google', value: 'goog' }, { label: 'Facebook', value: 'fb' } ]" @blur="$v.value.tipocontrato.$touch" />
+              <q-field :error="$v.value.idtipocontrato.$error" error-label="Selecione um valor">
+                <q-select v-model="value.idtipocontrato" filter float-label="Tipo Contrato" radio :options="options.tipocontrato" @blur="$v.value.idtipocontrato.$touch" />
               </q-field>
             </div>
 
             <div class="col-xs-12 col-sm-3">
               <!-- Número -->
-              <q-field :error="$v.value.numero.$error" error-label="Entre com um número válido" :count="255">
+              <q-field :error="$v.value.numero.$error" error-label="Entre com um número válido">
                 <q-input v-model.trim="value.numero" float-label="N°" @blur="$v.value.numero.$touch"></q-input>
               </q-field>
             </div>
           </div>
-
-          <!-- Unidades -->
-          <q-field :error="$v.value.unidades.$error" error-label="Selecione as unidades">
-            <q-select v-model="value.unidades" multiple chips float-label="Unidades" :options="[ { label: 'Google', value: 'goog' }, { label: 'Facebook', value: 'fb' } ]" @blur="$v.value.unidades.$touch" />
-          </q-field>
 
           <h6>Vigência</h6>
           <div class="row sm-gutter">
@@ -117,10 +124,11 @@
               </q-field>
             </div>
           </div>
+
         </section>
 
         <!-- Objeto do contrato -->
-        <section>
+        <section v-show="value.id">
           <q-toolbar inverted>
             <q-btn flat small @click="editValue('Editar Objeto do Contrato', 'objetocontrato')">
               <q-icon name="mode_edit" />
@@ -133,7 +141,7 @@
         </section>
 
         <!-- Condições Pagamento -->
-        <section>
+        <section v-show="value.id">
           <q-toolbar inverted>
             <q-btn flat small @click="editValue('Editar Condições de Pagamento', 'condicoespagamento')">
               <q-icon name="mode_edit" />
@@ -146,7 +154,7 @@
         </section>
 
         <!-- Condições Renovação -->
-        <section>
+        <section v-show="value.id">
           <q-toolbar inverted>
             <q-btn flat small @click="editValue('Editar Condições de Renovação', 'condicoesrenovacao')">
               <q-icon name="mode_edit" />
@@ -193,6 +201,7 @@
 <script>
 import { Dialog, Toast } from "quasar"
 import { between, email, minValue, required } from "vuelidate/lib/validators"
+import moment from "moment"
 import AbsctractCrudForm from "@/abstract/crud/form"
 import Vue from "vue"
 import VueHtml5Editor from "vue-html5-editor"
@@ -237,22 +246,22 @@ export default {
         target: "",
         content: ""
       },
+      options: {
+        tipocontrato: []
+      },
       isSaving: false
     }
   },
   validations: {
     value: {
       descricao: { required },
-      email: { email, required },
       pessoa: { required },
-      tipocontrato: { required },
+      idtipocontrato: { required },
       numero: {},
 
       datainicial: {},
       datafinal: {},
       dataproximarenovacao: {},
-
-      unidades: { required },
 
       diavencimentoinicial: { between: between(1, 31) },
       diavencimentofinal: { between: between(1, 31) },
@@ -262,10 +271,13 @@ export default {
       multavaloratraso: {},
       diastoleranciamulta: { minValue: minValue(0) },
 
-      objetocontrato: { required }
+      objetocontrato: {}
     }
   },
   methods: {
+    change() {
+      console.log(arguments)
+    },
     editorOnChange(content) {
       this.editor.content = content
     },
@@ -288,21 +300,6 @@ export default {
         this.$refs.modalEditor.open()
         return
       }
-
-      const dialog = Dialog.create({ title: "Criando novo contrato", message: "Aguarde um instante.", ...dialogBlock })
-      this.save()
-        .then(response => {
-          // console.log(response)
-          this.value.id = response.msg
-          id = response.msg
-          dialog.close()
-          this.$refs.modalEditor.open()
-        })
-        .catch(error => {
-          dialog.close()
-          Dialog.create({ title: "Erro !", message: "Erro ao salvar os dados." })
-          console.error(error)
-        })
     },
     submit(event, done) {
       // this.$v.value.$touch()
@@ -316,16 +313,45 @@ export default {
       Toast.create("Salvo")
     }
   },
+  created() {
+    this.options.tipocontrato = []
+    this.services.tipoContrato
+      .get({
+        params: {
+          situacao: "A"
+        }
+      })
+      .then(response => {
+        this.options.tipocontrato = response.data.data
+      })
+      .catch(error => {
+        // TODO add some message
+        console.error(error)
+      })
+
+    const { value } = this
+
+    try {
+      if (value.idcontrato) {
+        this.autocomplete.pessoa = value.pessoa.text
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  },
   watch: {
-    value(value) {
-      const newId = value
-      id = newId
+    value(value) {},
+    "value.idtipocontrato"(value) {
+      this.value.tipocontrato = { id: value }
+    },
+    "value.id"(value) {
+      id = value
     }
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 @import '~variables'
 
 .contrato
@@ -347,8 +373,4 @@ export default {
 
 section
   margin 20px auto
-
-// Wusiwyg
-.vue-html5-editor>.toolbar>ul>li[title='full screen'], .vue-html5-editor>.toolbar>ul>li[title='info']
-  display none
 </style>

@@ -50,11 +50,11 @@ export default {
     },
     doSave(resolve, reject) {
       let promisse
-
-      if (this.value.id) {
-        promisse = this.service.put({ id: this.value.id, model: JSON.stringify(this.value) })
+      const { value } = this
+      if (value.id) {
+        promisse = this.service.put({ id: value.id, model: JSON.stringify(value) })
       } else {
-        promisse = this.service.post({ id: this.value.id, model: JSON.stringify(this.value) })
+        promisse = this.service.post({ id: value.id, model: JSON.stringify(value) })
       }
 
       promisse
@@ -63,6 +63,7 @@ export default {
             reject(new Error(data))
             return
           }
+          Vue.set(value, "id", data.msg)
           resolve(data)
         })
         .catch(error => {

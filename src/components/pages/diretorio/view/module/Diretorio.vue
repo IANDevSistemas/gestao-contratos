@@ -1,7 +1,7 @@
 <template>
   <q-card :color="color" @click="$emit('click', $data)" @dblclick="$emit('dblclick', $data)">
     <q-card-main>
-      <q-icon :name="model.favorito === 'S' ? 'fa-star-o' : 'fa-folder-o'" />
+      <q-icon :name="model.favorito === 'S' ? 'fa-star' : 'fa-folder-o'" />
       <span>{{model.descricao}}</span>
     </q-card-main>
   </q-card>

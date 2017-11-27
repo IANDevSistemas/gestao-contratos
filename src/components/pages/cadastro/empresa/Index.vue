@@ -14,7 +14,7 @@ export default {
     // CrudTable
   },
   ...computed({
-    title: "Cadastro Empresa",
+    title: "Cadastro de Empresa",
     serviceName: "empresa"
   })
 }

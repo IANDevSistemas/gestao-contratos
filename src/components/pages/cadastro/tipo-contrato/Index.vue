@@ -1,28 +1,19 @@
 <script>
-import Crud from "@/abstract/crud"
-import CrudFilter from "./Filter"
-import CrudForm from "./Form"
-import CrudTable from "./Table"
+import AbstractCrud from "@/abstract/crud"
 
 import { computed } from "@/abstract/util/mixins"
 
 export default {
-  extends: Crud,
-  components: {
-    CrudFilter,
-    CrudForm,
-    CrudTable
-  },
+  extends: AbstractCrud,
   ...computed({
-    title: "Tipo de Contrato",
-    serviceName: "tipoContrato"
+    title: "Cadastro de Tipo Contrato"
   })
 }
 </script>
 
 <style lang="stylus" scoped>
 .q-card
-  min-height 680px
+  min-height 800px
 
 .q-card
   margin auto

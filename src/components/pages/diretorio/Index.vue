@@ -7,11 +7,13 @@
             Contratos
           </q-toolbar-title>
 
+          <!-- 
           <q-btn flat round small @click="onNavBack">
             <q-icon name="arrow_back" />
           </q-btn>
 
-          <q-search color="teal" v-model="search" placeholder="Busca..." />
+          <q-search color="teal" v-model="search" placeholder="Busca..." /> 
+          -->
 
           <!-- View Mode -->
           <div v-show="tab === 'view'">

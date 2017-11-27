@@ -7,10 +7,9 @@
           <q-icon name="menu" />
         </q-btn>
 
-        <q-toolbar-title>
-          Gestão de Contratos
-          <div slot="subtitle">v{{$q.version}}</div>
-        </q-toolbar-title>
+        <q-toolbar-title>Gestão de Contratos</q-toolbar-title>
+
+        <q-btn flat icon="exit_to_app" @click="$router.push('/logout')">Logout</q-btn>
       </q-toolbar>
 
       <q-scroll-area class="print-hide" slot="left" style="width: 100%; height: 100%;">
@@ -76,6 +75,8 @@ export default {
       try {
         if (isLoginRoute) {
           self.$refs.layout.hideLeft()
+        } else if (self.isLoginRoute(to.path)) {
+          self.$refs.layout.showLeft()
         }
       } catch (error) {
         console.error(error)
@@ -89,14 +90,14 @@ export default {
     })
 
     // TODO testar sessão
-    // // if (!self.isLoginRoute(self.currentRoute) && !this.loggedIn) {
-    // try {
-    //   self.$refs.layout.hideLeft()
-    // } catch (error) {
-    //   console.error(error)
-    // }
-    // self.$router.push(self.loginRoute)
-    // // }
+    if (!self.isLoginRoute(self.currentRoute) && !this.loggedIn) {
+      try {
+        self.$refs.layout.hideLeft()
+      } catch (error) {
+        console.error(error)
+      }
+      self.$router.push(self.loginRoute)
+    }
   }
 }
 </script>

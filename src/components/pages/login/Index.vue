@@ -3,7 +3,7 @@
     <div class="page">
       <div class="card-container">
         <q-card>
-          <form @submit.prevent="submit">
+          <form @submit.prevent.stop="submit">
             <q-card-title>
               Login
               <span slot="subtitle">Ir para Gestão de Contratos</span>
@@ -20,10 +20,7 @@
               </q-field>
             </q-card-main>
             <q-card-actions align="end">
-              <q-btn v-model="isSubmiting" @click="submit" color="primary" class="full-width">
-                <span slot="loading">
-                  <q-spinner-radio class="on-left" />
-                </span>
+              <q-btn loader v-model="isSubmiting" type="submit" color="primary" class="full-width">
                 <span>Entrar</span>
               </q-btn>
             </q-card-actions>
@@ -58,6 +55,7 @@ export default {
   methods: {
     ...mapActions(["login"]),
     submit(event, done) {
+      console.log(arguments)
       service
         .post("", {
           action: "login",
@@ -65,7 +63,7 @@ export default {
           pwd: `!${sha1(this.auth.pwd)}`
         })
         .then(response => {
-          done()
+          done && done()
           if (response.data === "odwctrl?action=menu") {
             this.login(this.auth)
             this.$router.push({ path: "/" })
@@ -74,7 +72,7 @@ export default {
           }
         })
         .catch(error => {
-          done()
+          done && done()
           Dialog.create({ title: "Erro !", message: "Verifique sua conexão e tente novamente." })
           console.error(error)
         })

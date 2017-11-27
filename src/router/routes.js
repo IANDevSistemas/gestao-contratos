@@ -27,6 +27,32 @@ function crudRouter(name) {
 }
 
 export default [
+  // Contrato
+  {
+    name: "contrato",
+    path: "/diretorio/:iddiretorio/contrato/:id",
+    component: load("/contrato")
+  },
+
+  {
+    name: "contrato-responsavel",
+    path: "/contrato/:id/responsavel",
+    component: load("/contrato/responsavel")
+  },
+
+  // Diretório
+  {
+    name: "diretorio",
+    path: "/diretorio/:id",
+    component: load("/diretorio")
+  },
+
+  // Cadastros
+  crudRouter("empresa"),
+  crudRouter("tipo-contrato"),
+  crudRouter("motivo-contrato"),
+  crudRouter("pessoa"),
+
   // Raíz
   {
     path: "/",
@@ -51,47 +77,6 @@ export default [
   {
     path: "/logout/*",
     component: load("/logout")
-  },
-
-  // Contrato
-  {
-    name: "contrato",
-    path: "/diretorio/:iddiretorio/contrato/:id",
-    component: load("/contrato")
-  },
-
-  {
-    name: "contrato-responsavel",
-    path: "/contrato/:id/responsavel",
-    component: load("/contrato/responsavel")
-  },
-
-  // Diretório
-  {
-    name: "diretorio",
-    path: "/diretorio/:id",
-    component: load("/diretorio")
-  },
-
-  // Empresa
-  crudRouter("empresa"),
-
-  // Tipo Contrato
-  {
-    path: "/cadastro/tipo-contrato",
-    component: load("/cadastro/tipo-contrato")
-  },
-
-  // Motivo Contrato
-  {
-    path: "/cadastro/motivo-contrato",
-    component: load("/cadastro/motivo-contrato")
-  },
-
-  // Pessoa
-  {
-    path: "/cadastro/pessoa",
-    component: load("/cadastro/pessoa")
   },
 
   // Always leave this last one

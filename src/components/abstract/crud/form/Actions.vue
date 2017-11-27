@@ -15,6 +15,9 @@
       </q-btn>
     </div>
     <div class="col">
+      <q-toolbar-title>{{title}}</q-toolbar-title>
+    </div>
+    <div class="col">
       <div class="row justify-end">
         <div class="col-2 justify-end">
           <q-btn @click="$emit('save')" round color="negative" icon="save">
@@ -25,3 +28,10 @@
     </div>
   </q-card-actions>
 </template>
+
+
+<script>
+export default {
+  props: ["title"]
+}
+</script>

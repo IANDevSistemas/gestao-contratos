@@ -1,14 +1,8 @@
 <template>
   <section>
-    <crud-form-actions @back="$emit('back')" @copy="() => { value.id = null }" @clear="$emit('input', {})" @save="$emit('save')" @delete="$emit('delete')" />
-    <div class="row sm-gutter">
-      <div class="col-xs-12 col-sm-2">
-        <!-- Id -->
-        <q-field>
-          <q-input v-model.trim="value.id" float-label="Cód." align="right" readonly></q-input>
-        </q-field>
-      </div>
+    <crud-form-actions :title="value.id  ? 'Alterando #' + value.id : 'Incluindo'" @back="$router.go(-1)" @copy="() => { value.id = null }" @clear="value = {}" @save="onSave()" @delete="onDelete()" />
 
+    <div class="row sm-gutter">
       <div class="col-xs-12 col-sm-8">
         <!-- Nome Fantasia -->
         <q-field :error="$v.value.nomefantasia.$error" error-label="Entre com um valor válido" :count="255">
@@ -50,10 +44,14 @@
 
 <script>
 import AbstractForm from "@/abstract/crud/form"
+import { computed } from "@/abstract/util/mixins"
 import { required } from "vuelidate/lib/validators"
 
 export default {
   extends: AbstractForm,
+  ...computed({
+    serviceName: "pessoa"
+  }),
   validations: {
     value: {
       nomefantasia: { required },

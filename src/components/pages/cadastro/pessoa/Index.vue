@@ -1,21 +1,12 @@
 <script>
-import Crud from "@/abstract/crud"
-import CrudFilter from "./Filter"
-import CrudForm from "./Form"
-import CrudTable from "./Table"
+import AbstractCrud from "@/abstract/crud"
 
 import { computed } from "@/abstract/util/mixins"
 
 export default {
-  extends: Crud,
-  components: {
-    CrudFilter,
-    CrudForm,
-    CrudTable
-  },
+  extends: AbstractCrud,
   ...computed({
-    title: "Cadastro Pessoas",
-    serviceName: "pessoa"
+    title: "Cadastro Pessoas"
   })
 }
 </script>
@@ -26,5 +17,5 @@ export default {
 
 .q-card
   margin auto
-  max-width 1000px
+  max-width 900px
 </style>

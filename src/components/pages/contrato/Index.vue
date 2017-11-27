@@ -298,18 +298,17 @@ export default {
 
       if (this.value.id) {
         this.$refs.modalEditor.open()
-        return
       }
     },
     submit(event, done) {
       // this.$v.value.$touch()
       if (this.$v.value.$error) {
-        done()
+        done && done()
         Toast.create("Dados inválidos")
         return
       }
 
-      done()
+      done && done()
       Toast.create("Salvo")
     }
   },

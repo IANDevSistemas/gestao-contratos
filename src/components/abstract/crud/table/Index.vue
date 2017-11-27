@@ -1,61 +1,85 @@
 <script>
+import CrudTableActions from "./Actions"
+
+import { LocalStorage } from "quasar"
+
+import Vue from "vue"
+
 import Vuetable from "vuetable-2"
 import VuetablePagination from "vuetable-2/src/components/VuetablePagination"
 import VuetablePaginationInfo from "vuetable-2/src/components/VuetablePaginationInfo"
 
+import { computed } from "@/abstract/util/mixins"
 import kebabCase from "lodash/kebabCase"
 import merge from "lodash/merge"
 import services from "service/all"
 
 export default {
   components: {
+    CrudTableActions,
     Vuetable,
     VuetablePagination,
     VuetablePaginationInfo
   },
-  props: {
-    serviceName: {
-      required: true
-    },
-    filter: {
-      default() {
-        return {}
-      }
-    }
-  },
   data() {
     return {
+      filter: LocalStorage.get.item(`${location.path}/filter`) || {},
       pagination: {
         value: 1,
-        max: 12,
+        max: 1,
         size: 5
       }
     }
   },
   computed: {
-    services() {
-      return services
-    },
     service() {
       return services[this.serviceName]
+    },
+    services() {
+      return services
     }
   },
   watch: {
     "pagination.value"(value) {
       this.$refs.table.changePage(value)
-    },
-    filter(value) {
-      this.refresh()
     }
   },
   methods: {
     refresh() {
-      this.$refs.table.refresh()
+      if (this.$refs.table) {
+        this.$refs.table.refresh()
+      }
     }
+  },
+  created() {
+    this.refresh()
   },
   render(h) {
     const self = this
     const config = self.config || {}
+
+    const filter = h("crud-filter", {
+      ref: "filter",
+      props: {
+        value: self.filter
+      },
+      on: {
+        input(value) {
+          self.filter = value
+          LocalStorage.set(`${location.path}/filter`, value)
+          self.refresh()
+        }
+      }
+    })
+
+    const actions = h("crud-table-actions", {
+      ref: "actions",
+      on: {
+        add() {
+          self.$router.push(`${self.$route.path}/form/`)
+        }
+      }
+    })
 
     const vuetable = {
       ref: "table",
@@ -110,7 +134,7 @@ export default {
           self.$refs.paginationInfo.setPaginationData(data)
         },
         "vuetable:row-dblclicked"(dataItem, event) {
-          self.$emit("edit", JSON.parse(JSON.stringify(dataItem)))
+          self.$router.push(`${self.$route.path}/form/${props.rowData.id}`)
         }
       },
       scopedSlots: {
@@ -125,7 +149,7 @@ export default {
             },
             on: {
               click(data) {
-                self.$emit("edit", JSON.parse(JSON.stringify(props.rowData)))
+                self.$router.push(`${self.$route.path}/form/${props.rowData.id}`)
               }
             }
           })
@@ -160,7 +184,7 @@ export default {
     const cols = [paginationInfo, pagination]
     const row = h("div", { class: "row q-data-table-toolbar bottom-toolbar reverse-wrap items-center justify-end" }, cols)
 
-    return h("section", {}, [table, row])
+    return h("section", {}, [filter, actions, table, row])
   }
 }
 </script>

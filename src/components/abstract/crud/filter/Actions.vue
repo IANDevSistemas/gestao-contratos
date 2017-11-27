@@ -1,7 +1,7 @@
 <template>
   <div class="actions">
-    <q-btn flat small round @click="$emit('filter', $data)" color="primary" icon="filter_list" />
-    <q-btn flat small round @click="$emit('clear', $data)" color="primary" icon="clear" />
+    <q-btn flat small round @click.stop="$emit('filter')" color="primary" icon="filter_list" />
+    <q-btn flat small round @click.stop="$emit('clear')" color="primary" icon="clear" />
   </div>
 </template>
 <script>

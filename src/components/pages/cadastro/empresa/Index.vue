@@ -1,17 +1,17 @@
 <script>
 import Crud from "@/abstract/crud"
-import CrudFilter from "./Filter"
-import CrudForm from "./Form"
-import CrudTable from "./Table"
+// import CrudFilter from "./Filter"
+// import CrudForm from "./form"
+// import CrudTable from "./table"
 
 import { computed } from "@/abstract/util/mixins"
 
 export default {
   extends: Crud,
   components: {
-    CrudFilter,
-    CrudForm,
-    CrudTable
+    // CrudFilter,
+    // CrudForm,
+    // CrudTable
   },
   ...computed({
     title: "Cadastro Empresa",

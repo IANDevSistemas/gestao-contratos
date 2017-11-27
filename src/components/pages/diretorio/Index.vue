@@ -78,7 +78,7 @@
 
 <script>
 import CrudFormDiretorio from "./form/Diretorio"
-import CrudFormContrato from "../contrato/form/Contrato"
+import CrudFormContrato from "../contrato/Contrato"
 
 import { Dialog } from "quasar"
 import VViewList from "./view/list/List"

@@ -2,6 +2,7 @@
   "editor.formatOnSave": true,
   "files.eol": "\n",
   "editor.tabSize": 2,
+  
   // prettier
   "javascript.format.enable": false,
   "prettier.eslintIntegration": true,
@@ -9,6 +10,8 @@
   "prettier.useTabs": false,
   "prettier.printWidth": 200,
   "vetur.format.defaultFormatter.html": "js-beautify-html",
+  
+  // stylusSupremacy
   "stylusSupremacy.insertColons": false,
   "stylusSupremacy.insertSemicolons": false,
   "stylusSupremacy.insertBraces": false,

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <crud-form-actions @back="$emit('back')" @copy="() => { value.id = null }" @clear="$emit('input', {})" @save="$emit('save')" @delete="$emit('delete')" />
+    <crud-form-actions @back="$router.go(-1)" @copy="() => { value.id = null }" @clear="value = {}" @save="onSave()" @delete="onDelete()" />
 
     <h6>Informações Básicas</h6>
 
@@ -129,9 +129,7 @@ export default {
     }
   },
   ...computed({
-    services: {
-      municipio: serviceMunicipio
-    }
+    serviceName: "empresa"
   }),
   validations: {
     value: {

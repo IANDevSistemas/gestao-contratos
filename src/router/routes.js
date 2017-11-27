@@ -1,8 +1,29 @@
 function load(component) {
   // '@' is aliased to src/components
-  return () =>
-    import (`@/pages${component || ""}/Index.vue`)
+  return () => import(`@/pages${component || ""}/Index.vue`)
   // return () => import(`@/pages/${component}/`)
+}
+
+function crudRouter(name) {
+  return {
+    path: `/cadastro/${name}`,
+    component: load(`/cadastro/${name}`),
+    children: [
+      {
+        name: "name",
+        path: "",
+        component: load(`/cadastro/${name}/table`)
+      },
+      {
+        path: "form",
+        component: load(`/cadastro/${name}/form`)
+      },
+      {
+        path: "form/:id",
+        component: load(`/cadastro/${name}/form`)
+      }
+    ]
+  }
 }
 
 export default [
@@ -45,7 +66,6 @@ export default [
     component: load("/contrato/responsavel")
   },
 
-
   // Diretório
   {
     name: "diretorio",
@@ -54,10 +74,7 @@ export default [
   },
 
   // Empresa
-  {
-    path: "/cadastro/empresa",
-    component: load("/cadastro/empresa")
-  },
+  crudRouter("empresa"),
 
   // Tipo Contrato
   {

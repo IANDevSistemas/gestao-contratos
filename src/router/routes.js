@@ -10,7 +10,7 @@ function crudRouter(name) {
     component: load(`/cadastro/${name}`),
     children: [
       {
-        name: "name",
+        name: `${name}`,
         path: "",
         component: load(`/cadastro/${name}/table`)
       },
@@ -27,6 +27,23 @@ function crudRouter(name) {
 }
 
 export default [
+  // Diretório
+  {
+    path: "/diretorio/:id",
+    component: load("/diretorio"),
+    children: [
+      {
+        name: "diretorio",
+        path: "",
+        component: load("/diretorio/explorer")
+      },
+      {
+        path: "form",
+        component: load("/diretorio/form")
+      }
+    ]
+  },
+
   // Contrato
   {
     name: "contrato",
@@ -55,23 +72,25 @@ export default [
   crudRouter("tipo-contrato"),
   crudRouter("motivo-contrato"),
   crudRouter("pessoa"),
-  crudRouter("diretorio"),
 
   // Raíz
   {
+    name: "/",
     path: "/",
     component: load()
   },
 
   // Login
   {
-    path: "/login/*",
+    name: "login",
+    path: "/login",
     component: load("/login")
   },
 
   // Logout
   {
-    path: "/logout/*",
+    name: "logout",
+    path: "/logout",
     component: load("/logout")
   },
 

@@ -46,10 +46,15 @@
 
 <script>
 import { mapGetters } from "vuex"
+import router from "router"
 import store from "store"
+// import { sync } from "vuex-router-sync"
+
+// const unsync = sync(store, router)
 
 export default {
   store,
+  router,
   computed: {
     ...mapGetters(["loggedIn"]),
     loginRoute() {
@@ -98,6 +103,9 @@ export default {
       }
       self.$router.push(self.loginRoute)
     }
+  },
+  destroyed() {
+    // unsync()
   }
 }
 </script>

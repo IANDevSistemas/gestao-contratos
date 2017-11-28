@@ -11,7 +11,6 @@ import VMoney from "v-money"
 import Vue from "vue"
 import VueTheMask from "vue-the-mask"
 import Vuelidate from "vuelidate"
-import router from "router"
 
 // === DEFAULT / CUSTOM STYLE ===
 // WARNING! always comment out ONE of the two require() calls below.
@@ -52,7 +51,6 @@ Quasar.start(() => {
   /* eslint-disable no-new */
   new Vue({
     el: "#q-app",
-    router,
     render(h) {
       const render = require("./App").default
       return h(render)

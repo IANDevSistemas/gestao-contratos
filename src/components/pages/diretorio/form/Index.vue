@@ -32,6 +32,7 @@
 
 <script>
 import AbsctractCrudForm from "@/abstract/crud/form"
+import { computed } from "@/abstract/util/mixins"
 import { required } from "vuelidate/lib/validators"
 
 const cores = [
@@ -71,14 +72,13 @@ export default {
       cor: {}
     }
   },
+  ...computed({
+    serviceName: "diretorio",
+    cores: cores.map(e => ({ icon: "folder", leftColor: e, value: e, label: e }))
+  }),
   watch: {
     favorito(value) {
       this.value.favorito = value ? "S" : "N"
-    }
-  },
-  computed: {
-    cores() {
-      return cores.map(e => ({ icon: "folder", leftColor: e, value: e, label: e }))
     }
   }
 }

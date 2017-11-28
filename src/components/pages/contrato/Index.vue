@@ -9,7 +9,7 @@
             </q-toolbar-title>
           </q-toolbar>
 
-          <crud-form-actions @back="$emit('back')" @copy="() => { value.id = null }" @clear="$emit('input', {})" @save="$emit('save')" @delete="$emit('delete')" />
+          <crud-form-actions title="" @back="$router.go(-1)" @copy="() => { value.id = null }" @clear="value = {}" @save="onSave()" @delete="onDelete()" />
 
           <!-- Descrição -->
           <q-field :error="$v.value.descricao.$error" error-label="Entre com uma descrição válida" :count="255">
@@ -201,11 +201,12 @@
 <script>
 import { Dialog, Toast } from "quasar"
 import { between, email, minValue, required } from "vuelidate/lib/validators"
+import { baseURL } from "service/config"
+import { computed } from "@/abstract/util/mixins"
 import moment from "moment"
 import AbsctractCrudForm from "@/abstract/crud/form"
 import Vue from "vue"
 import VueHtml5Editor from "vue-html5-editor"
-import { baseURL } from "service/config"
 
 // ID do contrato deve ser passado de forma dinamica então é criado um encapsulador
 let id = ""
@@ -274,6 +275,9 @@ export default {
       objetocontrato: {}
     }
   },
+  ...computed({
+    serviceName: "contrato"
+  }),
   methods: {
     change() {
       console.log(arguments)
@@ -369,7 +373,4 @@ export default {
   &:hover
     color $grey-4
     cursor pointer
-
-section
-  margin 20px auto
 </style>

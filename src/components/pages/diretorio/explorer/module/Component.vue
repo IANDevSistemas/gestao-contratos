@@ -7,7 +7,7 @@
         <q-context-menu @open="$emit('input', diretorio)">
           <q-list link separator style="min-width: 150px; max-height: 300px;">
             <q-item>
-              <q-item-main label="Editar" @click="$emit('edit', diretorio)" />
+              <q-item-main label="Editar" @click="$emit('edit', 'diretorio')" />
             </q-item>
           </q-list>
         </q-context-menu>
@@ -19,11 +19,11 @@
     <h6>Contratos</h6>
     <div class="row xs-gutter">
       <div v-for="(contrato, index) in contratos" :key="index" class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
-        <v-contrato :model="contrato" :color="value === contrato ? 'primary' : ''" @click="$emit('input', contrato)" @dblclick="$emit('edit', contrato)" />
+        <v-contrato :model="contrato" :color="value === contrato ? 'primary' : ''" @click="$emit('input', contrato)" @dblclick="$emit('edit', 'contrato')" />
         <q-context-menu @open="$emit('input', contrato)">
           <q-list link separator style="min-width: 150px; max-height: 300px;">
             <q-item>
-              <q-item-main label="Editar" @click="$emit('edit', contrato)" />
+              <q-item-main label="Editar" @click="$emit('edit', 'contrato')" />
             </q-item>
           </q-list>
         </q-context-menu>

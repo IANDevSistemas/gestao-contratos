@@ -108,7 +108,6 @@ export default {
               // Etapa 3: Mostra a mensagem de sucesso e volta para a tabela
               dialog2.close()
               // Dialog.create({ title: "Sucesso!", message: "Os dados foram removidos com sucesso" })
-              console.log(this.$router)
               this.$router.go(-1)
             })
             .catch(error => {

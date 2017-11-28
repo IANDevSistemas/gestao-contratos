@@ -46,18 +46,22 @@ export default [
 
   // Contrato
   {
-    name: "contrato",
     path: "/contrato/:id",
     component: load("/contrato"),
     children: [
+      // {
+      //   name: "contrato-responsavel",
+      //   path: "responsavel",
+      //   component: load("/contrato/responsavel")
+      // },
       {
-        name: "contrato-responsavel",
-        path: "/contrato/:id/responsavel",
-        component: load("/contrato/responsavel")
+        name: "contrato",
+        path: "",
+        component: load("/contrato/form")
       },
       {
         name: "contrato-documento",
-        path: "/contrato/:id/documento",
+        path: "documento",
         component: load("/contrato/documento")
       }
     ]

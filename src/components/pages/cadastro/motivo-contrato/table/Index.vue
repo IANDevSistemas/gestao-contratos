@@ -14,8 +14,8 @@ export default {
       props: {
         fields: [
           {
-            name: "idtipocontrato",
-            sortField: "idtipocontrato",
+            name: "id",
+            sortField: "id",
             title: "Cód."
           },
           {

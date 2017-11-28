@@ -274,4 +274,3 @@ export default {
     border none
     padding 0
 </style>
-

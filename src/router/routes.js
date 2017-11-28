@@ -30,21 +30,24 @@ export default [
   // Contrato
   {
     name: "contrato",
-    path: "/diretorio/:iddiretorio/contrato/:id",
+    path: "/contrato/:id",
+    component: load("/contrato"),
+    children: [
+      {
+        name: "contrato-responsavel",
+        path: "/contrato/:id/responsavel",
+        component: load("/contrato/responsavel")
+      },
+      {
+        name: "contrato-documento",
+        path: "/contrato/:id/documento",
+        component: load("/contrato/documento")
+      }
+    ]
+  },
+  {
+    path: "/contrato",
     component: load("/contrato")
-  },
-
-  {
-    name: "contrato-responsavel",
-    path: "/contrato/:id/responsavel",
-    component: load("/contrato/responsavel")
-  },
-
-  // Diretório
-  {
-    name: "diretorio",
-    path: "/diretorio/:id",
-    component: load("/diretorio")
   },
 
   // Cadastros
@@ -52,6 +55,7 @@ export default [
   crudRouter("tipo-contrato"),
   crudRouter("motivo-contrato"),
   crudRouter("pessoa"),
+  crudRouter("diretorio"),
 
   // Raíz
   {
@@ -61,19 +65,11 @@ export default [
 
   // Login
   {
-    path: "/login",
-    component: load("/login")
-  },
-  {
     path: "/login/*",
     component: load("/login")
   },
 
   // Logout
-  {
-    path: "/logout",
-    component: load("/logout")
-  },
   {
     path: "/logout/*",
     component: load("/logout")

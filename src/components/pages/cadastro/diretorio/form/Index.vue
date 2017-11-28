@@ -2,12 +2,7 @@
   <section>
     <q-card>
       <q-card-main>
-        <q-toolbar inverted>
-          <q-toolbar-title>
-            {{value.id ? "Editando" : "Incluindo"}}
-          </q-toolbar-title>
-        </q-toolbar>
-        <crud-form-actions @back="$emit('back')" @copy="() => { value.id = null }" @clear="$emit('input', {})" @save="$emit('save')" @delete="$emit('delete')" />
+        <crud-form-actions :title="value.id  ? 'Alterando #' + value.id : 'Incluindo'" @back="$router.go(-1)" @copy="() => { value.id = null }" @clear="value = {}" @save="onSave()" @delete="onDelete()" />
 
         <!-- Descrição -->
         <q-field :error="$v.value.descricao.$error" error-label="Entre com uma descrição válida" :count="255">

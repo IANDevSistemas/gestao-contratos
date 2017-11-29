@@ -63,6 +63,11 @@ export default [
         name: "contrato-documento",
         path: "documento",
         component: load("/contrato/documento")
+      },
+      {
+        name: "contrato-valor",
+        path: "valor",
+        component: load("/contrato/valor")
       }
     ]
   },

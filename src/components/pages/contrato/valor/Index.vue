@@ -2,7 +2,7 @@
   <section>
     <q-card>
       <q-card-title>
-        {{`#${contrato.id} - ${contrato.descricao}`}}
+        {{`${contrato.descricao} #${contrato.id}`}}
       </q-card-title>
       <q-card-actions>
         <div class="col">
@@ -32,7 +32,7 @@
       </vuetable>
     </q-card>
 
-    <q-modal ref="modal" :content-css="{ minWidth: '100vw', minHeight: '100vh' }">
+    <q-modal ref="modal" :content-css="{ minWidth: '320px', minHeight: '200px' }">
       <q-modal-layout>
         <q-toolbar slot="header">
           <div class="q-toolbar-title">{{modal.title}}</div>
@@ -40,12 +40,7 @@
             <q-icon name="close" />
           </q-btn>
         </q-toolbar>
-        <iframe ref="iframe" @load="$refs.iframe.src && $refs.modal.open()" />
       </q-modal-layout>
-    </q-modal>
-
-    <q-modal ref="uploader" position="bottom" :content-css="{ minWidth: '320px', minHeight: '200px' }">
-      <q-uploader v-show="contrato.id" multiple :url="baseURL" :url-factory="urlFactory" @finish="refresh()" />
     </q-modal>
   </section>
 </template>
@@ -59,7 +54,7 @@ import merge from "lodash/merge"
 import qs from "qs"
 import services from "service/all"
 
-const service = services.contratoDocumento
+const service = services.contratoValor
 
 export default {
   components: {
@@ -109,6 +104,26 @@ export default {
 
       switch (action) {
         case "view":
+          Dialog.create({
+            title: "Prompt",
+            message: "Modern HTML5 Single Page Application front-end framework on steroids.",
+            form: {
+              name: { type: "text", label: "Textbox", model: "" },
+              age: { type: "number", label: "Numeric", model: 10, min: 5, max: 90 },
+              tags: { type: "chips", label: "Chips", model: ["Joe", "John"] },
+              comments: { type: "textarea", label: "Textarea", model: "" }
+            },
+            buttons: [
+              "Cancelar",
+              {
+                label: "Pagar",
+                handler(data) {
+                  Toast.create("Returned " + JSON.stringify(data))
+                }
+              }
+            ]
+          })
+
           this.modal.title = item.descricao
           this.$refs.iframe.src = `${baseURL}?${qs.stringify(query)}`
           break

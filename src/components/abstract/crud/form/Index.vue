@@ -147,7 +147,7 @@ export default {
   },
   created() {
     const { id } = this.$route.params
-    if (id) {
+    if (id && Boolean(Number(id))) {
       this.service
         .get({ params: { id } })
         .then(({ data }) => {

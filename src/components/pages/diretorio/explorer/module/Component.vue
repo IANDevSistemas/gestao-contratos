@@ -22,8 +22,14 @@
         <v-contrato :model="contrato" :color="value === contrato ? 'primary' : ''" @click="$emit('input', contrato)" @dblclick="$emit('edit', 'contrato')" />
         <q-context-menu @open="$emit('input', contrato)">
           <q-list link separator style="min-width: 150px; max-height: 300px;">
-            <q-item>
-              <q-item-main label="Editar" @click="$emit('edit', 'contrato')" />
+            <q-item :to="{ name: 'contrato', params: { id: contrato.id } }">
+              <q-item-main label="Editar" />
+            </q-item>
+            <q-item :to="{ name: 'contrato-documento', params: { id: contrato.id } }">
+              <q-item-main label="Documentos" />
+            </q-item>
+            <q-item :to="{ name: 'contrato-valor', params: { id: contrato.id } }">
+              <q-item-main label="Valores" />
             </q-item>
           </q-list>
         </q-context-menu>

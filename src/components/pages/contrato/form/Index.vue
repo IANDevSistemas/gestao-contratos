@@ -371,4 +371,7 @@ section
   &:hover
     color $grey-4
     cursor pointer
+
+img
+  width 100%
 </style>

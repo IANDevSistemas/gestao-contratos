@@ -5,9 +5,10 @@
       <div v-for="(diretorio, index) in diretorios" :key="index" class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
         <v-diretorio :model="diretorio" :color="value === diretorio ? 'primary' : diretorio.cor" @click="$emit('input', diretorio)" @dblclick="$emit('change', diretorio)" />
         <q-context-menu @open="$emit('input', diretorio)">
-          <q-list link separator style="min-width: 150px; max-height: 300px;">
+          <q-list link separator style="min-width: 200px; max-height: 300px;">
             <q-item>
               <q-item-main label="Editar" @click="$emit('edit', 'diretorio')" />
+              <q-item-side icon="edit" />
             </q-item>
           </q-list>
         </q-context-menu>
@@ -21,15 +22,18 @@
       <div v-for="(contrato, index) in contratos" :key="index" class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
         <v-contrato :model="contrato" :color="value === contrato ? 'primary' : ''" @click="$emit('input', contrato)" @dblclick="$emit('edit', 'contrato')" />
         <q-context-menu @open="$emit('input', contrato)">
-          <q-list link separator style="min-width: 150px; max-height: 300px;">
+          <q-list link separator style="min-width: 200px; max-height: 300px;">
             <q-item :to="{ name: 'contrato', params: { id: contrato.id } }">
               <q-item-main label="Editar" />
+              <q-item-side icon="edit" />
             </q-item>
             <q-item :to="{ name: 'contrato-documento', params: { id: contrato.id } }">
               <q-item-main label="Documentos" />
+              <q-item-side icon="attachment" />
             </q-item>
             <q-item :to="{ name: 'contrato-valor', params: { id: contrato.id } }">
               <q-item-main label="Valores" />
+              <q-item-side icon="attach_money" />
             </q-item>
           </q-list>
         </q-context-menu>

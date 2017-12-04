@@ -2,7 +2,7 @@
   <section>
     <q-card>
       <q-card-title>
-        {{`${contrato.descricao} #${contrato.id}`}}
+        {{`#${contrato.id} - ${contrato.descricao}`}}
       </q-card-title>
       <q-card-actions>
         <div class="col">
@@ -13,8 +13,8 @@
         <div class="col">
           <div class="row justify-end">
             <div class="col-2 justify-end">
-              <q-btn round icon="add" color="primary" @click="$refs.uploader.open()">
-                <q-tooltip>Novo</q-tooltip>
+              <q-btn round icon="add" color="primary" @click="$refs.modalAdd.open()">
+                <q-tooltip>Adicionar</q-tooltip>
               </q-btn>
             </div>
           </div>
@@ -32,24 +32,34 @@
       </vuetable>
     </q-card>
 
-    <q-modal ref="modal" :content-css="{ minWidth: '320px', minHeight: '200px' }">
+    <q-modal ref="modalAdd" :content-css="{ minWidth: '800px', minHeight: '100vh' }">
       <q-modal-layout>
         <q-toolbar slot="header">
-          <div class="q-toolbar-title">{{modal.title}}</div>
-          <q-btn flat @click="$refs.modal.close()">
+          <div class="q-toolbar-title">Adicionar Valores</div>
+          <q-btn flat @click="$refs.modalAdd.close()">
             <q-icon name="close" />
           </q-btn>
         </q-toolbar>
+
+        <add-form :idcontrato="contrato.id" />
       </q-modal-layout>
+    </q-modal>
+
+    <q-modal ref="modalPay">
+      <q-btn color="primary" label="Close" />
     </q-modal>
   </section>
 </template>
 
 <script>
+import AddForm from "./AddForm"
 import { Dialog } from "quasar"
 import Vuetable from "vuetable-2"
 import { baseURL } from "service/config"
+import isNumber from "lodash/isNumber"
 import kebabCase from "lodash/kebabCase"
+import moment from "moment"
+import numeral from "numeral"
 import merge from "lodash/merge"
 import qs from "qs"
 import services from "service/all"
@@ -58,27 +68,23 @@ const service = services.contratoValor
 
 export default {
   components: {
+    AddForm,
     Vuetable
   },
   data() {
     return {
       baseURL,
-      modal: {
-        title: ""
-      },
       contrato: {},
       table: {
         fields: [
-          {
-            name: "descricao",
-            sortField: "descricao",
-            title: "Descrição"
-          },
-          {
-            name: "__slot:actions",
-            title: "",
-            width: "160px"
-          }
+          { name: "situacao", sortField: "situacao", title: "Situação", callback: "situacaoFormatter" },
+          { name: "datareferenciainicial", sortField: "datareferenciainicial", title: "Ref. Inicio", callback: "dateFormatter" },
+          { name: "datareferenciafinal", sortField: "datareferenciafinal", title: "Ref. Fim", callback: "dateFormatter" },
+          { name: "valor", sortField: "valor", title: "Valor", callback: "numberFormatter" },
+          { name: "datavencimento", sortField: "datavencimento", title: "Vencimento", callback: "dateFormatter" },
+          { name: "valorpago", sortField: "valorpago", title: "Valor Pago", callback: "numberFormatter" },
+          { name: "datapagamento", sortField: "datapagamento", title: "Data Pagamento", callback: "dateFormatter" },
+          { name: "__slot:actions", title: "", width: "160px" }
         ],
         css: {
           tableClass: {
@@ -105,13 +111,11 @@ export default {
       switch (action) {
         case "view":
           Dialog.create({
-            title: "Prompt",
-            message: "Modern HTML5 Single Page Application front-end framework on steroids.",
+            title: "Pagar",
+            message: "Gravar o pagamento do valor",
             form: {
-              name: { type: "text", label: "Textbox", model: "" },
-              age: { type: "number", label: "Numeric", model: 10, min: 5, max: 90 },
-              tags: { type: "chips", label: "Chips", model: ["Joe", "John"] },
-              comments: { type: "textarea", label: "Textarea", model: "" }
+              valorpago: { type: "text", label: "Valor Pago", model: item.valor, money: {} },
+              datapagamento: { type: "date", label: "Data Pagamento" }
             },
             buttons: [
               "Cancelar",
@@ -124,13 +128,6 @@ export default {
             ]
           })
 
-          this.modal.title = item.descricao
-          this.$refs.iframe.src = `${baseURL}?${qs.stringify(query)}`
-          break
-
-        case "download":
-          query.contentDisposition = "attachment"
-          this.$refs.iframe.src = `${baseURL}?${qs.stringify(query)}`
           break
 
         case "delete":
@@ -169,12 +166,17 @@ export default {
       this.$refs.table.refresh()
     },
     httpFetch(url, options) {
-      const { params } = options
-      if (!params.sort) {
-        delete params.sort
-      }
-
-      const args = merge({}, { params: { idcontrato: this.contrato.id || 0 }, options })
+      const args = merge(
+        {},
+        {
+          params: {
+            action: "execTarefa",
+            apelido: "GESTAOCONTRATOS-service-contrato-valor-adicionar",
+            idcontrato: this.contrato.id || 0
+          },
+          options
+        }
+      )
       // console.log(self.filter, args, options)
       return service.get(args)
     },
@@ -191,6 +193,18 @@ export default {
 
         resolve(new URL(`${baseURL}?${qs.stringify(query)}`))
       })
+    },
+
+    // Formatters
+    dateFormatter(value) {
+      const date = moment(value)
+      return date.isValid() ? date.format("DD/MM/YYYY") : ""
+    },
+    numberFormatter(value) {
+      return isNumber(value) ? numeral(value).format("0,0.00") : "-"
+    },
+    situacaoFormatter(value) {
+      return ["Ativo", "Inativo", "Pagamento"]["AIP".indexOf(value)]
     }
   },
   created() {
@@ -218,7 +232,7 @@ export default {
 <style lang="stylus" scoped>
 section
   margin auto
-  max-width 700px
+  max-width 1000px
 
 table
   width 100%

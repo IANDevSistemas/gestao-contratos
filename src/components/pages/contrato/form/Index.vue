@@ -23,11 +23,12 @@
                 Responsáveis
               </q-btn>
             </router-link> -->
-            <router-link :to="{ name: 'contrato-documento' }">
-              <q-btn flat>
-                Documentos
-              </q-btn>
-            </router-link>
+            <q-btn flat @click="$router.push({ name: 'contrato-documento' })">
+              Documentos
+            </q-btn>
+            <q-btn flat @click="$router.push({ name: 'contrato-valor' })">
+              Valores
+            </q-btn>
           </q-toolbar>
 
           <!-- Pessoa -->

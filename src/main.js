@@ -10,13 +10,13 @@ import "moment/locale/pt-br"
 import "numeral/locales/pt-br"
 
 import Quasar, * as AllQuasar from "quasar"
-import VMoney from "v-money"
+import { VMoney } from "v-money"
 import Vue from "vue"
 import VueTheMask from "vue-the-mask"
 import Vuelidate from "vuelidate"
 
-import numeral from "numeral"
 import moment from "moment"
+import numeral from "numeral"
 
 // === DEFAULT / CUSTOM STYLE ===
 // WARNING! always comment out ONE of the two require() calls below.

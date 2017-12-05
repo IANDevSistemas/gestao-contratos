@@ -120,5 +120,17 @@ export default {
 
 .vue-html5-editor>.toolbar>ul>li[title='full screen'], .vue-html5-editor>.toolbar>ul>li[title='info']
   display none
+
+th
+  text-align center
+
+text-right
+  text-align right
+
+text-left
+  text-align left
+
+text-center
+  text-align center
 </style>
 

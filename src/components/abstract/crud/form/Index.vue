@@ -60,11 +60,15 @@ export default {
       // Etapa 1: Bloqueia a tela e efetua a ação
       const dialog = Dialog.create({ title: "Salvando...", message: "Aguarde enquanto os dados são salvos.", ...dialogBlock })
 
+      console.log(this.$router)
+      console.log(this.$route)
+
       this.save()
-        .then(response => {
+        .then(data => {
           // Etapa 3: Mostra a mensagem de sucesso e volta para a tabela
           dialog.close()
           Dialog.create({ title: "Sucesso !", message: "Os dados foram salvos com sucesso." })
+          this.value.id = data.msg
         })
         .catch(error => {
           dialog.close()
@@ -146,7 +150,7 @@ export default {
     }
   },
   created() {
-    const { id } = this.$route.params
+    let { id } = this.$route.params
     if (id && Boolean(Number(id))) {
       this.service
         .get({ params: { id } })

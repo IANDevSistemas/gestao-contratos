@@ -1,38 +1,17 @@
 <template>
   <section>
-    <q-card>
-      <q-card-title>
-        {{`#${contrato.id} - ${contrato.descricao}`}}
-      </q-card-title>
-      <q-card-actions>
-        <div class="col">
-          <q-btn @click="$router.go(-1)" small flat round color="primary" icon="arrow_back">
-            <q-tooltip>Voltar</q-tooltip>
-          </q-btn>
-        </div>
-        <div class="col">
-          <div class="row justify-end">
-            <div class="col-2 justify-end">
-              <q-btn round icon="add" color="primary" @click="$refs.uploader.open()">
-                <q-tooltip>Novo</q-tooltip>
-              </q-btn>
-            </div>
-          </div>
-        </div>
-      </q-card-actions>
-      <vuetable ref="table" :http-fetch="httpFetch" :fields="table.fields" :css="table.css" pagination-path="">
-        <template slot="actions" slot-scope="props">
-          <q-toolbar color="primary" inverted>
-            <q-btn round small flat icon="remove_red_eye" @click="onAction('view', props.rowData, props.rowIndex)" />
-            <q-btn round small flat icon="cloud_download" @click="onAction('download', props.rowData, props.rowIndex)" />
-            <!-- <q-btn round small flat icon="mode_edit" @click="onAction('edit', props.rowData, props.rowIndex)" /> -->
-            <q-btn round small flat icon="delete_forever" @click="onAction('delete', props.rowData, props.rowIndex)" />
-          </q-toolbar>
-        </template>
-      </vuetable>
-    </q-card>
+    <crud-table-actions @add="$refs.uploader.open()" />
+    <vuetable ref="table" :http-fetch="httpFetch" :fields="table.fields" :css="table.css" pagination-path="">
+      <template slot="actions" slot-scope="props">
+        <q-toolbar color="primary" inverted>
+          <q-btn round small flat icon="remove_red_eye" @click="onAction('view', props.rowData, props.rowIndex)" />
+          <q-btn round small flat icon="cloud_download" @click="onAction('download', props.rowData, props.rowIndex)" />
+          <q-btn round small flat icon="delete_forever" @click="onAction('delete', props.rowData, props.rowIndex)" />
+        </q-toolbar>
+      </template>
+    </vuetable>
 
-    <q-modal ref="modal" :content-css="{ minWidth: '100vw', minHeight: '100vh' }">
+    <q-modal ref="modal" :content-css="{ minWidth: '80vw', minHeight: '100vh' }">
       <q-modal-layout>
         <q-toolbar slot="header">
           <div class="q-toolbar-title">{{modal.title}}</div>
@@ -51,6 +30,8 @@
 </template>
 
 <script>
+import CrudTableActions from "@/abstract/crud/table/Actions"
+
 import { Dialog } from "quasar"
 import Vuetable from "vuetable-2"
 import { baseURL } from "service/config"
@@ -63,6 +44,7 @@ const service = services.contratoDocumento
 
 export default {
   components: {
+    CrudTableActions,
     Vuetable
   },
   data() {
@@ -72,6 +54,7 @@ export default {
         title: ""
       },
       contrato: {},
+      filter: {},
       table: {
         fields: [
           {
@@ -99,7 +82,7 @@ export default {
   },
   methods: {
     onAction(action, item, index) {
-      console.log(action, item, index)
+      // console.log(action, item, index)
       const query = {
         action: "execFunction",
         apelido: "GESTAOCONTRATOS-service-contrato-documento-arquivo",
@@ -180,20 +163,10 @@ export default {
   },
   created() {
     const { id } = this.$route.params
-    if (id) {
-      services.contrato
-        .get({ params: { id } })
-        .then(({ data }) => {
-          this.contrato = data || {}
-        })
-        .catch(error => {
-          // todo: add some message
-          console.error(error)
-        })
-    }
+    this.contrato = { id }
   },
   watch: {
-    contrato() {
+    filter() {
       this.refresh()
     }
   }
@@ -201,10 +174,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-section
-  margin auto
-  max-width 700px
-
 table
   width 100%
 

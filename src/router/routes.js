@@ -48,23 +48,32 @@ export default [
 
   // Contrato
   {
-    path: "/contrato",
+    path: "/contrato/:id",
     component: load("/contrato"),
     children: [
       {
+        path: "",
         name: "contrato",
-        path: ":idcontrato",
-        component: load("/contrato/form"),
-        children: [
-          {
-            name: "contrato-documento",
-            path: "documento",
-            component: load("/contrato/documento")
-          },
-          crudRouter("valor", "/contrato")
-        ]
+        component: load("/contrato/form")
+      },
+      {
+        name: "contrato.documento",
+        path: "documento",
+        component: load("/contrato/documento")
+      },
+      {
+        name: "contrato.valor",
+        path: "valor",
+        component: load("/contrato/valor")
       }
     ]
+  },
+
+  // Contrato Valor
+  {
+    name: "contrato.valor.edit",
+    path: "/contrato/valor/:id",
+    component: load("/contrato/valor/form")
   },
 
   // Cadastros

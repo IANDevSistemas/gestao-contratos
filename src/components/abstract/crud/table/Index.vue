@@ -1,8 +1,6 @@
 <script>
 import CrudTableActions from "./Actions"
 
-import { LocalStorage } from "quasar"
-
 import Vue from "vue"
 
 import Vuetable from "vuetable-2"
@@ -23,7 +21,7 @@ export default {
   },
   data() {
     return {
-      filter: LocalStorage.get.item(`${location.path}/filter`) || {},
+      filter: {},
       pagination: {
         value: 1,
         max: 1,
@@ -46,10 +44,10 @@ export default {
   },
   methods: {
     add() {
-      this.$router.push(`${self.$route.path}/form/`)
+      this.$router.push(`${this.$route.path}/form/`)
     },
     edit(id) {
-      this.$router.push(`${self.$route.path}/form/${id}`)
+      this.$router.push(`${this.$route.path}/form/${id}`)
     },
     refresh() {
       if (this.$refs.table) {
@@ -57,8 +55,10 @@ export default {
       }
     }
   },
-  created() {
-    this.refresh()
+  watch: {
+    filter(value) {
+      this.refresh()
+    }
   },
   render(h) {
     const self = this
@@ -72,8 +72,6 @@ export default {
       on: {
         input(value) {
           self.filter = value
-          LocalStorage.set(`${location.path}/filter`, value)
-          self.refresh()
         }
       }
     })

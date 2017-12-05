@@ -27,11 +27,11 @@
               <q-item-main label="Editar" />
               <q-item-side icon="edit" />
             </q-item>
-            <q-item :to="{ name: 'contrato-documento', params: { id: contrato.id } }">
+            <q-item :to="{ name: 'contrato.documento', params: { id: contrato.id } }">
               <q-item-main label="Documentos" />
               <q-item-side icon="attachment" />
             </q-item>
-            <q-item :to="{ name: 'contrato-valor', params: { id: contrato.id } }">
+            <q-item :to="{ name: 'contrato.valor', params: { id: contrato.id } }">
               <q-item-main label="Valores" />
               <q-item-side icon="attach_money" />
             </q-item>

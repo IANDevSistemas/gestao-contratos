@@ -50,10 +50,7 @@ export default {
             }
           },
           {
-            name: "__slot:row-action-edit",
-            title: "",
-            titleClass: "center aligned",
-            dataClass: "center aligned"
+            name: "__slot:row-action-edit"
           }
         ]
       }

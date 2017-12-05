@@ -45,6 +45,12 @@ export default {
     }
   },
   methods: {
+    add() {
+      this.$router.push(`${self.$route.path}/form/`)
+    },
+    edit(id) {
+      this.$router.push(`${self.$route.path}/form/${id}`)
+    },
     refresh() {
       if (this.$refs.table) {
         this.$refs.table.refresh()
@@ -76,7 +82,7 @@ export default {
       ref: "actions",
       on: {
         add() {
-          self.$router.push(`${self.$route.path}/form/`)
+          self.add()
         }
       }
     })
@@ -134,7 +140,7 @@ export default {
           self.$refs.paginationInfo.setPaginationData(data)
         },
         "vuetable:row-dblclicked"(dataItem, event) {
-          self.$router.push(`${self.$route.path}/form/${props.rowData.id}`)
+          self.edit()
         }
       },
       scopedSlots: {
@@ -149,7 +155,7 @@ export default {
             },
             on: {
               click(data) {
-                self.$router.push(`${self.$route.path}/form/${props.rowData.id}`)
+                self.edit(props.rowData.id)
               }
             }
           })

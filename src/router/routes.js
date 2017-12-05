@@ -4,23 +4,25 @@ function load(component) {
   // return () => import(`@/pages/${component}/`)
 }
 
-function crudRouter(name) {
+function crudRouter(name, path = "cadastro") {
   return {
-    path: `/cadastro/${name}`,
-    component: load(`/cadastro/${name}`),
+    path: name,
+    component: load(`/${path}/${name}`),
     children: [
       {
-        name: `${name}`,
+        name: `${path}.${name}`.replace("/", "."),
         path: "",
-        component: load(`/cadastro/${name}/table`)
+        component: load(`/${path}/${name}/table`)
       },
       {
         path: "form",
-        component: load(`/cadastro/${name}/form`)
-      },
-      {
-        path: "form/:id",
-        component: load(`/cadastro/${name}/form`)
+        component: load(`/${path}/${name}/form`),
+        children: [
+          {
+            path: ":id",
+            component: load(`/${path}/${name}/form`)
+          }
+        ]
       }
     ]
   }
@@ -46,41 +48,31 @@ export default [
 
   // Contrato
   {
-    path: "/contrato/:id",
+    path: "/contrato",
     component: load("/contrato"),
     children: [
-      // {
-      //   name: "contrato-responsavel",
-      //   path: "responsavel",
-      //   component: load("/contrato/responsavel")
-      // },
       {
         name: "contrato",
-        path: "",
-        component: load("/contrato/form")
-      },
-      {
-        name: "contrato-documento",
-        path: "documento",
-        component: load("/contrato/documento")
-      },
-      {
-        name: "contrato-valor",
-        path: "valor",
-        component: load("/contrato/valor")
+        path: ":idcontrato",
+        component: load("/contrato/form"),
+        children: [
+          {
+            name: "contrato-documento",
+            path: "documento",
+            component: load("/contrato/documento")
+          },
+          crudRouter("valor", "/contrato")
+        ]
       }
     ]
   },
-  {
-    path: "/contrato",
-    component: load("/contrato")
-  },
 
   // Cadastros
-  crudRouter("empresa"),
-  crudRouter("tipo-contrato"),
-  crudRouter("motivo-contrato"),
-  crudRouter("pessoa"),
+  {
+    path: "/cadastro",
+    component: load("/cadastro"),
+    children: [crudRouter("empresa"), crudRouter("tipo-contrato"), crudRouter("motivo-contrato"), crudRouter("pessoa")]
+  },
 
   // Raíz
   {

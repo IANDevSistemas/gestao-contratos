@@ -360,6 +360,7 @@ h6
     color $grey-4
     cursor pointer
 
-img
+* > img
+  max-width 100%
   width 100%
 </style>

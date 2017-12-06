@@ -13,6 +13,11 @@
       </q-toolbar>
 
       <q-scroll-area class="print-hide" slot="left" style="width: 100%; height: 100%;">
+        <q-side-link item to="/diretorio/0">
+          <q-item-side icon="fa-file-text" />
+          <q-item-main label="Contratos" />
+        </q-side-link>
+
         <q-side-link item to="/cadastro/empresa">
           <q-item-side icon="fa-building" />
           <q-item-main label="Empresa" />
@@ -21,17 +26,18 @@
           <q-item-side icon="fa-users" />
           <q-item-main label="Pessoas" />
         </q-side-link>
-        <q-side-link item to="/cadastro/tipo-contrato">
-          <q-item-side icon="fa-file-text" />
-          <q-item-main label="Tipo Contrato" />
-        </q-side-link>
+
         <q-side-link item to="/cadastro/motivo-contrato">
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Motivo Contrato" />
         </q-side-link>
-        <q-side-link item to="/diretorio/0">
+        <q-side-link item to="/cadastro/tipo-contrato">
           <q-item-side icon="fa-file-text" />
-          <q-item-main label="Contratos" />
+          <q-item-main label="Tipo Contrato" />
+        </q-side-link>
+        <q-side-link item to="/cadastro/tipo-responsavel-contrato">
+          <q-item-side icon="fa-file-text" />
+          <q-item-main label="Tipo Responsável" />
         </q-side-link>
       </q-scroll-area>
 

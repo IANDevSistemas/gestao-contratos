@@ -15,7 +15,7 @@
           </q-field>
         </div>
         <div class="col-xs-12 col-sm-2">
-          <crud-filter-actions @filter="$emit('input', JSON.parse(JSON.stringify(value)))" @clear="$emit('input', {})" />
+          <crud-filter-actions @filter="filter" @clear="clear" />
         </div>
       </div>
     </form>
@@ -28,4 +28,3 @@ export default {
   extends: AbstractFilter
 }
 </script>
-

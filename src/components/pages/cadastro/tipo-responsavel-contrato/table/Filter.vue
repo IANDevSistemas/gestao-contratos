@@ -2,10 +2,16 @@
   <section>
     <form @submit.prevent.stop="$emit('input', JSON.parse(JSON.stringify(value)))">
       <div class="row sm-gutter">
-        <div class="col-xs-12 col-sm-8">
+        <div class="col-xs-12 col-sm-6">
           <!-- Descrição -->
           <q-field :count="255">
             <q-input v-model.trim="value.descricao" float-label="Descrição" />
+          </q-field>
+        </div>
+        <div class="col-xs-12 col-sm-2">
+          <!-- Aprovador -->
+          <q-field>
+            <q-select v-model="value.aprovador" float-label="Aprovador" :options="[ { value: 'S', label: 'Sim' }, { value: 'N', label: 'Não' } ]" />
           </q-field>
         </div>
         <div class="col-xs-12 col-sm-2">
@@ -28,4 +34,3 @@ export default {
   extends: AbstractFilter
 }
 </script>
-

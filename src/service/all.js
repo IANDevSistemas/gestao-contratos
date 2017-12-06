@@ -9,6 +9,7 @@ import motivoContrato from "./motivoContrato"
 import municipio from "./municipio"
 import pessoa from "./pessoa"
 import tipoContrato from "./tipoContrato"
+import tipoResponsavelContrato from "./tipoResponsavelContrato"
 
 export default {
   contrato,
@@ -21,5 +22,6 @@ export default {
   motivoContrato,
   municipio,
   pessoa,
-  tipoContrato
+  tipoContrato,
+  tipoResponsavelContrato
 }

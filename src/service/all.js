@@ -1,6 +1,7 @@
 import contrato from "./contrato"
 import contratoDocumento from "./contratoDocumento"
 import contratoResponsavel from "./contratoResponsavel"
+import contratoUnidade from "./contratoUnidade"
 import contratoValor from "./contratoValor"
 import contratoValorAdicionar from "./contratoValorAdicionar"
 import diretorio from "./diretorio"
@@ -15,6 +16,7 @@ export default {
   contrato,
   contratoDocumento,
   contratoResponsavel,
+  contratoUnidade,
   contratoValor,
   contratoValorAdicionar,
   diretorio,

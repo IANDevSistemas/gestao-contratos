@@ -53,8 +53,6 @@
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators"
-import { Dialog } from "quasar"
 import Vue from "vue"
 import Vuetable from "vuetable-2"
 import { baseURL } from "service/config"
@@ -64,7 +62,7 @@ import kebabCase from "lodash/kebabCase"
 import merge from "lodash/merge"
 import moment from "moment"
 import numeral from "numeral"
-import qs from "qs"
+import { required } from "vuelidate/lib/validators"
 import services from "service/all"
 
 let refresh

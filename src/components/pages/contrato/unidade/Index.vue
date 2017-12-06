@@ -1,53 +1,33 @@
 <template>
   <section>
-
     <crud-table-filter v-model="filter" />
-    <crud-table-actions @add="$refs.modal.open()" />
-
     <vuetable ref="table" :http-fetch="httpFetch" :fields="table.fields" :css="table.css" pagination-path="">
       <template slot="actions" slot-scope="props">
-        <q-toolbar color="primary" inverted>
-          <q-btn round small flat icon="mode_edit" @click="onAction('edit', props.rowData, props.rowIndex)" />
-          <q-btn round small flat icon="delete_forever" @click="onAction('delete', props.rowData, props.rowIndex)" />
+        <q-toolbar v-if="!props.rowData.id" class="compact" inverted>
+          <q-spinner v-show="props.rowData.isSaving" />
+          <q-btn v-show="!props.rowData.isSaving && props.rowData.id" round small flat icon="delete_forever" @click="onAction('remove', props.rowData, props.rowIndex)">
+            <q-tooltip>Remover</q-tooltip>
+          </q-btn>
+          <q-btn v-show="!props.rowData.isSaving && !props.rowData.id" round small flat icon="add" @click="onAction('add', props.rowData, props.rowIndex)">
+            <q-tooltip>Adicionar</q-tooltip>
+          </q-btn>
         </q-toolbar>
       </template>
     </vuetable>
 
-    <q-modal ref="modal" @close="refresh()" :content-css="{ minWidth: '800px', minHeight: '100vh' }">
-      <q-modal-layout>
-        <q-toolbar slot="header">
-          <div class="q-toolbar-title">Adicionar Valores</div>
-          <q-btn flat @click="$refs.modal.close()">
-            <q-icon name="close" />
-          </q-btn>
-        </q-toolbar>
-
-        <add :idcontrato="contrato.id" />
-      </q-modal-layout>
-    </q-modal>
   </section>
 </template>
 
 <script>
-import CrudTableActions from "@/abstract/crud/table/Actions"
-import CrudTableFilter from "./Filter"
-import Add from "./Add"
-import { Dialog } from "quasar"
 import Vuetable from "vuetable-2"
 import { baseURL } from "service/config"
-import isNumber from "lodash/isNumber"
 import kebabCase from "lodash/kebabCase"
-import moment from "moment"
-import numeral from "numeral"
 import merge from "lodash/merge"
 import qs from "qs"
-import service from "service/contratoValor"
+import service from "service/contratoUnidade"
 
 export default {
   components: {
-    Add,
-    CrudTableActions,
-    CrudTableFilter,
     Vuetable
   },
   data() {
@@ -57,13 +37,8 @@ export default {
       filter: {},
       table: {
         fields: [
+          { name: "empresaunidade.text", sortField: "empresaunidade", title: "Unidade" },
           { name: "situacao", sortField: "situacao", title: "Situação", callback: "situacaoFormatter" },
-          { name: "datareferenciainicial", sortField: "datareferenciainicial", title: "Ref. Inicio", callback: "dateFormatter" },
-          { name: "datareferenciafinal", sortField: "datareferenciafinal", title: "Ref. Fim", callback: "dateFormatter" },
-          { name: "valor", sortField: "valor", title: "Valor", dataClass: "text-right" },
-          { name: "datavencimento", sortField: "datavencimento", title: "Vencimento", callback: "dateFormatter" },
-          { name: "valorpago", sortField: "valorpago", title: "Valor Pago", dataClass: "text-right" },
-          { name: "datapagamento", sortField: "datapagamento", title: "Data Pagamento", callback: "dateFormatter" },
           { name: "__slot:actions", title: "", width: "110px" }
         ],
         css: {
@@ -80,47 +55,30 @@ export default {
   },
   methods: {
     onAction(action, item, index) {
-      // console.log(action, item, index)
-      const query = {
-        action: "execFunction",
-        apelido: "GESTAOCONTRATOS-service-contrato-documento-arquivo",
-        contentDisposition: "inline",
-        id: item.id
-      }
-
       switch (action) {
-        case "edit":
-          this.$router.push({ name: "contrato.valor.edit", params: { id: item.id } })
+        case "add":
+          service
+            .post({ params: { model: qs.stringfy(item) } })
+            .then(response => {
+              this.refresh()
+            })
+            .catch(error => {
+              this.refresh()
+              // TODO add some message
+              console.error(error)
+            })
           break
         case "delete":
-          Dialog.create({
-            title: "Deletar",
-            message: "Deletar o valor ?",
-            buttons: [
-              {
-                label: "Não",
-                color: "primary",
-                flat: true
-              },
-              {
-                label: "Sim",
-                raised: true,
-                color: "negative",
-                handler: () => {
-                  service
-                    .delete({ params: { id: item.id } })
-                    .then(response => {
-                      this.refresh()
-                    })
-                    .catch(error => {
-                      this.refresh()
-                      // TODO add some message
-                      console.error(error)
-                    })
-                }
-              }
-            ]
-          })
+          service
+            .delete({ params: { id: item.id } })
+            .then(response => {
+              this.refresh()
+            })
+            .catch(error => {
+              this.refresh()
+              // TODO add some message
+              console.error(error)
+            })
           break
       }
     },
@@ -133,10 +91,6 @@ export default {
     },
 
     // Formatters
-    dateFormatter(value) {
-      const date = moment(value)
-      return date.isValid() ? date.format("DD/MM/YYYY") : ""
-    },
     situacaoFormatter(value) {
       return ["Ativo", "Inativo", "Pago"]["AIP".indexOf(value)]
     }

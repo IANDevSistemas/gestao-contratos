@@ -115,7 +115,6 @@ import { checkCpfCnpj } from "@/abstract/util/validation"
 import { computed } from "@/abstract/util/mixins"
 import isArray from "lodash/isArray"
 import { required } from "vuelidate/lib/validators"
-import serviceMunicipio from "service/municipio"
 import { withParams } from "vuelidate/lib/validators/common"
 
 const vuelidateCpfCnpj = withParams({ type: "required" }, value => checkCpfCnpj(value))

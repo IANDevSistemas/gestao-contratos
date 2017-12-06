@@ -6,7 +6,7 @@ import { computed } from "@/abstract/util/mixins"
 export default {
   extends: AbstractCrud,
   ...computed({
-    title: "Cadastro de Tipo Contrato"
+    title: "Cadastro de Tipo de Responsável"
   })
 }
 </script>

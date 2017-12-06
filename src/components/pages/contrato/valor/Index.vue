@@ -29,18 +29,16 @@
 </template>
 
 <script>
+import Add from "./Add"
 import CrudTableActions from "@/abstract/crud/table/Actions"
 import CrudTableFilter from "./Filter"
-import Add from "./Add"
 import { Dialog } from "quasar"
 import Vuetable from "vuetable-2"
 import { baseURL } from "service/config"
 import isNumber from "lodash/isNumber"
 import kebabCase from "lodash/kebabCase"
-import moment from "moment"
-import numeral from "numeral"
 import merge from "lodash/merge"
-import qs from "qs"
+import moment from "moment"
 import service from "service/contratoValor"
 
 export default {
@@ -80,14 +78,6 @@ export default {
   },
   methods: {
     onAction(action, item, index) {
-      // console.log(action, item, index)
-      const query = {
-        action: "execFunction",
-        apelido: "GESTAOCONTRATOS-service-contrato-documento-arquivo",
-        contentDisposition: "inline",
-        id: item.id
-      }
-
       switch (action) {
         case "edit":
           this.$router.push({ name: "contrato.valor.edit", params: { id: item.id } })
@@ -122,6 +112,8 @@ export default {
             ]
           })
           break
+        default:
+          console.error(new Error("Invalid action"))
       }
     },
     refresh() {

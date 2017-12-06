@@ -65,6 +65,16 @@ export default [
         name: "contrato.valor",
         path: "valor",
         component: load("/contrato/valor")
+      },
+      {
+        path: "",
+        name: "contrato.responsavel",
+        component: load("/contrato/responsavel")
+      },
+      {
+        path: "",
+        name: "contrato.unidade",
+        component: load("/contrato/unidade")
       }
     ]
   },

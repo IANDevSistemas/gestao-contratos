@@ -1,18 +1,11 @@
 <template>
   <section>
-    <form>
+    <form @submit.stop.prevent="filter">
       <div class="row sm-gutter">
-        <div class="col-xs-12 col-sm-5">
-          <!-- Data Referência Inicial -->
+        <div class="col-xs-12 col-sm-10">
+          <!-- Unidade -->
           <q-field>
-            <q-datetime v-model="value.datareferenciainicial" format="DD/MM/YYYY" float-label="Ref. Inicial" type="date" />
-          </q-field>
-        </div>
-
-        <div class="col-xs-12 col-sm-5">
-          <!-- Data Referência Final -->
-          <q-field>
-            <q-datetime v-model="value.datareferenciafinal" format="DD/MM/YYYY" float-label="Ref. Final" type="date" />
+            <q-input v-model="value.unidade" float-label="Unidade" />
           </q-field>
         </div>
 

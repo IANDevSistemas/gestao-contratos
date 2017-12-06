@@ -30,7 +30,7 @@ import { required } from "vuelidate/lib/validators"
 export default {
   extends: AbstractForm,
   ...computed({
-    serviceName: "tipoResponsavelContrato"
+    serviceName: "tipoContrato"
   }),
   validations: {
     value: {

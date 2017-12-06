@@ -9,18 +9,22 @@
       </q-field>
 
       <!-- Toolbar -->
-      <q-toolbar inverted v-show="value.id">
-        <!-- <router-link :to="{ name: 'contrato-responsavel', params: { id: value.id } }">
-              <q-btn flat>
-                Responsáveis
-              </q-btn>
-            </router-link> -->
+      <q-toolbar v-show="value.id">
         <q-btn flat @click="$router.push({ name: 'contrato.documento' })">
           Documentos
         </q-btn>
         <q-btn flat @click="$router.push({ name: 'contrato.valor' })">
           Valores
         </q-btn>
+        <q-btn flat @click="$router.push({ name: 'contrato.unidade' })">
+          Unidades
+        </q-btn>
+        <q-btn flat @click="$router.push({ name: 'contrato.responsavel' })">
+          Responsáveis
+        </q-btn>
+        <!-- <q-btn flat @click="$router.push({ name: 'contrato.aprovacao' })"> -->
+        <!-- Aprovações -->
+        <!-- </q-btn> -->
       </q-toolbar>
 
       <!-- Pessoa -->
@@ -272,7 +276,7 @@ export default {
   }),
   methods: {
     change() {
-      console.log(arguments)
+      // console.log(arguments)
     },
     editorOnChange(content) {
       this.editor.content = content
@@ -333,7 +337,7 @@ export default {
     }
   },
   watch: {
-    value(value) {},
+    // value(value) {},
     "value.idtipocontrato"(value) {
       this.value.tipocontrato = { id: value }
     },

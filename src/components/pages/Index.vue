@@ -1,16 +1,7 @@
-<template>
-  <div>
-  </div>
-</template>
-
 <script>
 export default {
-  data() {
-    return {}
+  mounted() {
+    this.$router.push({ path: "/diretorio/0" })
   }
 }
 </script>
-
-<style>
-
-</style>

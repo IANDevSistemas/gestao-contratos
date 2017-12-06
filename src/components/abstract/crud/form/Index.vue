@@ -1,6 +1,6 @@
 <script>
-import { Dialog } from "quasar"
 import CrudFormActions from "./Actions"
+import { Dialog } from "quasar"
 import Vue from "vue"
 
 import { computed } from "@/abstract/util/mixins"
@@ -150,7 +150,7 @@ export default {
     }
   },
   created() {
-    let { id } = this.$route.params
+    const { id } = this.$route.params
     if (id && Boolean(Number(id))) {
       this.service
         .get({ params: { id } })
@@ -158,7 +158,7 @@ export default {
           this.value = data || {}
         })
         .catch(error => {
-          // todo: add some message
+          // TODO: add some message
           console.error(error)
         })
     }

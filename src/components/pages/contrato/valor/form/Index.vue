@@ -13,7 +13,7 @@
           <div class="col-xs-12 col-sm-4">
             <!-- Valor -->
             <q-field :error="$v.value.valor.$error" error-label="Valor deve ser maior que 0">
-              <q-input v-model="value.valor" float-label="Valor" align="right" v-money="{}" @blur="$v.value.valor.$touch" />
+              <q-input v-model="value.valor" float-label="Valor" align="right" v-money @blur="$v.value.valor.$touch" />
             </q-field>
           </div>
           <div class="col-xs-12 col-sm-4">
@@ -52,7 +52,7 @@
           <div class="col-xs-12 col-sm-6">
             <!-- Valor Pago -->
             <q-field :error="$v.value.valorpago.$error" error-label="Valor deve ser maior que 0">
-              <q-input v-model.lazy="value.valorpago" type="tel" v-money="{}" float-label="Valor" align="right" @blur="$v.value.valorpago.$touch" />
+              <q-input v-model="value.valorpago" type="tel" v-money float-label="Valor" align="right" @blur="$v.value.valorpago.$touch" />
             </q-field>
           </div>
         </div>

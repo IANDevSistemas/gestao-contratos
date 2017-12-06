@@ -17,7 +17,7 @@
       <div class="col-xs-12 col-sm-3">
         <!-- Valor -->
         <q-field :error="$v.form.value.$error" error-label="Valor deve ser maior que 0">
-          <q-input v-model.lazy="form.value" float-label="Valor" align="right" v-money="{ prefix: 'R$ ' }" @blur="$v.form.value.$touch" />
+          <q-input v-model.lazy="form.value" float-label="Valor" align="right" v-money @blur="$v.form.value.$touch" />
         </q-field>
       </div>
     </div>
@@ -34,7 +34,7 @@
 
     <vuetable ref="table" :api-mode="false" :fields="table.fields" table-height="calc(100vh - 250px)" :css="table.css" pagination-path="">
       <template slot="valor" slot-scope="props">
-        <input v-model="props.rowData.valor" class="text-right" v-money="{}" :readonly="props.rowData.id" />
+        <input v-model.lazy="props.rowData.valor" class="text-right" v-money :readonly="props.rowData.id" />
       </template>
       <template slot="actions" slot-scope="props">
         <q-toolbar v-if="!props.rowData.id" class="compact" inverted>

@@ -10,7 +10,7 @@ import "moment/locale/pt-br"
 import "numeral/locales/pt-br"
 
 import Quasar, * as AllQuasar from "quasar"
-import { VMoney } from "v-money"
+import Money from "@/util/money"
 import Vue from "vue"
 import VueTheMask from "vue-the-mask"
 import Vuelidate from "vuelidate"
@@ -40,14 +40,7 @@ Vue.use(Quasar, {
   directives: AllQuasar
 })
 
-Vue.use(VMoney, {
-  decimal: ",",
-  thousands: ".",
-  prefix: "",
-  suffix: "",
-  precision: 2,
-  masked: false
-})
+Vue.directive("money", Money)
 
 Vue.use(VueTheMask)
 

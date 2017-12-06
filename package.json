@@ -20,7 +20,6 @@
     "quasar-extras": "0.x",
     "quasar-framework": "^0.14.7",
     "sha1": "^1.1.1",
-    "v-money": "^0.8.1",
     "vue": "^2.5.3",
     "vue-html5-editor": "^1.1.1",
     "vue-router": "^3.0.1",

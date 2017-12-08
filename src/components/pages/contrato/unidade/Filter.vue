@@ -5,7 +5,7 @@
         <div class="col-xs-12 col-sm-10">
           <!-- Unidade -->
           <q-field>
-            <q-input v-model="value.unidade" float-label="Unidade" />
+            <q-input v-model="value.empresaunidade" float-label="Unidade" />
           </q-field>
         </div>
 

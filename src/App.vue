@@ -138,5 +138,8 @@ text-left
 
 text-center
   text-align center
+
+.layout-page
+  padding-bottom 32px
 </style>
 

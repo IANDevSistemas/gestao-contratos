@@ -25,7 +25,6 @@ export default {
   },
   mounted() {
     const value = LocalStorage.get.item(STORAGE_KEY) || {}
-    console.log(value)
     this.$emit("input", value)
   }
 }

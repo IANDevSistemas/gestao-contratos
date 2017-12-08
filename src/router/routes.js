@@ -67,12 +67,12 @@ export default [
         component: load("/contrato/valor")
       },
       {
-        path: "",
+        path: "responsavel",
         name: "contrato.responsavel",
         component: load("/contrato/responsavel")
       },
       {
-        path: "",
+        path: "unidade",
         name: "contrato.unidade",
         component: load("/contrato/unidade")
       }

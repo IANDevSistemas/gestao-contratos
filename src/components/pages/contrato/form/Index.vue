@@ -35,14 +35,21 @@
       </q-field>
 
       <div class="row sm-gutter">
-        <div class="col-xs-12 col-sm-9">
+        <div class="col-xs-12 col-sm-5">
           <!-- Tipo Contrato -->
           <q-field :error="$v.value.idtipocontrato.$error" error-label="Selecione um valor">
             <q-select v-model="value.idtipocontrato" filter float-label="Tipo Contrato" radio :options="options.tipocontrato" @blur="$v.value.idtipocontrato.$touch" />
           </q-field>
         </div>
 
-        <div class="col-xs-12 col-sm-3">
+        <!-- Índice -->
+        <div class="col-xs-12 col-sm-5">
+          <q-field :error="$v.value.idindice.$error" error-label="Selecione um valor">
+            <q-select v-model="value.idindice" filter float-label="Índice" radio :options="options.indice" @blur="$v.value.idindice.$touch" />
+          </q-field>
+        </div>
+
+        <div class="col-xs-12 col-sm-2">
           <!-- Número -->
           <q-field :error="$v.value.numero.$error" error-label="Entre com um número válido">
             <q-input v-model.trim="value.numero" float-label="N°" @blur="$v.value.numero.$touch"></q-input>
@@ -246,7 +253,8 @@ export default {
         content: ""
       },
       options: {
-        tipocontrato: []
+        tipocontrato: [],
+        indice: [],
       },
       isSaving: false
     }
@@ -256,6 +264,7 @@ export default {
       descricao: { required },
       pessoa: { required },
       idtipocontrato: { required },
+      idindice: {},
       numero: {},
 
       datainicial: {},
@@ -320,8 +329,22 @@ export default {
           situacao: "A"
         }
       })
-      .then(response => {
-        this.options.tipocontrato = response.data.data
+      .then(({ data }) => {
+        this.options.tipocontrato = data.data
+      })
+      .catch(error => {
+        // TODO add some message
+        console.error(error)
+      })
+
+    this.services.indice
+      .get({
+        params: {
+          situacao: "A"
+        }
+      })
+      .then(({ data }) => {
+        this.options.indice = data.data
       })
       .catch(error => {
         // TODO add some message

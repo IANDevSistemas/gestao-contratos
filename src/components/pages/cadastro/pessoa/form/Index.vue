@@ -39,6 +39,7 @@
       </div>
     </div>
 
+    <crud-form-modal ref="modal" />
   </section>
 </template>
 

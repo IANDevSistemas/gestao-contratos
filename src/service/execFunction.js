@@ -1,5 +1,5 @@
 import defaultsDeep from "lodash/defaultsDeep"
-import router from "router"
+// import router from "router"
 import service from "service"
 
 export default (apelido, prefix) => {
@@ -12,7 +12,7 @@ export default (apelido, prefix) => {
     try {
       return JSON.parse(data)
     } catch (error) {
-      router.push({ name: "logout" })
+      // router.push({ name: "logout" })
       return error
     }
   }

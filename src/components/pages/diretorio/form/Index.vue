@@ -27,6 +27,7 @@
         </div>
       </q-card-main>
     </q-card>
+    <crud-form-modal ref="modal" />
   </section>
 </template>
 
@@ -61,8 +62,7 @@ export default {
   extends: AbsctractCrudForm,
   data() {
     return {
-      favorito: false,
-      isSaving: false
+      favorito: false
     }
   },
   validations: {
@@ -79,6 +79,13 @@ export default {
   watch: {
     favorito(value) {
       this.value.favorito = value ? "S" : "N"
+    },
+    value(value) {
+      this.favorito = value === "S"
+      const { diretoriopai } = this.$route.query
+      if (diretoriopai) {
+        value.diretoriopai = { id: diretoriopai }
+      }
     }
   }
 }

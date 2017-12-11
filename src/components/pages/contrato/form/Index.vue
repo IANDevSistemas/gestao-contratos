@@ -190,35 +190,37 @@
       </q-modal-layout>
     </q-modal>
     <!-- /Modal -->
-
+    <crud-form-modal ref="modal" />
   </section>
 </template>
 
 <script>
 import { Dialog, Toast } from "quasar"
 import { between, email, minValue, required } from "vuelidate/lib/validators"
-import { baseURL } from "service/config"
-import { computed } from "@/abstract/util/mixins"
-import moment from "moment"
+
 import AbsctractCrudForm from "@/abstract/crud/form"
 import Vue from "vue"
 import VueHtml5Editor from "vue-html5-editor"
+import { baseURL } from "service/config"
+import { computed } from "@/abstract/util/mixins"
 
 // ID do contrato deve ser passado de forma dinamica então é criado um encapsulador
 let id = ""
-function Id() {}
+function Id() {
+  // It is not an empty function
+}
 Id.prototype.toString = function() {
   return `${id}`
 }
 
-const dialogBlock = {
-  nobuttons: true,
-  progress: {
-    indeterminate: true
-  },
-  noBackdropDismiss: true,
-  noEscDismiss: true
-}
+// const dialogBlock = {
+//   nobuttons: true,
+//   progress: {
+//     indeterminate: true
+//   },
+//   noBackdropDismiss: true,
+//   noEscDismiss: true
+// }
 
 export default {
   extends: AbsctractCrudForm,
@@ -343,6 +345,12 @@ export default {
     },
     "value.id"(value) {
       id = value
+    },
+    value(value) {
+      const { diretoriopai } = this.$route.query
+      if (diretoriopai) {
+        value.diretoriopai = { id: diretoriopai }
+      }
     }
   }
 }

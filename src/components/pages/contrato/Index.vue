@@ -29,7 +29,7 @@ export default {
           this.contrato = data || {}
         })
         .catch(error => {
-          // todo: add some message
+          // TODO: add some message
           console.error(error)
         })
     }

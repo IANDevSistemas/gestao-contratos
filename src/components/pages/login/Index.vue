@@ -55,7 +55,6 @@ export default {
   methods: {
     ...mapActions(["login"]),
     submit(event, done) {
-      console.log(arguments)
       service
         .post("", {
           action: "login",

@@ -3,16 +3,16 @@
   <div id="q-app">
     <q-layout ref="layout" view="hhh LpR lFr" :left-class="{ 'bg-white': true }">
       <q-toolbar slot="header" class="print-hide">
-        <q-btn v-if="loggedIn" flat @click="$refs.layout.toggleLeft()">
+        <q-btn v-show="loggedIn" flat @click="$refs.layout.toggleLeft()">
           <q-icon name="menu" />
         </q-btn>
 
         <q-toolbar-title>Gestão de Contratos</q-toolbar-title>
 
-        <q-btn flat icon="exit_to_app" @click="$router.push('/logout')">Logout</q-btn>
+        <q-btn flat icon="exit_to_app" v-show="loggedIn" @click="$router.push('/logout')">Logout</q-btn>
       </q-toolbar>
 
-      <q-scroll-area class="print-hide" slot="left" style="width: 100%; height: 100%;">
+      <q-scroll-area class="print-hide" slot="left" v-show="loggedIn" style="width: 100%; height: 100%;">
         <q-side-link item to="/diretorio/0">
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Contratos" />
@@ -100,7 +100,7 @@ export default {
       // this.$router.push(route)
     })
 
-    // TODO testar sessão
+    // TODO: testar sessão
     if (!self.isLoginRoute(self.currentRoute) && !this.loggedIn) {
       try {
         self.$refs.layout.hideLeft()

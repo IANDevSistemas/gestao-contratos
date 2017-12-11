@@ -12,21 +12,25 @@
 
       <q-search color="teal" v-model="search" placeholder="Busca..." />
 
+      <q-btn flat round small @click.prevent.stop="$refs.search.open()">
+        <q-icon name="search" />
+      </q-btn>
+
       <q-btn flat round small @click.prevent.stop="refresh()">
         <q-icon name="refresh" />
       </q-btn>
 
-      <q-btn flat round small @click.prevent.stop="toggleView">
-        <q-icon :name="`view_${view}`" />
-      </q-btn>
+      <!-- <q-btn flat round small @click.prevent.stop="toggleView"> -->
+      <!-- <q-icon :name="`view_${view}`" /> -->
+      <!-- </q-btn> -->
 
-      <q-btn flat round small @click.prevent.stop="console.log">
-        <q-icon name="info" />
-      </q-btn>
+      <!-- <q-btn flat round small @click.prevent.stop="console.log"> -->
+      <!-- <q-icon name="info" /> -->
+      <!-- </q-btn> -->
 
-      <q-btn flat round small @click.prevent.stop="console.log">
-        <q-icon name="settings" />
-      </q-btn>
+      <!-- <q-btn flat round small @click.prevent.stop="console.log"> -->
+      <!-- <q-icon name="settings" /> -->
+      <!-- </q-btn> -->
     </q-toolbar>
 
     <ul class="breadcrumb print-hide">
@@ -50,17 +54,30 @@
         <view-list v-model="selection" :contratos="list.contrato" :diretorios="list.diretorio" @add="onAdd" @edit="onEdit" @change="onChange" />
       </q-tab-pane>
     </q-tabs>
+
+    <q-modal ref="search" position="top" :content-css="{ minWidth: '520px', minHeight: '450px' }">
+      <q-modal-layout>
+        <div class="layout-padding">
+          <search/>
+        </div>
+      </q-modal-layout>
+    </q-modal>
   </q-layout>
 </template>
 
 <script>
+import Search from "./search/Component"
 import ViewList from "./list/Component"
 import ViewModule from "./module/Component"
 
 import services from "service/all"
 
 export default {
-  components: { ViewList, ViewModule },
+  components: {
+    Search,
+    ViewList,
+    ViewModule
+  },
   data() {
     return {
       diretorio: {},
@@ -83,18 +100,18 @@ export default {
     },
     onEdit(ref) {
       const { selection } = this
-      console.log(selection)
+      const query = { diretoriopai: this.diretorio.id }
       if (ref === "diretorio") {
-        this.$router.push({ path: `/diretorio/${selection.iddiretorio || 0}/form/` })
+        this.$router.push({ path: `/diretorio/${selection.iddiretorio || "0"}/form`, query })
       } else if (ref === "contrato") {
-        this.$router.push({ name: "contrato", params: { id: selection.idcontrato || 0 }, query: { diretorio: this.diretorio.id } })
+        this.$router.push({ name: "contrato", params: { id: selection.idcontrato || "" }, query })
       }
     },
     onNavBack() {
       this.$router.go(-1)
     },
     onNavTo({ iddiretorio }) {
-      console.log(iddiretorio)
+      // console.log(iddiretorio)
       this.$router.push({ name: "diretorio", params: { id: iddiretorio }, query: { view: this.view } })
     },
     onChange() {
@@ -122,11 +139,12 @@ export default {
       services.diretorio
         .get({
           params: {
-            iddiretorio: id || 0
+            id: id || 0
           }
         })
         .then(({ data }) => {
-          this.diretorio = data.data
+          console.log(data)
+          this.diretorio = data
         })
         .catch(error => {
           // TODO show some message
@@ -169,4 +187,7 @@ export default {
   .q-tab-pane
     border none
     padding 0
+
+.layout-padding
+  padding 12px
 </style>

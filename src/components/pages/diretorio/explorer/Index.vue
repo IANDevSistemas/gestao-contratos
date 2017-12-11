@@ -104,7 +104,7 @@ export default {
       if (ref === "diretorio") {
         this.$router.push({ path: `/diretorio/${selection.iddiretorio || "0"}/form`, query })
       } else if (ref === "contrato") {
-        this.$router.push({ name: "contrato", params: { id: selection.idcontrato || "" }, query })
+        this.$router.push({ name: "contrato", params: { id: selection.idcontrato || "0" }, query })
       }
     },
     onNavBack() {

@@ -9,7 +9,7 @@ export default {
     CrudFilter
   },
   ...computed({
-    serviceName: "motivoContrato",
+    serviceName: "indice",
     config: {
       props: {
         fields: [

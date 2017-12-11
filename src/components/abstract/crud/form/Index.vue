@@ -3,17 +3,7 @@ import CrudFormActions from "./Actions"
 import CrudFormModal from "../../modal"
 import Vue from "vue"
 
-// import { computed } from "@/abstract/util/mixins"
 import services from "service/all"
-
-// const dialogBlock = {
-//   nobuttons: true,
-//   progress: {
-//     indeterminate: true
-//   },
-//   noBackdropDismiss: true,
-//   noEscDismiss: true
-// }
 
 export default {
   components: {
@@ -55,12 +45,12 @@ export default {
     onSave() {
       const { modal } = this.$refs
       if (!this.validate()) {
-        modal.dialog("Dados inválidos", "Verifique os dados inseridos e tente novamente.")
+        modal.open().dialog("Dados inválidos", "Verifique os dados inseridos e tente novamente.")
         return
       }
 
       // Etapa 1: Bloqueia a tela e efetua a ação
-      modal.block("Salvando...", "Aguarde enquanto os dados são salvos.", true)
+      modal.open().block("Salvando...", "Aguarde enquanto os dados são salvos.", true)
 
       this.save()
         .then(data => {
@@ -99,21 +89,24 @@ export default {
       const { modal } = this.$refs
 
       // Etapa 1: Confirmação a ação
-      modal.confirm("Remover os dados ?", "Tem certeza que os dados devem ser removidos ?").then(() => {
-        // Etapa 2: Bloqueia a tela e efetua a ação
-        modal.block("Removendo...", "Aguarde enquanto os dados são removidos.", true)
+      modal
+        .open()
+        .confirm("Remover os dados ?", "Tem certeza que os dados devem ser removidos ?")
+        .then(() => {
+          // Etapa 2: Bloqueia a tela e efetua a ação
+          modal.block("Removendo...", "Aguarde enquanto os dados são removidos.", true)
 
-        this.delete()
-          .then(response => {
-            // Etapa 3: Mostra a mensagem de sucesso e volta para a tabela
-            modal.close()
-            this.$router.go(-1)
-          })
-          .catch(error => {
-            modal.dialog("Erro!", "Erro ao remover os dados.")
-            console.error(error)
-          })
-      })
+          this.delete()
+            .then(response => {
+              // Etapa 3: Mostra a mensagem de sucesso e volta para a tabela
+              // modal.close()
+              this.$router.go(-1)
+            })
+            .catch(error => {
+              modal.dialog("Erro!", "Erro ao remover os dados.")
+              console.error(error)
+            })
+        })
     },
     delete() {
       return new Promise((resolve, reject) => {

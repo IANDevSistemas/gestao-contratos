@@ -20,8 +20,8 @@ export default {
     return {
       filter: {},
       pagination: {
-        value: 1,
-        max: 1,
+        page: 1,
+        total: 1,
         size: 5
       }
     }
@@ -35,8 +35,8 @@ export default {
     }
   },
   watch: {
-    "pagination.value"(value) {
-      this.$refs.table.changePage(value)
+    "pagination.page"(value) {
+      this.refresh()
     },
     filter(value) {
       this.refresh()
@@ -123,18 +123,21 @@ export default {
             delete params.sort
           }
 
-          const args = merge({}, { params: self.filter }, options)
-          // console.log(self.filter, args, options)
+          const args = merge({}, { params: self.filter }, options, { params: self.pagination })
+
           return self.service.get(args)
         }
       },
       on: {
         "vuetable:pagination-data"(data) {
-          self.pagination.max = data ? Math.floor(data.total / self.pagination.size) : 0
-          self.$refs.paginationInfo.setPaginationData(data)
+          self.pagination.total = data.total
+
+          self.$refs.paginationInfo.setPaginationData({ from: self.pagination.page, to: self.pagination.page + self.pagination.size })
         },
         "vuetable:row-dblclicked"(dataItem, event) {
-          self.edit()
+          if (dataItem.idempresa) {
+            self.edit()
+          }
         }
       },
       scopedSlots: {
@@ -145,10 +148,20 @@ export default {
               color: "primary",
               small: true,
               flat: true,
-              round: true
+              round: true,
+              disable: !Boolean(props.rowData.idempresa)
             },
+            // directives: [
+            //   {
+            //     name: "show",
+            //     value: Boolean(props.rowData.idempresa)
+            //   }
+            // ],
             on: {
               click(data) {
+                if (props.rowData.idempresa) {
+                  self.edit()
+                }
                 self.edit(props.rowData.id)
               }
             }
@@ -161,17 +174,22 @@ export default {
 
     const pagination = h("q-pagination", {
       ref: "pagination",
-      props: { ...self.pagination },
+      props: {
+        value: self.pagination.page,
+        max: Math.ceil(self.pagination.total / self.pagination.size)
+      },
       on: {
         change(value) {
-          // console.log(self, table)
-          self.pagination.value = value
+          self.pagination.page = value
         }
       }
     })
 
     const paginationInfo = h("vuetable-pagination-info", {
-      ref: "paginationInfo"
+      ref: "paginationInfo",
+      props: {
+        infoTemplate: "Exibindo de {from} até {to} de {total} itens"
+      }
     })
 
     // const progress = h("q-progress", {

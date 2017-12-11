@@ -1,5 +1,5 @@
 <template>
-  <q-modal ref="modal" :content-css="{ width: '420px', minHeight: '300px' }" :no-backdrop-dismiss="mode === 'block'" :no-esc-dismiss="mode === 'block'">
+  <q-modal ref="modal" v-model="isOpened" :content-css="{ width: '420px', minHeight: '300px' }" :no-backdrop-dismiss="mode === 'block'" :no-esc-dismiss="mode === 'block'">
     <q-modal-layout>
       <q-toolbar>
         <div class="q-toolbar-title">
@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      isOpened: false,
       mode: "dialog",
       title: "",
       message: "",
@@ -42,41 +43,39 @@ export default {
   },
   methods: {
     open() {
-      this.$refs.modal.open()
+      this.canChange = true
+      this.isOpened = true
       return this
     },
     close() {
-      this.$refs.modal.close()
+      this.canChange = true
+      this.isOpened = false
       return this
     },
     block(title, message, isLoading = false) {
-      this.close()
       this.mode = "block"
       this.message = message
       this.title = title
       this.isLoading = isLoading
-      this.open()
+      this.ok = () => {}
+      this.cancel = () => {}
       return this
     },
     dialog(title, message, isLoading = false) {
-      this.close()
       this.mode = "dialog"
       this.message = message
       this.title = title
       this.isLoading = isLoading
-      this.open()
       return new Promise((resolve, reject) => {
         this.ok = resolve
         this.cancel = reject
       })
     },
     confirm(title, message, isLoading = false) {
-      this.close()
       this.mode = "confirm"
       this.message = message
       this.title = title
       this.isLoading = isLoading
-      this.open()
 
       return new Promise((resolve, reject) => {
         this.ok = resolve
@@ -86,7 +85,6 @@ export default {
     onOk() {
       try {
         this.ok()
-        this.close()
       } catch (error) {
         console.error(error)
       }
@@ -94,10 +92,20 @@ export default {
     onCancel() {
       try {
         this.cancel()
-        this.close()
       } catch (error) {
         console.error(error)
       }
+    }
+  },
+  watch: {
+    isOpened(newValue, oldValue) {
+      console.log(newValue, oldValue)
+      // if (this.canChange) {
+      //   this.canChange = false
+      // } else {
+      //   this.canChange = true
+      //   this.isOpened = oldValue
+      // }
     }
   }
 }

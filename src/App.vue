@@ -39,6 +39,10 @@
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Tipo Responsável" />
         </q-side-link>
+        <q-side-link item to="/cadastro/indice">
+          <q-item-side icon="fa-line-chart" />
+          <q-item-main label="Índice Financeiro" />
+        </q-side-link>
       </q-scroll-area>
 
       <!-- Page -->

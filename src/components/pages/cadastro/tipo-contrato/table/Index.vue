@@ -14,8 +14,8 @@ export default {
       props: {
         fields: [
           {
-            name: "idtipocontrato",
-            sortField: "idtipocontrato",
+            name: "id",
+            sortField: "id",
             title: "Cód."
           },
           {
@@ -28,14 +28,7 @@ export default {
             sortField: "situacao",
             title: "Situação",
             callback(value) {
-              switch (value) {
-                case "A":
-                  return "Ativo"
-                case "I":
-                  return "Inativo"
-                default:
-                  return ""
-              }
+              return ["Ativo", "Inativo"]["AI".indexOf(value)]
             }
           },
           {

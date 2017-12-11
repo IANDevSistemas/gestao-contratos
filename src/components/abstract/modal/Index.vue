@@ -96,18 +96,18 @@ export default {
         console.error(error)
       }
     }
-  },
-  watch: {
-    isOpened(newValue, oldValue) {
-      console.log(newValue, oldValue)
-      // if (this.canChange) {
-      //   this.canChange = false
-      // } else {
-      //   this.canChange = true
-      //   this.isOpened = oldValue
-      // }
-    }
   }
+  // watch: {
+  //   isOpened(newValue, oldValue) {
+  //     console.log(newValue, oldValue)
+  //     // if (this.canChange) {
+  //     //   this.canChange = false
+  //     // } else {
+  //     //   this.canChange = true
+  //     //   this.isOpened = oldValue
+  //     // }
+  //   }
+  // }
 }
 </script>
 

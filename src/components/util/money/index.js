@@ -19,13 +19,16 @@ function bind(el, binding, vnode) {
     }
   }
 
-  target.addEventListener("input", event => {
+  function eventListener(event) {
     if (!event.isTrusted) {
       return
     }
     run(target, opt)
-    target.dispatchEvent(new Event("input"))
-  })
+    target.dispatchEvent(new Event(event.type))
+  }
+
+  target.addEventListener("input", eventListener)
+  target.addEventListener("change", eventListener)
 
   // target.addEventListener("input", event => {
   //   console.log(event)

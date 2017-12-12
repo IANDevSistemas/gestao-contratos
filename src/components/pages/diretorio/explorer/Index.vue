@@ -1,7 +1,7 @@
 <template>
   <q-layout ref="layout" reveal view="lHr LpR lfr">
 
-    <q-toolbar inverted color="primary" class="print-hide search-toolbar">
+    <q-toolbar inverted color="primary" class="print-hide">
       <!-- <q-toolbar-title> -->
       <!-- Contratos -->
       <!-- </q-toolbar-title> -->
@@ -10,9 +10,9 @@
         <q-icon name="arrow_back" />
       </q-btn>
 
-      <q-search color="teal" v-model="search" placeholder="Busca..." />
+      <q-search color="teal" v-model="search" class="search" placeholder="Busca..." />
 
-      <q-btn flat round small @click="$refs.filter.open()">
+      <q-btn flat round small @click="sidePanel = true">
         <q-icon name="search" />
       </q-btn>
 
@@ -55,27 +55,25 @@
       </q-tab-pane>
     </q-tabs>
 
-    <q-modal ref="filter" position="top" :content-css="{ minWidth: '600px', minHeight: '520px' }">
-      <q-modal-layout>
-        <q-toolbar slot="header">
-          <q-btn flat @click="$refs.filter.close()">
-            <q-icon name="keyboard_arrow_left" />
-          </q-btn>
-          <div class="q-toolbar-title">
-            Busca Avançada
-          </div>
-        </q-toolbar>
-        <q-toolbar slot="footer">
-          <div class="q-toolbar-title"></div>
-          <q-btn flat round small @click="$refs.filter.open()">
-            <q-icon name="search" />
-          </q-btn>
-        </q-toolbar>
-        <div class="layout-padding">
-          <search-filter v-model="filter" />
-        </div>
-      </q-modal-layout>
-    </q-modal>
+    <!-- Right Side Panel -->
+    <div v-if="sidePanel" slot="right">
+      <q-toolbar />
+      <q-toolbar inverted>
+        <q-btn icon="close" flat round small @click="sidePanel = false" />
+        <div class="q-toolbar-title"></div>
+      </q-toolbar>
+      <div class="layout-padding">
+        <search-filter v-model="filter" />
+      </div>
+      <q-toolbar inverted>
+        <q-btn color="primary" icon-right="search" @click="refresh()"> Buscar </q-btn>
+        <q-btn flat color="negative" icon-right="clear" @click="filter = {}"> Limpar </q-btn>
+        <div class="q-toolbar-title"></div>
+      </q-toolbar>
+    </div>
+    <q-inner-loading :visible="isLoading">
+      <q-spinner size="100px" color="primary" />
+    </q-inner-loading>
   </q-layout>
 </template>
 
@@ -94,10 +92,12 @@ export default {
   },
   data() {
     return {
+      sidePanel: "",
       diretorio: {},
       list: {
         contrato: [],
-        diretorio: []
+        diretorio: [],
+        loaded: 0
       },
       selection: {},
       view: "module",
@@ -106,7 +106,10 @@ export default {
     }
   },
   computed: {
-    services: () => services
+    services: () => services,
+    isLoading() {
+      return this.list.loaded !== Object.keys(this.list).length - 1
+    }
   },
   methods: {
     onAdd(ref) {
@@ -137,6 +140,7 @@ export default {
     refresh() {
       const { id } = this.$route.params
 
+      this.list.loaded = 0
       services.diretorio
         .get({
           params: {
@@ -145,6 +149,7 @@ export default {
         })
         .then(({ data }) => {
           this.list.diretorio = data.data
+          this.list.loaded++
         })
         .catch(error => {
           // TODO show some message
@@ -173,6 +178,7 @@ export default {
         })
         .then(({ data }) => {
           this.list.contrato = data.data
+          this.list.loaded++
         })
         .catch(error => {
           // TODO show some message
@@ -205,6 +211,8 @@ export default {
 .layout-padding
   padding 12px
 
-search-bar
-  max-width 520px
+.q-toolbar
+  .q-search.search
+    flex none
+    width 320px
 </style>

@@ -13,6 +13,12 @@ export default {
       }
     }
   },
+  data() {
+    return {
+      autocomplete: {},
+      options: {}
+    }
+  },
   methods: {
     filter() {
       LocalStorage.set(STORAGE_KEY, this.value)

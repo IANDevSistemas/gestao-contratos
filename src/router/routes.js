@@ -40,6 +40,10 @@ export default [
         component: load("/diretorio/explorer")
       },
       {
+        path: "search",
+        component: load("/diretorio/search")
+      },
+      {
         path: "form",
         component: load("/diretorio/form")
       }

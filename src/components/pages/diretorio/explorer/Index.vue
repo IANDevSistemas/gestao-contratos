@@ -1,10 +1,10 @@
 <template>
   <q-layout ref="layout" reveal view="lHr LpR lfr">
 
-    <q-toolbar inverted color="primary" class="print-hide">
-      <q-toolbar-title>
-        Contratos
-      </q-toolbar-title>
+    <q-toolbar inverted color="primary" class="print-hide search-toolbar">
+      <!-- <q-toolbar-title> -->
+      <!-- Contratos -->
+      <!-- </q-toolbar-title> -->
 
       <q-btn flat round small @click="onNavBack">
         <q-icon name="arrow_back" />
@@ -12,7 +12,7 @@
 
       <q-search color="teal" v-model="search" placeholder="Busca..." />
 
-      <q-btn flat round small @click.prevent.stop="$refs.search.open()">
+      <q-btn flat round small @click="$refs.filter.open()">
         <q-icon name="search" />
       </q-btn>
 
@@ -55,10 +55,24 @@
       </q-tab-pane>
     </q-tabs>
 
-    <q-modal ref="search" position="top" :content-css="{ minWidth: '520px', minHeight: '450px' }">
+    <q-modal ref="filter" position="top" :content-css="{ minWidth: '600px', minHeight: '520px' }">
       <q-modal-layout>
+        <q-toolbar slot="header">
+          <q-btn flat @click="$refs.filter.close()">
+            <q-icon name="keyboard_arrow_left" />
+          </q-btn>
+          <div class="q-toolbar-title">
+            Busca Avançada
+          </div>
+        </q-toolbar>
+        <q-toolbar slot="footer">
+          <div class="q-toolbar-title"></div>
+          <q-btn flat round small @click="$refs.filter.open()">
+            <q-icon name="search" />
+          </q-btn>
+        </q-toolbar>
         <div class="layout-padding">
-          <search/>
+          <search-filter v-model="filter" />
         </div>
       </q-modal-layout>
     </q-modal>
@@ -66,7 +80,7 @@
 </template>
 
 <script>
-import Search from "./search/Component"
+import SearchFilter from "./SearchFilter"
 import ViewList from "./list/Component"
 import ViewModule from "./module/Component"
 
@@ -74,7 +88,7 @@ import services from "service/all"
 
 export default {
   components: {
-    Search,
+    SearchFilter,
     ViewList,
     ViewModule
   },
@@ -87,6 +101,7 @@ export default {
       },
       selection: {},
       view: "module",
+      filter: {},
       search: ""
     }
   },
@@ -143,7 +158,6 @@ export default {
           }
         })
         .then(({ data }) => {
-          console.log(data)
           this.diretorio = data
         })
         .catch(error => {
@@ -190,4 +204,7 @@ export default {
 
 .layout-padding
   padding 12px
+
+search-bar
+  max-width 520px
 </style>

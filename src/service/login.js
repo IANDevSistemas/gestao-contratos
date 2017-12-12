@@ -1,3 +1,3 @@
 import execFunction from "./execFunction"
 
-export default execFunction("contrato")
+export default execFunction("login")

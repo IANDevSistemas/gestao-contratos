@@ -132,7 +132,11 @@ export default {
         "vuetable:pagination-data"(data) {
           self.pagination.total = data.total
 
-          self.$refs.paginationInfo.setPaginationData({ from: self.pagination.page, to: self.pagination.page + self.pagination.size })
+          self.$refs.paginationInfo.setPaginationData({
+            from: (self.pagination.page - 1) * self.pagination.size + 1,
+            to: (self.pagination.page - 1) * self.pagination.size + data.data.length,
+            total: self.pagination.total
+          })
         },
         "vuetable:row-dblclicked"(dataItem, event) {
           if (dataItem.idempresa) {

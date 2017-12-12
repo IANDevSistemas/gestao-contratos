@@ -33,6 +33,9 @@
     </q-toolbar>
 
     <vuetable ref="table" :api-mode="false" :fields="table.fields" table-height="calc(100vh - 250px)" :css="table.css" pagination-path="">
+      <template slot="datavencimento" slot-scope="props">
+        <q-datetime v-model="props.rowData.datavencimento" type="date" format="DD/MM/YYYY" class="text-right" :readonly="props.rowData.id" />
+      </template>
       <template slot="valor" slot-scope="props">
         <input v-model.lazy="props.rowData.valor" class="text-right" v-money :readonly="props.rowData.id" />
       </template>
@@ -92,8 +95,8 @@ export default {
         fields: [
           { name: "datareferenciainicial", sortField: "datareferenciainicial", title: "Ref. Inicio", callback: "dateFormatter", width: "160px" },
           { name: "datareferenciafinal", sortField: "datareferenciafinal", title: "Ref. Fim", callback: "dateFormatter", width: "160px" },
-          { name: "datavencimento", sortField: "datavencimento", title: "Vencimento", callback: "dateFormatter", width: "160px" },
-          { name: "__slot:valor", sortField: "valor", title: "Valor (R$)", callback: "dateFormatter", width: "200px" },
+          { name: "__slot:datavencimento", sortField: "datavencimento", title: "Vencimento", width: "160px" },
+          { name: "__slot:valor", sortField: "valor", title: "Valor (R$)", width: "200px" },
           { name: "situacao", sortField: "situacao", title: "Situação", callback: "situacaoFormatter", width: "100px" },
           // { name: "valorpago", sortField: "valorpago", title: "Valor Pago", callback: "numberFormatter", width: "200px" },
           // { name: "datapagamento", sortField: "datapagamento", title: "Data Pagamento", callback: "dateFormatter", width: "200px" },
@@ -221,6 +224,11 @@ section
     margin 0
     padding 0
     width 32px
+
+.q-if
+  margin-bottom 0
+  margin-top 0
+  padding-bottom 0
 
 table
   width 100%

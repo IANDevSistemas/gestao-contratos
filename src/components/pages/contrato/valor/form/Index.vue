@@ -58,6 +58,7 @@
         </div>
       </q-card-main>
     </q-card>
+    <crud-form-modal ref="modal" />
   </section>
 </template>
 

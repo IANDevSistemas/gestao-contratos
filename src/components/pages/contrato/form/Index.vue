@@ -44,8 +44,8 @@
 
         <!-- Índice -->
         <div class="col-xs-12 col-sm-5">
-          <q-field :error="$v.value.idindice.$error" error-label="Selecione um valor">
-            <q-select v-model="value.idindice" filter float-label="Índice" radio :options="options.indice" @blur="$v.value.idindice.$touch" />
+          <q-field :error="$v.value.idindiceatualizacao.$error" error-label="Selecione um valor">
+            <q-select v-model="value.idindiceatualizacao" filter float-label="Índice" radio :options="options.indice" @blur="$v.value.idindiceatualizacao.$touch" />
           </q-field>
         </div>
 
@@ -264,7 +264,7 @@ export default {
       descricao: { required },
       pessoa: { required },
       idtipocontrato: { required },
-      idindice: {},
+      idindiceatualizacao: {},
       numero: {},
 
       datainicial: {},

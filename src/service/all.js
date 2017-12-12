@@ -7,6 +7,7 @@ import contratoValorAdicionar from "./contratoValorAdicionar"
 import diretorio from "./diretorio"
 import empresa from "./empresa"
 import indice from "./indice"
+import login from "./login"
 import motivoContrato from "./motivoContrato"
 import municipio from "./municipio"
 import pessoa from "./pessoa"
@@ -23,6 +24,7 @@ export default {
   diretorio,
   empresa,
   indice,
+  login,
   motivoContrato,
   municipio,
   pessoa,

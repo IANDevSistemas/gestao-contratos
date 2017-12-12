@@ -58,6 +58,7 @@
 import { mapGetters } from "vuex"
 import router from "router"
 import store from "store"
+import services from "service"
 // import { sync } from "vuex-router-sync"
 
 // const unsync = sync(store, router)
@@ -105,6 +106,14 @@ export default {
     })
 
     // TODO: testar sessão
+    services.login
+      .get()
+      .then()
+      .catch(error => {
+        this.loggedIn = false
+        console.error(error)
+      })
+
     if (!self.isLoginRoute(self.currentRoute) && !this.loggedIn) {
       try {
         self.$refs.layout.hideLeft()

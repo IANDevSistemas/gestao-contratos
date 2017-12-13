@@ -5,7 +5,7 @@
         <!-- Período -->
         <q-field dark :error="$v.form.to.$error || $v.form.from.$error" error-label="Selecione um período válido">
           <label>Período</label>
-          <q-datetime-range type="date" v-model.lazy="form" format="DD/MM/YYYY" />
+          <q-datetimepicker-range type="date" v-model.lazy="form" />
         </q-field>
       </div>
       <div class="col-xs-12 col-sm-3">
@@ -34,7 +34,7 @@
 
     <vuetable ref="table" :api-mode="false" :fields="table.fields" table-height="calc(100vh - 250px)" :css="table.css" pagination-path="">
       <template slot="datavencimento" slot-scope="props">
-        <q-datetime v-model="props.rowData.datavencimento" type="date" format="DD/MM/YYYY" class="text-right" :readonly="props.rowData.id" />
+        <q-datetimepicker v-model="props.rowData.datavencimento" type="date" class="text-right" :readonly="props.rowData.id" />
       </template>
       <template slot="valor" slot-scope="props">
         <input v-model.lazy="props.rowData.valor" class="text-right" v-money :readonly="props.rowData.id" />
@@ -208,7 +208,7 @@ section
   // padding 12px 32px
   width 100%
 
-.q-datetime-range
+.q-datetimepicker-range
   padding-top 10px
 
 .q-field.compact

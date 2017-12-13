@@ -62,21 +62,21 @@
         <div class="col-xs-12 col-sm-4">
           <!-- Data Inicial -->
           <q-field :error="$v.value.datainicial.$error" error-label="Inválida">
-            <q-datetime v-model="value" type="date" format="DD/MM/YYYY" :max="value.datafinal" v-model.trim="value.datainicial" float-label="Data Inicial" @blur="$v.value.datainicial.$touch" />
+            <q-datetimepicker v-model="value" type="date" :max="value.datafinal" v-model.trim="value.datainicial" float-label="Data Inicial" @blur="$v.value.datainicial.$touch" />
           </q-field>
         </div>
 
         <div class="col-xs-12 col-sm-4">
           <!-- Data Final -->
           <q-field :error="$v.value.datafinal.$error" error-label="Inválida">
-            <q-datetime v-model="value" type="date" format="DD/MM/YYYY" :min="value.datainicial" v-model.trim="value.datafinal" float-label="Data Final" @blur="$v.value.datafinal.$touch" />
+            <q-datetimepicker v-model="value" type="date" :min="value.datainicial" v-model.trim="value.datafinal" float-label="Data Final" @blur="$v.value.datafinal.$touch" />
           </q-field>
         </div>
 
         <div class="col-xs-12 col-sm-4">
           <!-- Data Próxima Renovação -->
           <q-field :error="$v.value.dataproximarenovacao.$error" error-label="Inválida">
-            <q-datetime v-model="value" type="date" format="DD/MM/YYYY" :min="value.datainicial" v-model.trim="value.dataproximarenovacao" float-label="Próxima Renovação" @blur="$v.value.dataproximarenovacao.$touch" />
+            <q-datetimepicker v-model="value" type="date" :min="value.datainicial" v-model.trim="value.dataproximarenovacao" float-label="Próxima Renovação" @blur="$v.value.dataproximarenovacao.$touch" />
           </q-field>
         </div>
       </div>
@@ -236,7 +236,7 @@ export default {
       // language: "pt-br",
       image: {
         upload: {
-          url: `${baseURL}?action=execTarefa&apelido=GESTAOCONTRATOS-service-contrato-documento-arquivo-upload&tKey=`,
+          url: `${baseURL}?action=execTarefa&apelido=GESTAOCONTRATOS-service-contrato-documento-arquivo-upload&_fileUploadConvertCharset=UTF-8&tKey=`,
           fieldName: "arquivo",
           params: {
             idcontrato: new Id()
@@ -370,9 +370,9 @@ export default {
       id = value
     },
     value(value) {
-      const { diretoriopai } = this.$route.query
-      if (diretoriopai) {
-        value.diretoriopai = { id: diretoriopai }
+      const { diretorio } = this.$route.query
+      if (diretorio) {
+        value.diretorio = { id: diretorio }
       }
     }
   }

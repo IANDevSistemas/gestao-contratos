@@ -10,13 +10,17 @@
         <q-icon name="arrow_back" />
       </q-btn>
 
-      <q-search color="teal" v-model="search" class="search" placeholder="Busca..." />
+      <q-search color="teal" v-model="filter.search" class="search" placeholder="Busca..." />
 
-      <q-btn flat round small @click="sidePanel = true">
+      <q-btn flat round small @click="onSearch()">
         <q-icon name="search" />
       </q-btn>
 
-      <q-btn flat round small @click.prevent.stop="refresh()">
+      <q-btn flat round small @click="detail = 'SEARCH'">
+        <q-icon name="youtube_searched_for" />
+      </q-btn>
+
+      <q-btn flat round small @click.prevent.stop="onRefresh()">
         <q-icon name="refresh" />
       </q-btn>
 
@@ -56,21 +60,24 @@
     </q-tabs>
 
     <!-- Right Side Panel -->
-    <div v-if="sidePanel" slot="right">
-      <q-toolbar />
+    <div v-if="detail === 'SEARCH'" slot="right">
+      <q-toolbar inverted/>
       <q-toolbar inverted>
-        <q-btn icon="close" flat round small @click="sidePanel = false" />
+        <q-btn icon="close" flat round small @click="detail = ''" />
         <div class="q-toolbar-title"></div>
       </q-toolbar>
       <div class="layout-padding">
-        <search-filter v-model="filter" />
+        <search-filter v-model="filter" @submit="Object.keys(filter).length ? onSearch() : onRefresh()" />
       </div>
-      <q-toolbar inverted>
-        <q-btn color="primary" icon-right="search" @click="refresh()"> Buscar </q-btn>
-        <q-btn flat color="negative" icon-right="clear" @click="filter = {}"> Limpar </q-btn>
-        <div class="q-toolbar-title"></div>
-      </q-toolbar>
     </div>
+
+    <div v-if="detail === 'CONTRATO'" slot="right">
+      <q-toolbar inverted/>
+      <div class="layout-padding">
+        <detail-contrato v-model="selection" />
+      </div>
+    </div>
+
     <q-inner-loading :visible="isLoading">
       <q-spinner size="100px" color="primary" />
     </q-inner-loading>
@@ -78,6 +85,7 @@
 </template>
 
 <script>
+import DetailContrato from "./detail/Contrato"
 import SearchFilter from "./SearchFilter"
 import ViewList from "./list/Component"
 import ViewModule from "./module/Component"
@@ -86,13 +94,14 @@ import services from "service/all"
 
 export default {
   components: {
+    DetailContrato,
     SearchFilter,
     ViewList,
     ViewModule
   },
   data() {
     return {
-      sidePanel: "",
+      detail: "",
       diretorio: {},
       list: {
         contrato: [],
@@ -101,8 +110,7 @@ export default {
       },
       selection: {},
       view: "module",
-      filter: {},
-      search: ""
+      filter: {}
     }
   },
   computed: {
@@ -118,11 +126,10 @@ export default {
     },
     onEdit(ref) {
       const { selection } = this
-      const query = { diretoriopai: this.diretorio.id }
       if (ref === "diretorio") {
-        this.$router.push({ path: `/diretorio/${selection.iddiretorio || "0"}/form`, query })
+        this.$router.push({ path: `/diretorio/${selection.iddiretorio || "0"}/form`, query: { diretoriopai: this.diretorio.id } })
       } else if (ref === "contrato") {
-        this.$router.push({ name: "contrato", params: { id: selection.idcontrato || "0" }, query })
+        this.$router.push({ name: "contrato", params: { id: selection.idcontrato || "0" }, query: { diretorio: this.diretorio.id } })
       }
     },
     onNavBack() {
@@ -137,7 +144,7 @@ export default {
         this.onNavTo(this.selection)
       }
     },
-    refresh() {
+    onRefresh() {
       const { id } = this.$route.params
 
       this.list.loaded = 0
@@ -184,15 +191,57 @@ export default {
           // TODO show some message
           console.error(error)
         })
+    },
+    onSearch() {
+      const { id } = this.$route.params
+
+      this.list.loaded = 0
+      services.diretorio
+        .get({
+          params: {
+            iddiretoriopai: id || 0
+          }
+        })
+        .then(({ data }) => {
+          this.list.diretorio = data.data
+          this.list.loaded++
+        })
+        .catch(error => {
+          // TODO show some message
+          console.error(error)
+        })
+
+      services.contrato
+        .get({
+          params: {
+            idraiz: id || 0,
+            ...this.filter
+          }
+        })
+        .then(({ data }) => {
+          this.list.contrato = data.data
+          this.list.loaded++
+        })
+        .catch(error => {
+          // TODO show some message
+          console.error(error)
+        })
     }
   },
   watch: {
     $route(to, from) {
-      this.refresh()
+      this.onRefresh()
+    },
+    selection(value) {
+      if (this.selection.idcontrato) {
+        this.detail = "CONTRATO"
+      } else if (this.detail === "CONTRATO") {
+        this.detail = ""
+      }
     }
   },
   mounted() {
-    this.refresh()
+    this.onRefresh()
   }
 }
 </script>
@@ -215,4 +264,7 @@ export default {
   .q-search.search
     flex none
     width 320px
+
+img
+  max-width 100%
 </style>

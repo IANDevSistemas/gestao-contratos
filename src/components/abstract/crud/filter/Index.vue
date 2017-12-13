@@ -1,6 +1,7 @@
 <script>
 import CrudFilterActions from "./Actions"
 import { LocalStorage } from "quasar"
+import services from "service/all"
 
 const STORAGE_KEY = `${location.hash}/filter`
 
@@ -17,6 +18,11 @@ export default {
     return {
       autocomplete: {},
       options: {}
+    }
+  },
+  computed: {
+    services() {
+      return services
     }
   },
   methods: {

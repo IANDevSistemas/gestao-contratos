@@ -49,6 +49,47 @@ Vue.use(Vuelidate)
 numeral.locale("pt-br")
 moment.locale("pt-br")
 
+Vue.filter("date", value => {
+  const parsed = moment(value)
+  return value && parsed.isValid() ? parsed.format("DD/MM/YYYY") : ""
+})
+
+Vue.component("q-datetimepicker", {
+  extends: AllQuasar.QDatetime,
+  props: {
+    format: {
+      default() {
+        return "DD/MM/YYYY"
+      }
+    },
+    monthNames: {
+      default() {
+        return ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+      }
+    },
+    dayNames: {
+      default() {
+        return ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
+      }
+    },
+    okLabel: {
+      default() {
+        return "OK"
+      }
+    },
+    clearLabel: {
+      default() {
+        return "Limpar"
+      }
+    },
+    cancelLabel: {
+      default() {
+        return "Limpar"
+      }
+    }
+  }
+})
+
 Quasar.start(() => {
   /* eslint-disable no-new */
   new Vue({

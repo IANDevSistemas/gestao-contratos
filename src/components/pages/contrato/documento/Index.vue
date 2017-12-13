@@ -152,6 +152,7 @@ export default {
         const query = {
           action: "execTarefa",
           apelido: "GESTAOCONTRATOS-service-contrato-documento-arquivo-upload",
+          _fileUploadConvertCharset: "UTF-8",
           tKey: "",
           idcontrato: this.contrato.id,
           arquivo: file.name

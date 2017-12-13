@@ -7,7 +7,7 @@
           <div class="col-xs-12 col-sm-4">
             <!-- Data Vencimento -->
             <q-field :error="$v.value.datavencimento.$error" error-label="Entre com um valor válido">
-              <q-datetime type="date" format="DD/MM/YYYY" v-model.trim="value.datavencimento" float-label="Vencimento" @blur="$v.value.datavencimento.$touch" />
+              <q-datetimepicker type="date" v-model.trim="value.datavencimento" float-label="Vencimento" @blur="$v.value.datavencimento.$touch" />
             </q-field>
           </div>
           <div class="col-xs-12 col-sm-4">
@@ -29,14 +29,14 @@
           <div class="col-xs-12 col-sm-6">
             <!-- Data Referencia Inicial -->
             <q-field :error="$v.value.datareferenciainicial.$error" error-label="Entre com um valor válido">
-              <q-datetime type="date" format="DD/MM/YYYY" v-model.trim="value.datareferenciainicial" float-label="Ref. Inicial" @blur="$v.value.datareferenciainicial.$touch" />
+              <q-datetimepicker type="date" v-model.trim="value.datareferenciainicial" float-label="Ref. Inicial" @blur="$v.value.datareferenciainicial.$touch" />
             </q-field>
           </div>
 
           <div class="col-xs-12 col-sm-6">
             <!-- Data Referencia Final -->
             <q-field :error="$v.value.datareferenciafinal.$error" error-label="Entre com um valor válido">
-              <q-datetime type="date" format="DD/MM/YYYY" v-model.trim="value.datareferenciafinal" float-label="Ref. Final" @blur="$v.value.datareferenciafinal.$touch" />
+              <q-datetimepicker type="date" v-model.trim="value.datareferenciafinal" float-label="Ref. Final" @blur="$v.value.datareferenciafinal.$touch" />
             </q-field>
           </div>
         </div>
@@ -46,7 +46,7 @@
           <div class="col-xs-12 col-sm-6">
             <!-- Data Pagamento -->
             <q-field :error="$v.value.datapagamento.$error" error-label="Entre com um valor válido">
-              <q-datetime type="date" format="DD/MM/YYYY" v-model.trim="value.datapagamento" float-label="Data" @blur="$v.value.datapagamento.$touch" />
+              <q-datetimepicker type="date" v-model.trim="value.datapagamento" float-label="Data" @blur="$v.value.datapagamento.$touch" />
             </q-field>
           </div>
           <div class="col-xs-12 col-sm-6">

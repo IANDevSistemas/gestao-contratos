@@ -35,6 +35,10 @@
               <q-item-main label="Valores" />
               <q-item-side icon="attach_money" />
             </q-item>
+            <q-item :to="{ name: 'contrato.responsavel', params: { id: contrato.id } }">
+              <q-item-main label="Responsáveis" />
+              <q-item-side icon="people" />
+            </q-item>
           </q-list>
         </q-context-menu>
       </div>
@@ -90,7 +94,7 @@ export default {
         "col-sm-4": true,
         "col-md-3": true,
         "col-lg-5": true,
-        "col-xl-3": true
+        "col-xl-2": true
       }
     }
   },

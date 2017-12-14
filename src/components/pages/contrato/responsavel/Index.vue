@@ -1,63 +1,161 @@
 <template>
   <section>
-    <q-toolbar color="primary" inverted>
-      <q-toolbar-title>
-        Contrato: {{contrato.descricao}}
-        <span slot="subtitle">
-          Subtitle
-        </span>
-      </q-toolbar-title>
-    </q-toolbar>
 
-    <q-data-table :data="list" :config="config" :columns="columns" />
+    <crud-table-filter v-model="filter" />
+    <crud-table-actions @add="$refs.modal.open()" />
+
+    <vuetable ref="table" :http-fetch="httpFetch" :fields="table.fields" :css="table.css" pagination-path="">
+      <template slot="actions" slot-scope="props">
+        <q-toolbar color="primary" inverted>
+          <q-btn round small flat icon="mode_edit" @click="onAction('edit', props.rowData, props.rowIndex)" />
+          <q-btn round small flat icon="delete_forever" @click="onAction('delete', props.rowData, props.rowIndex)" />
+        </q-toolbar>
+      </template>
+    </vuetable>
+
+    <q-modal ref="modal" @close="refresh()" :content-css="{ minWidth: '800px', minHeight: '100vh' }">
+      <q-modal-layout>
+        <q-toolbar slot="header">
+          <div class="q-toolbar-title">Adicionar Valores</div>
+          <q-btn flat @click="$refs.modal.close()">
+            <q-icon name="close" />
+          </q-btn>
+        </q-toolbar>
+
+        <add :idcontrato="contrato.id" />
+      </q-modal-layout>
+    </q-modal>
   </section>
 </template>
 
 <script>
-import services from "service/all"
+import Add from "./Add"
+import CrudTableActions from "@/abstract/crud/table/Actions"
+import CrudTableFilter from "./Filter"
+import { Dialog } from "quasar"
+import Vuetable from "vuetable-2"
+import { baseURL } from "service/config"
+import kebabCase from "lodash/kebabCase"
+import merge from "lodash/merge"
+import moment from "moment"
+import service from "service/contratoResponsavel"
 
 export default {
+  components: {
+    Add,
+    CrudTableActions,
+    CrudTableFilter,
+    Vuetable
+  },
   data() {
     return {
+      baseURL,
       contrato: {},
-      list: [],
-      config: {
-        rowHeight: "50px",
-        title: "Responsáveis",
-        refresh: true,
-        bodyStyle: {
-          maxHeight: "500px"
+      filter: {},
+      table: {
+        fields: [
+          { name: "pessoa", sortField: "pessoa", title: "Pessoa" },
+          { name: "funcao", sortField: "funcao", title: "Função" },
+          { name: "tiporesponsavelcontrato", sortField: "tiporesponsavelcontrato", title: "Tipo Responsável" },
+          { name: "aprovacao", sortField: "aprovacao", title: "Feedback" },
+          { name: "datasituacao", sortField: "datasituacao", title: "Data Feedback" },
+          { name: "__slot:actions", title: "", width: "110px" }
+        ],
+        css: {
+          tableClass: {
+            bordered: true,
+            striped: true,
+            highlight: true,
+            responsive: true,
+            [kebabCase("qTable")]: true
+          }
         }
-      },
-      columns: [{ label: "Responsável", field: "pessoa" }, { label: "Tipo", field: "tiporesponsavelcontrato" }, { label: "Função", field: "funcao" }]
+      }
     }
   },
   methods: {
+    onAction(action, item, index) {
+      switch (action) {
+        case "edit":
+          this.$router.push({ name: "contrato.valor.edit", params: { id: item.id } })
+          break
+        case "delete":
+          Dialog.create({
+            title: "Deletar",
+            message: "Deletar o valor ?",
+            buttons: [
+              {
+                label: "Não",
+                color: "primary",
+                flat: true
+              },
+              {
+                label: "Sim",
+                raised: true,
+                color: "negative",
+                handler: () => {
+                  service
+                    .delete({ params: { id: item.id } })
+                    .then(response => {
+                      this.refresh()
+                    })
+                    .catch(error => {
+                      this.refresh()
+                      // TODO add some message
+                      console.error(error)
+                    })
+                }
+              }
+            ]
+          })
+          break
+        default:
+          console.error(new Error("Invalid action"))
+      }
+    },
     refresh() {
-      const { params } = this.$route
-      services.contrato
-        .get({ params })
-        .then(({ data }) => {
-          this.contrato = data
-        })
-        .catch(error => {
-          // TODO add message
-          console.log(error)
-        })
+      this.$refs.table.refresh()
+    },
+    httpFetch(url, options) {
+      const args = merge({}, { params: { ...this.filter, idcontrato: this.contrato.id } }, options)
+      return service.get(args)
+    },
 
-      services.contratoResponsavel
-        .get({ params: { idcontrato: params.id } })
-        .then(({ data }) => {
-          this.list = data.data
-        })
-        .catch(error => {
-          // TODO add message
-          console.log(error)
-        })
+    // Formatters
+    dateFormatter(value) {
+      const date = moment(value)
+      return date.isValid() ? date.format("DD/MM/YYYY") : ""
+    },
+    situacaoFormatter(value) {
+      return ["Ativo", "Inativo", "Pago"]["AIP".indexOf(value)]
     }
   },
   created() {
-    this.refresh()
+    const { id } = this.$route.params
+    this.contrato = { id }
+  },
+  watch: {
+    filter() {
+      this.refresh()
+    }
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+section
+  margin auto
+  max-width 1000px
+
+table
+  width 100%
+
+.q-toolbar
+  min-height 0
+  padding 0
+
+iframe
+  border none
+  min-height calc(100vh - 40px)
+  width 100%
+</style>

@@ -8,20 +8,26 @@
 
       <q-btn flat round small @click="onNavBack">
         <q-icon name="arrow_back" />
+        <q-tooltip>Voltar</q-tooltip>
       </q-btn>
 
-      <q-search color="teal" v-model="filter.search" class="search" placeholder="Busca..." />
+      <form @submit.stop.prevent="onSearch()" class="row">
+        <q-search color="teal" v-model="filter.descricao" class="search" placeholder="Busca..." />
 
-      <q-btn flat round small @click="onSearch()">
-        <q-icon name="search" />
-      </q-btn>
+        <q-btn flat round small type="submit">
+          <q-icon name="search" />
+          <q-tooltip>Busca Simples</q-tooltip>
+        </q-btn>
+      </form>
 
       <q-btn flat round small @click="detail = 'SEARCH'">
         <q-icon name="youtube_searched_for" />
+        <q-tooltip>Busca Avançada</q-tooltip>
       </q-btn>
 
-      <q-btn flat round small @click.prevent.stop="onRefresh()">
+      <q-btn flat round small @click.prevent.stop="filter = {}, onRefresh()">
         <q-icon name="refresh" />
+        <q-tooltip>Atualizar</q-tooltip>
       </q-btn>
 
       <!-- <q-btn flat round small @click.prevent.stop="toggleView"> -->
@@ -147,6 +153,8 @@ export default {
     onRefresh() {
       const { id } = this.$route.params
 
+      this.filter = {}
+
       this.list.loaded = 0
       services.diretorio
         .get({
@@ -199,7 +207,8 @@ export default {
       services.diretorio
         .get({
           params: {
-            iddiretoriopai: id || 0
+            idraiz: id || 0,
+            ...this.filter
           }
         })
         .then(({ data }) => {

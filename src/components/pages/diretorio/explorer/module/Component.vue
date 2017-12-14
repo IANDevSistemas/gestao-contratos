@@ -2,7 +2,7 @@
   <div>
     <h6>Diretórios</h6>
     <div class="row xs-gutter">
-      <div v-for="(diretorio, index) in diretorios" :key="index" class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
+      <div v-for="(diretorio, index) in diretorios" :key="index" :class="col">
         <v-diretorio :model="diretorio" :color="value === diretorio ? 'primary' : diretorio.cor" @click="$emit('input', diretorio)" @dblclick="$emit('change', diretorio)" />
         <q-context-menu @open="$emit('input', diretorio)">
           <q-list link separator style="min-width: 200px; max-height: 300px;">
@@ -13,13 +13,13 @@
           </q-list>
         </q-context-menu>
       </div>
-      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
+      <div :class="col">
         <v-new @click="$emit('add', 'diretorio')" />
       </div>
     </div>
     <h6>Contratos</h6>
     <div class="row xs-gutter">
-      <div v-for="(contrato, index) in contratos" :key="index" class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
+      <div v-for="(contrato, index) in contratos" :key="index" :class="col">
         <v-contrato :model="contrato" :color="value === contrato ? 'primary' : ''" @click="$emit('input', contrato)" @dblclick="$emit('edit', 'contrato')" />
         <q-context-menu @open="$emit('input', contrato)">
           <q-list link separator style="min-width: 200px; max-height: 300px;">
@@ -38,7 +38,7 @@
           </q-list>
         </q-context-menu>
       </div>
-      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
+      <div :class="col">
         <v-new @click="$emit('add', 'contrato')" />
       </div>
     </div>
@@ -80,6 +80,17 @@ export default {
       selection: {
         contratos: [],
         diretorios: []
+      }
+    }
+  },
+  computed: {
+    col() {
+      return {
+        "col-xs-12": true,
+        "col-sm-4": true,
+        "col-md-3": true,
+        "col-lg-5": true,
+        "col-xl-3": true
       }
     }
   },

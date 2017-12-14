@@ -27,6 +27,25 @@
         <td>{{value.dataproximarenovacao | date}}</td>
       </tr>
     </table>
+
+    <div class="actions">
+      <q-btn flat color="primary" @click="$router.push({ name: 'contrato', params: { id: value.id } })" class="full-width">
+        Editar
+      </q-btn>
+      <q-btn flat color="primary" @click="$router.push({ name: 'contrato.documento', params: { id: value.id } })" class="full-width">
+        Documentos
+      </q-btn>
+      <q-btn flat color="primary" @click="$router.push({ name: 'contrato.valor', params: { id: value.id } })" class="full-width">
+        Valores
+      </q-btn>
+      <q-btn flat color="primary" @click="$router.push({ name: 'contrato.unidade', params: { id: value.id } })" class="full-width">
+        Unidades
+      </q-btn>
+      <q-btn flat color="primary" @click="$router.push({ name: 'contrato.responsavel', params: { id: value.id } })" class="full-width">
+        Responsáveis
+      </q-btn>
+    </div>
+
     <h6>Objeto</h6>
     <div colspan="2" v-html="value.objetocontrato"></div>
   </section>
@@ -39,6 +58,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.actions
+  margin-bottom 12px
+  margin-top 12px
 </style>
 
 

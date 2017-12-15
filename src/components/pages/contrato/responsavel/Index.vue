@@ -21,7 +21,6 @@
             <q-icon name="close" />
           </q-btn>
         </q-toolbar>
-
         <add :idcontrato="contrato.id" />
       </q-modal-layout>
     </q-modal>
@@ -69,6 +68,11 @@ export default {
             responsive: true,
             [kebabCase("qTable")]: true
           }
+        },
+        queryParams: {
+          sort: "sort",
+          page: "page",
+          perPage: "size"
         }
       }
     }

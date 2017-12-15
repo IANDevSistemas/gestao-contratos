@@ -1,6 +1,6 @@
 <template>
   <section>
-    <form>
+    <form @submit.stop.prevent="filter">
       <div class="row sm-gutter">
         <div class="col-xs-12 col-sm-5">
           <!-- Data Referência Inicial -->

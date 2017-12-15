@@ -38,14 +38,14 @@
         <div class="col-xs-12 col-sm-5">
           <!-- Tipo Contrato -->
           <q-field :error="$v.value.idtipocontrato.$error" error-label="Selecione um valor">
-            <q-select v-model="value.idtipocontrato" filter float-label="Tipo Contrato" radio :options="options.tipocontrato" @blur="$v.value.idtipocontrato.$touch" />
+            <q-select v-model="value.idtipocontrato" filter clearable float-label="Tipo Contrato" radio :options="options.tipocontrato" @blur="$v.value.idtipocontrato.$touch" />
           </q-field>
         </div>
 
         <!-- Índice -->
         <div class="col-xs-12 col-sm-5">
           <q-field :error="$v.value.idindiceatualizacao.$error" error-label="Selecione um valor">
-            <q-select v-model="value.idindiceatualizacao" filter float-label="Índice" radio :options="options.indice" @blur="$v.value.idindiceatualizacao.$touch" />
+            <q-select v-model="value.idindiceatualizacao" filter clearable float-label="Índice" radio :options="options.indice" @blur="$v.value.idindiceatualizacao.$touch" />
           </q-field>
         </div>
 
@@ -398,4 +398,5 @@ h6
 * > img
   max-width 100%
   width 100%
+
 </style>

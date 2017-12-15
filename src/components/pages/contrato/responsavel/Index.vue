@@ -13,7 +13,7 @@
       </template>
     </vuetable>
 
-    <q-modal ref="modal" @close="refresh()" :content-css="{ minWidth: '800px', minHeight: '100vh' }">
+    <q-modal ref="modal" @close="refresh()" :content-css="{ minWidth: '1000px', minHeight: '100vh' }">
       <q-modal-layout>
         <q-toolbar slot="header">
           <div class="q-toolbar-title">Adicionar Valores</div>

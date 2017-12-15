@@ -14,7 +14,7 @@
             <!-- Cor -->
             <label>Cor</label>
             <q-field :error="$v.value.cor.$error" error-label="Selecione um valor" dark>
-              <q-select v-model="value.cor" :color="value.cor" :options="cores" @blur="$v.value.cor.$touch" inverted/>
+              <q-select v-model="value.cor" :color="value.cor" filter clearable :options="cores" @blur="$v.value.cor.$touch" inverted/>
             </q-field>
           </div>
 
@@ -81,7 +81,7 @@ export default {
       this.value.favorito = value ? "S" : "N"
     },
     value(value) {
-      this.favorito = value === "S"
+      this.favorito = value.favorito === "S"
       const { diretoriopai } = this.$route.query
       if (diretoriopai) {
         value.diretoriopai = { id: diretoriopai }

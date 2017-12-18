@@ -6,7 +6,7 @@
         <q-tooltip>Voltar</q-tooltip>
       </q-btn>
     </q-card-actions>
-    <vuetable ref="table" :http-fetch="httpFetch" :fields="table.fields" :css="table.css" pagination-path="">
+    <vuetable ref="table" :http-fetch="httpFetch" :fields="fields" :query-params="{ perPage: 'size' }" :css="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
       <template slot="actions" slot-scope="props">
         <q-toolbar class="compact" inverted>
           <q-spinner v-show="props.rowData.isSaving" />
@@ -40,20 +40,7 @@ export default {
       baseURL,
       contrato: {},
       filter: {},
-      table: {
-        fields: [{ name: "__slot:actions", title: "", width: "110px" }, { name: "empresaunidade.text", sortField: "empresaunidade", title: "Unidade" }],
-        css: {
-          tableClass: {
-            bordered: true,
-            striped: true,
-            highlight: true,
-            responsive: true,
-            [kebabCase("qTable")]: true
-          },
-          ascendingIcon: "fa fa-long-arrow-up",
-          descendingIcon: "fa fa-long-arrow-down"
-        }
-      }
+      fields: [{ name: "__slot:actions", title: "", width: "110px" }, { name: "empresaunidade.text", sortField: "empresaunidade", title: "Unidade" }]
     }
   },
   methods: {

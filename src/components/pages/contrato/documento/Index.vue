@@ -1,7 +1,7 @@
 <template>
   <section>
     <crud-table-actions @add="$refs.uploader.open()" />
-    <vuetable ref="table" :http-fetch="httpFetch" :fields="table.fields" :css="table.css" pagination-path="">
+    <vuetable ref="table" :http-fetch="httpFetch" :fields="fields" :query-params="{ perPage: 'size' }" :css="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
       <template slot="actions" slot-scope="props">
         <q-toolbar color="primary" inverted>
           <q-btn round small flat icon="remove_red_eye" @click="onAction('view', props.rowData, props.rowIndex)" />
@@ -55,29 +55,18 @@ export default {
       },
       contrato: {},
       filter: {},
-      table: {
-        fields: [
-          {
-            name: "descricao",
-            sortField: "descricao",
-            title: "Descrição"
-          },
-          {
-            name: "__slot:actions",
-            title: "",
-            width: "160px"
-          }
-        ],
-        css: {
-          tableClass: {
-            bordered: true,
-            striped: true,
-            highlight: true,
-            responsive: true,
-            [kebabCase("qTable")]: true
-          }
+      fields: [
+        {
+          name: "descricao",
+          sortField: "descricao",
+          title: "Descrição"
+        },
+        {
+          name: "__slot:actions",
+          title: "",
+          width: "160px"
         }
-      }
+      ]
     }
   },
   methods: {

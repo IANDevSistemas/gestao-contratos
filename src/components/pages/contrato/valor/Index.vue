@@ -4,7 +4,7 @@
     <crud-table-filter v-model="filter" />
     <crud-table-actions @add="$refs.modal.open()" />
 
-    <vuetable ref="table" :http-fetch="httpFetch" :fields="table.fields" :css="table.css" pagination-path="">
+    <vuetable ref="table" :http-fetch="httpFetch" :fields="fields" :query-params="{ perPage: 'size' }" :css="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
       <template slot="actions" slot-scope="props">
         <q-toolbar color="primary" inverted>
           <q-btn round small flat icon="mode_edit" @click="onAction('edit', props.rowData, props.rowIndex)" />
@@ -52,27 +52,16 @@ export default {
       baseURL,
       contrato: {},
       filter: {},
-      table: {
-        fields: [
-          { name: "situacao", sortField: "situacao", title: "Situação", callback: "situacaoFormatter" },
-          { name: "datareferenciainicial", sortField: "datareferenciainicial", title: "Ref. Inicio", callback: "dateFormatter" },
-          { name: "datareferenciafinal", sortField: "datareferenciafinal", title: "Ref. Fim", callback: "dateFormatter" },
-          { name: "valor", sortField: "valor", title: "Valor", dataClass: "text-right" },
-          { name: "datavencimento", sortField: "datavencimento", title: "Vencimento", callback: "dateFormatter" },
-          { name: "valorpago", sortField: "valorpago", title: "Valor Pago", dataClass: "text-right" },
-          { name: "datapagamento", sortField: "datapagamento", title: "Data Pagamento", callback: "dateFormatter" },
-          { name: "__slot:actions", title: "", width: "110px" }
-        ],
-        css: {
-          tableClass: {
-            bordered: true,
-            striped: true,
-            highlight: true,
-            responsive: true,
-            [kebabCase("qTable")]: true
-          }
-        }
-      }
+      fields: [
+        { name: "situacao", sortField: "situacao", title: "Situação", callback: "situacaoFormatter" },
+        { name: "datareferenciainicial", sortField: "datareferenciainicial", title: "Ref. Inicio", callback: "dateFormatter" },
+        { name: "datareferenciafinal", sortField: "datareferenciafinal", title: "Ref. Fim", callback: "dateFormatter" },
+        { name: "valor", sortField: "valor", title: "Valor", dataClass: "text-right" },
+        { name: "datavencimento", sortField: "datavencimento", title: "Vencimento", callback: "dateFormatter" },
+        { name: "valorpago", sortField: "valorpago", title: "Valor Pago", dataClass: "text-right" },
+        { name: "datapagamento", sortField: "datapagamento", title: "Data Pagamento", callback: "dateFormatter" },
+        { name: "__slot:actions", title: "", width: "110px" }
+      ]
     }
   },
   methods: {

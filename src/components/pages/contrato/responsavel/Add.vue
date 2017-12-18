@@ -43,7 +43,7 @@
       </q-btn>
     </q-toolbar>
     </div>
-    <vuetable ref="table" :api-mode="false" :fields="table.fields" table-height="calc(100vh - 250px)" :css="table.css" pagination-path="">
+    <vuetable ref="table" :api-mode="false" :fields="fields" table-height="calc(100vh - 250px)" :css="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
       <template slot="idtiporesponsavelcontrato" slot-scope="props">
         <!-- Tipo Responsável -->
         <q-field v-if="!props.rowData.id" class="compact">
@@ -105,25 +105,13 @@ export default {
       baseURL,
       contrato: {},
       list: [],
-      table: {
-        fields: [
-          { name: "nomerazaosocial", sortField: "nomerazaosocial", title: "Razão Social", width: "280px" },
-          { name: "nomefantasia", sortField: "nomefantasia", title: "Nome Fantasia", width: "280px" },
-          { name: "__slot:funcao", sortField: "funcao", title: "Função", width: "180px" },
-          { name: "__slot:idtiporesponsavelcontrato", sortField: "idtiporesponsavelcontrato", title: "Tipo Responsável", width: "220px" },
-          { name: "__slot:actions", title: "", width: "100px" }
-        ],
-        css: {
-          tableClass: {
-            bordered: true,
-            // compact: true,
-            striped: true,
-            highlight: true,
-            responsive: true,
-            [kebabCase("qTable")]: true
-          }
-        }
-      }
+      fields: [
+        { name: "nomerazaosocial", sortField: "nomerazaosocial", title: "Razão Social", width: "280px" },
+        { name: "nomefantasia", sortField: "nomefantasia", title: "Nome Fantasia", width: "280px" },
+        { name: "__slot:funcao", sortField: "funcao", title: "Função", width: "180px" },
+        { name: "__slot:idtiporesponsavelcontrato", sortField: "idtiporesponsavelcontrato", title: "Tipo Responsável", width: "220px" },
+        { name: "__slot:actions", title: "", width: "100px" }
+      ]
     }
   },
   methods: {

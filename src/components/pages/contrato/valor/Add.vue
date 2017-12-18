@@ -32,7 +32,7 @@
       </q-btn>
     </q-toolbar>
 
-    <vuetable ref="table" :api-mode="false" :fields="table.fields" table-height="calc(100vh - 250px)" :css="table.css" pagination-path="">
+    <vuetable ref="table" :api-mode="false" :fields="fields" table-height="calc(100vh - 250px)" :css="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
       <template slot="datavencimento" slot-scope="props">
         <q-datetimepicker v-model="props.rowData.datavencimento" type="date" class="text-right" :readonly="props.rowData.id" />
       </template>
@@ -91,28 +91,14 @@ export default {
       baseURL,
       contrato: {},
       list: [],
-      table: {
-        fields: [
-          { name: "datareferenciainicial", sortField: "datareferenciainicial", title: "Ref. Inicio", callback: "dateFormatter", width: "160px" },
-          { name: "datareferenciafinal", sortField: "datareferenciafinal", title: "Ref. Fim", callback: "dateFormatter", width: "160px" },
-          { name: "__slot:datavencimento", sortField: "datavencimento", title: "Vencimento", width: "160px" },
-          { name: "__slot:valor", sortField: "valor", title: "Valor (R$)", width: "200px" },
-          { name: "situacao", sortField: "situacao", title: "Situação", callback: "situacaoFormatter", width: "100px" },
-          // { name: "valorpago", sortField: "valorpago", title: "Valor Pago", callback: "numberFormatter", width: "200px" },
-          // { name: "datapagamento", sortField: "datapagamento", title: "Data Pagamento", callback: "dateFormatter", width: "200px" },
-          { name: "__slot:actions", title: "", width: "100px" }
-        ],
-        css: {
-          tableClass: {
-            bordered: true,
-            // compact: true,
-            striped: true,
-            highlight: true,
-            responsive: true,
-            [kebabCase("qTable")]: true
-          }
-        }
-      }
+      fields: [
+        { name: "datareferenciainicial", sortField: "datareferenciainicial", title: "Ref. Inicio", callback: "dateFormatter", width: "160px" },
+        { name: "datareferenciafinal", sortField: "datareferenciafinal", title: "Ref. Fim", callback: "dateFormatter", width: "160px" },
+        { name: "__slot:datavencimento", sortField: "datavencimento", title: "Vencimento", width: "160px" },
+        { name: "__slot:valor", sortField: "valor", title: "Valor (R$)", width: "200px" },
+        { name: "situacao", sortField: "situacao", title: "Situação", callback: "situacaoFormatter", width: "100px" },
+        { name: "__slot:actions", title: "", width: "100px" }
+      ]
     }
   },
   validations: {

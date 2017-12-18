@@ -56,8 +56,8 @@ export default [
     component: load("/contrato"),
     children: [
       {
-        path: "",
         name: "contrato",
+        path: "",
         component: load("/contrato/form")
       },
       {
@@ -71,14 +71,19 @@ export default [
         component: load("/contrato/valor")
       },
       {
-        path: "responsavel",
         name: "contrato.responsavel",
+        path: "responsavel",
         component: load("/contrato/responsavel")
       },
       {
-        path: "unidade",
         name: "contrato.unidade",
+        path: "unidade",
         component: load("/contrato/unidade")
+      },
+      {
+        name: "contrato.protocolo",
+        path: "protocolo",
+        component: load("/contrato/protocolo")
       }
     ]
   },
@@ -93,6 +98,11 @@ export default [
   {
     path: "/contrato/responsavel/:id",
     component: load("/contrato/responsavel/form")
+  },
+
+  {
+    path: "/contrato/protocolo/:id",
+    component: load("/contrato/protocolo/form")
   },
 
   // Cadastros

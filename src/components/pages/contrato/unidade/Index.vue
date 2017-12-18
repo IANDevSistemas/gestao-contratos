@@ -6,7 +6,7 @@
         <q-tooltip>Voltar</q-tooltip>
       </q-btn>
     </q-card-actions>
-    <vuetable ref="table" :http-fetch="httpFetch" :fields="fields" :query-params="{ perPage: 'size' }" :css="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
+    <vuetable ref="table" :http-fetch="httpFetch" :fields="fields" :query-params="{ size: 'size', page:'page', perPage: 'size' }" :css="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
       <template slot="actions" slot-scope="props">
         <q-toolbar class="compact" inverted>
           <q-spinner v-show="props.rowData.isSaving" />

@@ -1,8 +1,8 @@
 <template>
   <section>
     <crud-table-filter v-model="filter" />
-    <crud-table-actions @add="$router.push({ path: '/contrato/protocolo/0' })" />
-    <vuetable ref="table" :http-fetch="httpFetch" :fields="fields" :query-params="{ perPage: 'size' }" :css="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
+    <crud-table-actions @add="$router.push({ path: '/contrato/protocolo/0', query: { contrato: contrato.id } })" />
+    <vuetable ref="table" :http-fetch="httpFetch" :fields="fields" :query-params="{ size: 'size', page:'page', perPage: 'size' }" :css="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
       <template slot="actions" slot-scope="props">
         <q-toolbar color="primary" inverted>
           <q-btn round small flat icon="mode_edit" @click="$router.push({ path: `/contrato/protocolo/${item.id}` })" />

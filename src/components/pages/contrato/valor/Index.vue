@@ -79,7 +79,7 @@ export default {
     onAction(action, item, index) {
       switch (action) {
         case "edit":
-          this.$router.push({ name: "contrato.valor.edit", params: { id: item.id } })
+          this.$router.push({ path: `/contrato/valor/${item.id}` })
           break
         case "delete":
           Dialog.create({

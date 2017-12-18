@@ -2,17 +2,24 @@
   <section>
     <form @submit.stop.prevent="filter">
       <div class="row sm-gutter">
-        <div class="col-xs-12 col-sm-5">
-          <!-- Data Referência Inicial -->
+        <div class="col-xs-12 col-sm-4">
+          <!-- Pessoa -->
           <q-field>
-            <q-datetimepicker v-model="value.datareferenciainicial" float-label="Ref. Inicial" type="date" />
+            <q-input v-model="value.pessoa" float-label="Pessoa" />
           </q-field>
         </div>
 
-        <div class="col-xs-12 col-sm-5">
-          <!-- Data Referência Final -->
+        <div class="col-xs-12 col-sm-3">
+          <!-- Função -->
           <q-field>
-            <q-datetimepicker v-model="value.datareferenciafinal" float-label="Ref. Final" type="date" />
+            <q-input v-model="value.funcao" float-label="Função" />
+          </q-field>
+        </div>
+
+        <div class="col-xs-12 col-sm-3">
+          <!-- Tipo Responsável -->
+          <q-field>
+            <q-input v-model="value.tiporesponsavelcontrato" float-label="Tipo Responsável" />
           </q-field>
         </div>
 

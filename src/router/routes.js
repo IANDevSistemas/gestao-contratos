@@ -85,9 +85,14 @@ export default [
 
   // Contrato Valor
   {
-    name: "contrato.valor.edit",
     path: "/contrato/valor/:id",
     component: load("/contrato/valor/form")
+  },
+
+  // Contrato Responsável
+  {
+    path: "/contrato/responsavel/:id",
+    component: load("/contrato/responsavel/form")
   },
 
   // Cadastros

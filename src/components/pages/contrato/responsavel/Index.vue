@@ -16,7 +16,7 @@
     <q-modal ref="modal" @close="refresh()" :content-css="{ minWidth: '1000px', minHeight: '100vh' }">
       <q-modal-layout>
         <q-toolbar slot="header">
-          <div class="q-toolbar-title">Adicionar Valores</div>
+          <div class="q-toolbar-title">Adicionar Responsáveis</div>
           <q-btn flat @click="$refs.modal.close()">
             <q-icon name="close" />
           </q-btn>
@@ -53,11 +53,9 @@ export default {
       filter: {},
       table: {
         fields: [
-          { name: "pessoa", sortField: "pessoa", title: "Pessoa" },
+          { name: "pessoa.text", sortField: "pessoa", title: "Pessoa" },
           { name: "funcao", sortField: "funcao", title: "Função" },
-          { name: "tiporesponsavelcontrato", sortField: "tiporesponsavelcontrato", title: "Tipo Responsável" },
-          { name: "aprovacao", sortField: "aprovacao", title: "Feedback" },
-          { name: "datasituacao", sortField: "datasituacao", title: "Data Feedback" },
+          { name: "tiporesponsavelcontrato.text", sortField: "tiporesponsavelcontrato", title: "Tipo Responsável" },
           { name: "__slot:actions", title: "", width: "110px" }
         ],
         css: {
@@ -70,8 +68,6 @@ export default {
           }
         },
         queryParams: {
-          sort: "sort",
-          page: "page",
           perPage: "size"
         }
       }
@@ -81,12 +77,12 @@ export default {
     onAction(action, item, index) {
       switch (action) {
         case "edit":
-          this.$router.push({ name: "contrato.valor.edit", params: { id: item.id } })
+          this.$router.push({ path: `/contrato/responsavel/${item.id}` })
           break
         case "delete":
           Dialog.create({
             title: "Deletar",
-            message: "Deletar o valor ?",
+            message: "Deletar o responsável ?",
             buttons: [
               {
                 label: "Não",

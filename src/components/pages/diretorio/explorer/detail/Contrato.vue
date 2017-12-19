@@ -44,6 +44,9 @@
       <q-btn flat color="primary" @click="$router.push({ name: 'contrato.responsavel', params: { id: value.id } })" class="full-width">
         Responsáveis
       </q-btn>
+      <q-btn flat color="primary" @click="$router.push({ name: 'contrato.protocolo', params: { id: value.id } })" class="full-width">
+        Protocolos
+      </q-btn>
     </div>
 
     <h6>Objeto</h6>

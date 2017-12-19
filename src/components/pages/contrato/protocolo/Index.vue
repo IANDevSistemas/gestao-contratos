@@ -5,7 +5,7 @@
     <vuetable ref="table" :http-fetch="httpFetch" :fields="fields" :query-params="{ size: 'size', page:'page', perPage: 'size' }" :css="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
       <template slot="actions" slot-scope="props">
         <q-toolbar color="primary" inverted>
-          <q-btn round small flat icon="mode_edit" @click="$router.push({ path: `/contrato/protocolo/${item.id}` })" />
+          <q-btn round small flat icon="mode_edit" @click="$router.push({ path: `/contrato/protocolo/${props.rowData.id}` })" />
         </q-toolbar>
       </template>
     </vuetable>
@@ -20,7 +20,7 @@ import Vuetable from "vuetable-2"
 import kebabCase from "lodash/kebabCase"
 import merge from "lodash/merge"
 import moment from "moment"
-import service from "service/contratoResponsavel"
+import service from "service/contratoProtocolo"
 
 export default {
   components: {

@@ -22,6 +22,9 @@
         <q-btn flat @click="$router.push({ name: 'contrato.responsavel' })">
           Responsáveis
         </q-btn>
+        <q-btn flat @click="$router.push({ name: 'contrato.protocolo' })">
+          Protocolos
+        </q-btn>
         <!-- <q-btn flat @click="$router.push({ name: 'contrato.aprovacao' })"> -->
         <!-- Aprovações -->
         <!-- </q-btn> -->
@@ -254,7 +257,7 @@ export default {
       },
       options: {
         tipocontrato: [],
-        indice: [],
+        indice: []
       },
       isSaving: false
     }
@@ -398,5 +401,4 @@ h6
 * > img
   max-width 100%
   width 100%
-
 </style>

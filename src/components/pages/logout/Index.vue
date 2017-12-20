@@ -23,7 +23,7 @@ export default {
       })
       .then(response => {
         self.logout()
-        self.$router.push({ path: "/" })
+        self.$router.push({ path: "/", query: this.$route.query })
       })
   }
 }

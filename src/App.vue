@@ -143,7 +143,7 @@ export default {
     })
 
     if (!this.isLoginRoute(this.$route.path) && !this.loggedIn) {
-      this.$router.push({ path: "/" })
+      this.$router.push({ path: "/", query: this.$route.query })
     }
   },
   destroyed() {

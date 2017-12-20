@@ -34,6 +34,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex"
 import { Dialog } from "quasar"
+import qs from "qs"
 import { required } from "vuelidate/lib/validators"
 import service from "service"
 import sha1 from "sha1"
@@ -54,24 +55,26 @@ export default {
   },
   methods: {
     ...mapActions(["login"]),
-    submit(event, done) {
-      service
+    submit(redir) {
+      return service
         .post("", {
           action: "login",
           usr: this.auth.usr,
           pwd: `!${sha1(this.auth.pwd)}`
         })
         .then(response => {
-          done && done()
           if (response.data === "odwctrl?action=menu") {
             this.login(this.auth)
+            if (typeof redir === "String") {
+              this.$router.push(redir)
+              return
+            }
             this.$router.push({ path: "/" })
           } else {
             Dialog.create({ title: "Erro !", message: "Verifique os dados de acesso e tente novamente." })
           }
         })
         .catch(error => {
-          done && done()
           Dialog.create({ title: "Erro !", message: "Verifique sua conexão e tente novamente." })
           console.error(error)
         })
@@ -85,13 +88,23 @@ export default {
   },
   mounted() {
     if (this.loggedIn) {
-      this.$router.push({ path: "/logout" })
+      this.$router.push({ path: "/logout", query: this.$route.query })
       return
     }
 
+    const { usr, pwd, redir } = qs.parse(window.location.search.substr(1))
     const { auth } = this
+
     auth.save = true
     this.form = auth
+
+    if (usr && pwd) {
+      this.form.usr = usr
+      this.form.pwd = pwd
+      this.submit(redir).then(() => {
+        window.location.search = ""
+      })
+    }
   }
 }
 </script>

@@ -102,9 +102,6 @@ export default {
           .then(response => {
             if (response.data === "odwctrl?action=menu") {
               this.login(this.auth)
-              if (this.isLoginRoute(this.$route.path)) {
-                this.$router.push({ path: "/" })
-              }
             } else {
               this.doLogout()
             }
@@ -144,6 +141,10 @@ export default {
 
       next(route)
     })
+
+    if (!this.isLoginRoute(this.$route.path) && !this.loggedIn) {
+      this.$router.push({ path: "/" })
+    }
   },
   destroyed() {
     // unsync()

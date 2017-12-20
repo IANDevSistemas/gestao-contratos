@@ -32,7 +32,7 @@
       </q-btn>
     </q-toolbar>
 
-    <vuetable ref="table" :api-mode="false" :fields="fields" table-height="calc(100vh - 250px)" :css="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
+    <vuetable ref="table" :api-mode="false" :fields="fields" table-height="calc(100vh - 250px)" :class="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
       <template slot="datavencimento" slot-scope="props">
         <q-datetimepicker v-model="props.rowData.datavencimento" type="date" class="text-right" :readonly="props.rowData.id" />
       </template>

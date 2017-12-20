@@ -43,7 +43,7 @@
       </q-btn>
     </q-toolbar>
     </div>
-    <vuetable ref="table" :api-mode="false" :fields="fields" table-height="calc(100vh - 250px)" :css="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
+    <vuetable ref="table" :api-mode="false" :fields="fields" table-height="calc(100vh - 250px)" :class="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
       <template slot="idtiporesponsavelcontrato" slot-scope="props">
         <!-- Tipo Responsável -->
         <q-field v-if="!props.rowData.id" class="compact">

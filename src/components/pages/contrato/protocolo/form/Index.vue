@@ -43,6 +43,7 @@
             </q-field>
           </div>
         </div>
+        <documento :contrato-protocolo="value" />
       </q-card-main>
     </q-card>
     <crud-form-modal ref="modal" />
@@ -51,16 +52,14 @@
 
 <script>
 import AbstractForm from "@/abstract/crud/form"
+import Documento from "./documento/Component"
 import { computed } from "@/abstract/util/mixins"
 import { required } from "vuelidate/lib/validators"
 
 export default {
   extends: AbstractForm,
-  data() {
-    return {
-      telefone: [],
-      municipio: ""
-    }
+  components: {
+    Documento
   },
   ...computed({
     serviceName: "contratoProtocolo"

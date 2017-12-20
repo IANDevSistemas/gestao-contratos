@@ -1,6 +1,11 @@
 <template>
   <section>
-    <crud-table-actions @add="$refs.uploader.open()" />
+    <q-toolbar>
+      <q-toolbar-title>
+        Arquivos
+      </q-toolbar-title>
+      <q-btn flat icon="add" @click="$refs.uploader.open()" />
+    </q-toolbar>
     <vuetable ref="table" :http-fetch="httpFetch" :fields="fields" :query-params="{ size: 'size', page:'page', perPage: 'size' }" :class="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
       <template slot="actions" slot-scope="props">
         <q-toolbar color="primary" inverted>
@@ -23,8 +28,11 @@
       </q-modal-layout>
     </q-modal>
 
-    <q-modal ref="uploader" position="bottom" :content-css="{ minWidth: '320px', minHeight: '200px' }">
-      <q-uploader v-show="contrato.id" multiple :url="baseURL" :url-factory="urlFactory" @finish="refresh()" />
+    <q-modal ref="uploader" position="bottom" :content-css="{ minWidth: '400px', minHeight: '320px' }">
+      <q-field :count="255">
+        <q-input v-model.trim="descricao" float-label="Descrição"></q-input>
+      </q-field>
+      <q-uploader v-show="contratoProtocolo.id" multiple :url="baseURL" :url-factory="urlFactory" @finish="refresh()" />
     </q-modal>
   </section>
 </template>
@@ -40,26 +48,38 @@ import merge from "lodash/merge"
 import qs from "qs"
 import services from "service/all"
 
-const service = services.contratoDocumento
+const service = services.contratoProtocoloDocumento
 
 export default {
   components: {
     CrudTableActions,
     Vuetable
   },
+  props: {
+    contratoProtocolo: {
+      default() {
+        return {}
+      }
+    }
+  },
   data() {
     return {
       baseURL,
+      descricao: "",
       modal: {
         title: ""
       },
-      contrato: {},
       filter: {},
       fields: [
         {
           name: "descricao",
           sortField: "descricao",
           title: "Descrição"
+        },
+        {
+          name: "nome",
+          sortField: "nome",
+          title: "Arquivo"
         },
         {
           name: "__slot:actions",
@@ -74,7 +94,7 @@ export default {
       // console.log(action, item, index)
       const query = {
         action: "execFunction",
-        apelido: "GESTAOCONTRATOS-service-contrato-documento-arquivo",
+        apelido: "GESTAOCONTRATOS-service-contrato-protocolo-documento-arquivo",
         contentDisposition: "inline",
         id: item.id
       }
@@ -131,7 +151,7 @@ export default {
         delete params.sort
       }
 
-      const args = merge({}, { params: { idcontrato: this.contrato.id || 0 }, options })
+      const args = merge({}, { params: { idcontratoprotocolo: this.contratoProtocolo.id || 0 }, options })
       // console.log(self.filter, args, options)
       return service.get(args)
     },
@@ -140,20 +160,17 @@ export default {
       return new Promise((resolve, reject) => {
         const query = {
           action: "execTarefa",
-          apelido: "GESTAOCONTRATOS-service-contrato-documento-arquivo-upload",
+          apelido: "GESTAOCONTRATOS-service-contrato-protocolo-documento-arquivo-upload",
           _fileUploadConvertCharset: "UTF-8",
           tKey: "",
-          idcontrato: this.contrato.id,
+          idcontratoprotocolo: this.contratoProtocolo.id,
+          descricao: this.descricao,
           arquivo: file.name
         }
 
         resolve(new URL(`${baseURL}?${qs.stringify(query)}`))
       })
     }
-  },
-  created() {
-    const { id } = this.$route.params
-    this.contrato = { id }
   },
   watch: {
     filter() {
@@ -170,6 +187,9 @@ table
 .q-toolbar
   min-height 0
   padding 0
+
+.q-field
+  margin 12px 6px
 
 iframe
   border none

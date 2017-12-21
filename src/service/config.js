@@ -1,5 +1,6 @@
-/* global DEV */
-export const baseURL = `${DEV ? "http://192.168.100.102:28080" : window.location.origin}/bdoserver2.7/odwctrl`
+/* xglobal DEV */
+// export const baseURL = `${DEV ? "http://192.168.100.102:28080" : window.location.origin}/bdoserver2.7/odwctrl`
+export const baseURL = "http://server1iandev.no-ip.org:28081/bdoserver2.7/odwctrl"
 
 // http://server1iandev.no-ip.org:28081
 

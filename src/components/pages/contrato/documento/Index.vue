@@ -35,7 +35,6 @@ import CrudTableActions from "@/abstract/crud/table/Actions"
 import { Dialog } from "quasar"
 import Vuetable from "vuetable-2"
 import { baseURL } from "service/config"
-import kebabCase from "lodash/kebabCase"
 import merge from "lodash/merge"
 import qs from "qs"
 import services from "service/all"
@@ -120,6 +119,8 @@ export default {
             ]
           })
           break
+        default:
+          console.error(new Error("Invalid action"))
       }
     },
     refresh() {

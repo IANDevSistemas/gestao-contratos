@@ -153,7 +153,7 @@ export default {
               small: true,
               flat: true,
               round: true,
-              disable: !Boolean(props.rowData.idempresa)
+              disable: !props.rowData.idempresa
             },
             // directives: [
             //   {

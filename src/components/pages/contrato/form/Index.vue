@@ -205,8 +205,8 @@
 </template>
 
 <script>
-import { Dialog, Toast } from "quasar"
-import { between, email, minValue, required } from "vuelidate/lib/validators"
+import { Toast } from "quasar"
+import { between, minValue, required } from "vuelidate/lib/validators"
 
 import AbsctractCrudForm from "@/abstract/crud/form"
 import Vue from "vue"
@@ -219,7 +219,7 @@ let id = ""
 function Id() {
   // It is not an empty function
 }
-Id.prototype.toString = function() {
+Id.prototype.toString = () => {
   return `${id}`
 }
 

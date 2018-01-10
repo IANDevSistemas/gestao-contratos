@@ -26,7 +26,6 @@
 import CrudTableFilter from "./Filter"
 import Vuetable from "vuetable-2"
 import { baseURL } from "service/config"
-import kebabCase from "lodash/kebabCase"
 import merge from "lodash/merge"
 import service from "service/contratoUnidade"
 

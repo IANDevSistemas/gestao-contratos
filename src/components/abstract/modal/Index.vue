@@ -57,8 +57,12 @@ export default {
       this.message = message
       this.title = title
       this.isLoading = isLoading
-      this.ok = () => {}
-      this.cancel = () => {}
+      this.ok = () => {
+        // It is not a empty function
+      }
+      this.cancel = () => {
+        // It is not a empty function
+      }
       return this
     },
     dialog(title, message, isLoading = false) {

@@ -65,7 +65,7 @@ export default {
         .then(response => {
           if (response.data === "odwctrl?action=menu") {
             this.login(this.auth)
-            if (typeof redir === "String") {
+            if (typeof redir === "string") {
               this.$router.push(redir)
               return
             }

@@ -78,11 +78,9 @@ import Vuetable from "vuetable-2"
 import { baseURL } from "service/config"
 import debounce from "lodash/debounce"
 import isNumber from "lodash/isNumber"
-import kebabCase from "lodash/kebabCase"
 import merge from "lodash/merge"
 import moment from "moment"
 import numeral from "numeral"
-import { required } from "vuelidate/lib/validators"
 import services from "service/all"
 
 let refresh
@@ -137,6 +135,8 @@ export default {
               Vue.set(item, "isSaving", false)
             })
           break
+        default:
+          console.error(new Error("Invalid action"))
       }
     },
     saveAll() {

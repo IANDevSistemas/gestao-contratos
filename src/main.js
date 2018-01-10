@@ -54,9 +54,7 @@ Vue.filter("date", value => {
   return value && parsed.isValid() ? parsed.format("DD/MM/YYYY") : ""
 })
 
-
 const opts = {
-  extends: AllQuasar.QDatetime,
   props: {
     format: {
       default() {
@@ -91,8 +89,8 @@ const opts = {
   }
 }
 
-Vue.component("q-datetimepicker-range", opts)
-Vue.component("q-datetimepicker", opts)
+Vue.component("q-datetimepicker-range", { extends: AllQuasar.QDatetimeRange, ...opts })
+Vue.component("q-datetimepicker", { extends: AllQuasar.QDatetime, ...opts })
 
 Quasar.start(() => {
   /* eslint-disable no-new */

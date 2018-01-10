@@ -2,7 +2,7 @@
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
     <q-layout ref="layout" view="hhh LpR lFr" :left-class="{ 'bg-white': true }">
-      <q-toolbar slot="header" class="print-hide">
+      <q-toolbar v-if="!isFullScreen" slot="header" class="print-hide">
         <q-btn v-show="loggedIn" flat @click="$refs.layout.toggleLeft()">
           <q-icon name="menu" />
         </q-btn>
@@ -12,7 +12,7 @@
         <q-btn flat icon="exit_to_app" v-show="loggedIn" @click="$router.push('/logout')">Logout</q-btn>
       </q-toolbar>
 
-      <q-scroll-area class="print-hide" slot="left" v-if="loggedIn" style="width: 100%; height: 100%;">
+      <q-scroll-area class="print-hide" slot="left" v-if="!isFullScreen && loggedIn" style="width: 100%; height: 100%;">
         <q-side-link item to="/diretorio/0">
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Contratos" />
@@ -56,6 +56,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex"
+import qs from "qs"
 import router from "router"
 import sha1 from "sha1"
 import store from "store"
@@ -68,6 +69,11 @@ import service from "service"
 export default {
   store,
   router,
+  data() {
+    return {
+      isFullScreen: false
+    }
+  },
   computed: {
     ...mapGetters(["loggedIn", "auth"]),
     loginRoute() {
@@ -116,10 +122,14 @@ export default {
   mounted() {
     const self = this
 
+    const { isFullScreen } = qs.parse(window.location.search.substr(1))
+
+    self.isFullScreen = Boolean(isFullScreen)
+
     self.doLogin()
     setInterval(() => {
       self.doLogin()
-    }, 5 * 60 * 1000 /* 5 minutes */)
+    }, 25 * 60 * 1000 /* 25 minutes */)
 
     self.$router.beforeEach((from, to, next) => {
       const { loggedIn, loginRoute } = self

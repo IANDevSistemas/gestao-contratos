@@ -5,7 +5,8 @@
         <!-- Período -->
         <q-field dark :error="$v.form.to.$error || $v.form.from.$error" error-label="Selecione um período válido">
           <label>Período</label>
-          <q-datetimepicker-range type="date" v-model.lazy="form" />
+          <q-datetimepicker-range type="date" v-model="form" />
+          <!-- <q-datetime-range type="date" v-model="form" /> -->
         </q-field>
       </div>
       <div class="col-xs-12 col-sm-3">
@@ -82,8 +83,8 @@ export default {
   data() {
     return {
       form: {
-        from: "",
-        to: "",
+        from: new Date(),
+        to: new Date(),
         groupBy: 2,
         value: 0,
         day: 1
@@ -194,7 +195,7 @@ section
   // padding 12px 32px
   width 100%
 
-.q-datetimepicker-range
+.q-datetimepicker-range, .q-datetime-range
   padding-top 10px
 
 .q-field.compact

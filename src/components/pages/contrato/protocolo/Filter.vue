@@ -3,24 +3,24 @@
     <form @submit.stop.prevent="filter">
       <div class="row sm-gutter">
         <div class="col-xs-12 col-sm-4">
-          <!-- Razão Social -->
+          <!-- Descrição -->
           <q-field :count="255">
-            <q-input v-model.trim="value.nomerazaosocial" float-label="Razão Social" />
+            <q-input v-model.trim="value.descritivo" float-label="Descritivo" />
           </q-field>
         </div>
 
         <div class="col-xs-12 col-sm-4">
-          <!-- Apelido -->
-          <q-field :count="255">
-            <q-input v-model.trim="value.apelido" float-label="Apelido"></q-input>
-          </q-field>
+            <!-- Protocolo -->
+            <q-field>
+              <q-input v-model.trim="value.protocolo" float-label="Protocolo"></q-input>
+            </q-field>
         </div>
 
         <div class="col-xs-12 col-sm-2">
-          <!-- CNPJ / CPF -->
-          <q-field>
-            <q-input v-model.trim="value.cnpjcpf" align="right" float-label="CNPJ / CPF" type="tel" v-mask="[ '###.###.###-##', '##.###.###/####-##' ]" />
-          </q-field>
+            <!-- Situação -->
+            <q-field>
+              <q-select v-model="value.situacao" float-label="Situação" :options="[ { value: 'P', label: 'Pendente' }, { value: 'R', label: 'Resolvido' } ]" />
+            </q-field>
         </div>
 
         <div class="col-xs-12 col-sm-2">
@@ -37,4 +37,3 @@ export default {
   extends: AbstractFilter
 }
 </script>
-

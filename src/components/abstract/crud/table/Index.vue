@@ -44,10 +44,10 @@ export default {
   },
   methods: {
     add() {
-      this.$router.push(`${this.$route.path}/form/`)
+      this.$router.push(`${this.$route.path}/form/`.replace(/[/]+/g, "/"))
     },
     edit(id) {
-      this.$router.push(`${this.$route.path}/form/${id}`)
+      this.$router.push(`${this.$route.path}/form/${id}`.replace(/[/]+/g, "/"))
     },
     refresh() {
       if (this.$refs.table) {
@@ -140,7 +140,7 @@ export default {
         },
         "vuetable:row-dblclicked"(dataItem, event) {
           if (dataItem.idempresa) {
-            self.edit()
+            // self.edit()
           }
         }
       },
@@ -163,9 +163,6 @@ export default {
             // ],
             on: {
               click(data) {
-                if (props.rowData.idempresa) {
-                  self.edit()
-                }
                 self.edit(props.rowData.id)
               }
             }

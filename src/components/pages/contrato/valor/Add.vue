@@ -130,6 +130,8 @@ export default {
               Vue.set(item, "isSaving", false)
             })
           break
+        default:
+          throw new Error("Invalid action")
       }
     },
     saveAll() {

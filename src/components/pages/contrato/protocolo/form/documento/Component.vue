@@ -139,6 +139,8 @@ export default {
             ]
           })
           break
+        default:
+          throw new Error("Invalid action")
       }
     },
     refresh() {

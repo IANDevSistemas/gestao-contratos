@@ -18,7 +18,7 @@
 
       <q-toolbar inverted v-show="mode === 'dialog'">
         <div class="q-toolbar-title"></div>
-        <q-btn color="primary" @click="close()">Ok</q-btn>
+        <q-btn color="primary" @click="onOk()">Ok</q-btn>
       </q-toolbar>
     </q-modal-layout>
   </q-modal>

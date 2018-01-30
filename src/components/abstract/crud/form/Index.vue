@@ -1,4 +1,5 @@
 <script>
+import { Loading, Toast, QSpinnerGears } from "quasar"
 import CrudFormActions from "./Actions"
 import CrudFormModal from "../../modal"
 import Vue from "vue"
@@ -51,17 +52,32 @@ export default {
       }
 
       // Etapa 1: Bloqueia a tela e efetua a ação
-      modal.open().block("Salvando...", "Aguarde enquanto os dados são salvos.", true)
+      // modal.open().block("Salvando...", "Aguarde enquanto os dados são salvos.", true)
+      Loading.show({
+        spinner: QSpinnerGears,
+        message: "Aguarde enquanto os dados são salvos."
+      })
 
       this.save()
         .then(data => {
           // Etapa 3: Mostra a mensagem de sucesso e volta para a tabela
-          modal.dialog("Sucesso !", "Os dados foram salvos com sucesso.")
-          this.value.id = data.msg
+          Loading.hide()
+          const { name, param, query } = this.$route
+          this.$router.push({ name, param, query })
+          Toast.create("Os dados foram salvos com sucesso.")
+          // modal.close()
+          // modal.dialog("Sucesso !", "Os dados foram salvos com sucesso.").then(() => {
+          //   const { name, param, query } = this.$route
+          //   modal.close()
+          //   this.$router.push({ name, param, query })
+          // })
         })
         .catch(error => {
-          modal.dialog("Erro !", "Erro ao salvar os dados.")
           console.error(error)
+          Loading.hide()
+          modal.dialog("Erro !", "Erro ao salvar os dados.").then(() => {
+            modal.close()
+          })
         })
     },
     doSave(resolve, reject) {
@@ -79,6 +95,7 @@ export default {
             reject(new Error(data))
             return
           }
+
           Vue.set(value, "id", data.msg)
           resolve(data)
         })
@@ -100,11 +117,13 @@ export default {
           this.delete()
             .then(response => {
               // Etapa 3: Mostra a mensagem de sucesso e volta para a tabela
-              // modal.close()
+              console.log("ué")
               this.$router.go(-1)
             })
             .catch(error => {
-              modal.dialog("Erro!", "Erro ao remover os dados.")
+              modal.dialog("Erro!", "Erro ao remover os dados.").then(() => {
+                modal.close()
+              })
               console.error(error)
             })
         })
@@ -136,10 +155,12 @@ export default {
   created() {
     const { id } = this.$route.params
     if (id && Boolean(Number(id))) {
+      Loading.show()
       this.service
         .get({ params: { id } })
         .then(({ data }) => {
           this.value = data || {}
+          Loading.hide()
         })
         .catch(error => {
           // TODO: add some message

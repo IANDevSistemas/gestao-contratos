@@ -19,9 +19,9 @@
         <q-btn flat @click="$router.push({ name: 'contrato.unidade' })">
           Unidades
         </q-btn>
-        <q-btn flat @click="$router.push({ name: 'contrato.responsavel' })">
-          Responsáveis
-        </q-btn>
+        <!-- <q-btn flat @click="$router.push({ name: 'contrato.responsavel' })"> -->
+        <!-- Responsáveis -->
+        <!-- </q-btn> -->
         <q-btn flat @click="$router.push({ name: 'contrato.protocolo' })">
           Protocolos
         </q-btn>
@@ -312,16 +312,6 @@ export default {
       if (this.value.id) {
         this.$refs.modalEditor.open()
       }
-    },
-    submit(event, done) {
-      if (this.$v.value.$error) {
-        done && done()
-        Toast.create("Dados inválidos")
-        return
-      }
-
-      done && done()
-      Toast.create("Salvo")
     }
   },
   created() {
@@ -370,7 +360,13 @@ export default {
       this.value.tipocontrato = { id: value }
     },
     "value.id"(value) {
-      id = value
+      // id = value
+      // const { name, params, query } = this.$route
+      const { query } = this.$route
+      // params.id = value || 0
+      // console.log({ name, params, query })
+      // this.$router.push({ name, params, query })
+      this.$router.push({ path: `/contrato/${value || 0}/`, query })
     },
     value(value) {
       const { diretorio } = this.$route.query

@@ -30,17 +30,11 @@ function bind(el, binding, vnode) {
   target.addEventListener("input", eventListener)
   target.addEventListener("change", eventListener)
 
-  // target.addEventListener("input", event => {
-  //   console.log(event)
-  // })
-
   target.addEventListener("focus", () => {
     setCursor(target, target.value.length - opt.suffix.length)
   })
 
   target.dispatchEvent(new Event("input"))
-  // el.oninput()
-  // el.dispatchEvent(event('input')) // force format after initialization
 }
 
 function run(target, opt) {

@@ -1,8 +1,5 @@
 <template>
   <q-card>
-    <q-card-title>
-      {{contrato.id ? `Contrato #${contrato.id}` : "Novo Contrato"}}
-    </q-card-title>
     <q-card-main>
       <router-view/>
     </q-card-main>

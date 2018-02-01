@@ -14,8 +14,8 @@ module.exports = {
   // required to lint *.vue files
   plugins: ["html"],
   globals: {
-    $: true,
-    moment: true
+    // $: true,
+    // moment: true
   },
   // add your custom rules here
   rules: {

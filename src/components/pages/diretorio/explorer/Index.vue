@@ -243,7 +243,7 @@ export default {
     },
     selection(value) {
       if (this.selection.idcontrato) {
-        this.detail = "CONTRATO"
+        // this.detail = "CONTRATO"
       } else if (this.detail === "CONTRATO") {
         this.detail = ""
       }

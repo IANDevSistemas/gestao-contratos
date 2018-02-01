@@ -16,7 +16,7 @@
 import CrudTableActions from "@/abstract/crud/table/Actions"
 import CrudTableFilter from "./Filter"
 import Vuetable from "vuetable-2"
-import kebabCase from "lodash/kebabCase"
+import merge from "lodash/merge"
 import moment from "moment"
 import service from "service/contratoProtocolo"
 

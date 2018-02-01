@@ -1,5 +1,5 @@
 <script>
-import { Loading, Toast, QSpinnerGears } from "quasar"
+import { Loading, QSpinnerGears, Toast } from "quasar"
 import CrudFormActions from "./Actions"
 import CrudFormModal from "../../modal"
 import Vue from "vue"
@@ -47,7 +47,12 @@ export default {
     onSave() {
       const { modal } = this.$refs
       if (!this.validate()) {
-        modal.open().dialog("Dados inválidos", "Verifique os dados inseridos e tente novamente.")
+        modal
+          .open()
+          .dialog("Dados inválidos", "Verifique os dados inseridos e tente novamente.")
+          .then(() => {
+            modal.close()
+          })
         return
       }
 
@@ -112,12 +117,19 @@ export default {
         .confirm("Remover os dados ?", "Tem certeza que os dados devem ser removidos ?")
         .then(() => {
           // Etapa 2: Bloqueia a tela e efetua a ação
-          modal.block("Removendo...", "Aguarde enquanto os dados são removidos.", true)
+          // modal.block("Removendo...", "Aguarde enquanto os dados são removidos.", true)
+          modal.close()
+          Loading.show({
+            spinner: QSpinnerGears,
+            message: "Aguarde enquanto os dados são removidos."
+          })
 
           this.delete()
             .then(response => {
               // Etapa 3: Mostra a mensagem de sucesso e volta para a tabela
+              Loading.hide()
               console.log("ué")
+              Toast.create("Os dados foram removidos com sucesso.")
               this.$router.go(-1)
             })
             .catch(error => {
@@ -152,6 +164,11 @@ export default {
         })
     }
   },
+  // watch: {
+  //   $route() {
+  //     this.created()
+  //   }
+  // },
   created() {
     const { id } = this.$route.params
     if (id && Boolean(Number(id))) {

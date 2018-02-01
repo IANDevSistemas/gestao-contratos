@@ -58,9 +58,8 @@
 import { mapActions, mapGetters } from "vuex"
 import qs from "qs"
 import router from "router"
-import sha1 from "sha1"
 import service from "service"
-import services from "service/all"
+import sha1 from "sha1"
 import store from "store"
 // import { sync } from "vuex-router-sync"
 // const unsync = sync(store, router)
@@ -194,4 +193,3 @@ text-center
 .layout-page
   padding-bottom 32px
 </style>
-

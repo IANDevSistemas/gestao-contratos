@@ -131,6 +131,30 @@
           </q-field>
         </div>
       </div>
+
+      <h6>Distrato</h6>
+      <div class="row sm-gutter">
+        <div class="col-xs-12 col-sm-4">
+          <!-- Multa Valor Distrato -->
+          <q-field :error="$v.value.multavalordistrato.$error" error-label="Valor deve ser maior que 0">
+            <q-input v-model="value.multavalordistrato" align="right" v-money="{ prefix: 'R$ ' }" float-label="Multa" @blur="$v.value.multavalordistrato.$touch" />
+          </q-field>
+        </div>
+
+        <div class="col-xs-12 col-sm-4">
+          <!-- Tipo Multa Distrato -->
+          <q-field :error="$v.value.tipomultadistrato.$error" error-label="Selecione um valor">
+            <q-select v-model="value.tipomultadistrato" clearable float-label="Tipo Multa" :options="[ { value: 'F', label: 'Fixa' }, { value: 'P', label: 'Proporcional' } ]" @blur="$v.value.tipomultadistrato.$touch" />
+          </q-field>
+        </div>
+
+        <div class="col-xs-12 col-sm-4">
+          <!-- Data Distrato Sem Multa -->
+          <q-field :error="$v.value.datadistratosemmulta.$error" error-label="Inválida">
+            <q-datetimepicker type="date" :min="value.datadistratosemmulta" v-model.trim="value.datadistratosemmulta" float-label="Data Máxima Sem Multa" @blur="$v.value.datadistratosemmulta.$touch" />
+          </q-field>
+        </div>
+      </div>
     </section>
 
     <!-- Objeto do contrato -->
@@ -173,11 +197,8 @@
     </section>
 
     <!-- Scroll -->
-    <q-fixed-position corner="top-right" :offset="[0, 100]">
-      <div v-back-to-top.animate="{ offset: 200, duration: 200 }" round v-ripple class="animate-pop play-backtotop">
-        <q-icon name="keyboard_arrow_up" />
-        <span>Topo</span>
-      </div>
+    <q-fixed-position corner="bottom-right" :offset="[25, 25]">
+        <q-btn round color="primary" icon="keyboard_arrow_up" class="animate-pop" v-back-to-top.animate="{ offset: 200, duration: 200 }"/>
     </q-fixed-position>
 
     <!-- Modal -->
@@ -205,8 +226,8 @@
 </template>
 
 <script>
-import { Toast } from "quasar"
 import { between, minValue, required } from "vuelidate/lib/validators"
+import { Toast } from "quasar"
 
 import AbsctractCrudForm from "@/abstract/crud/form"
 import Vue from "vue"
@@ -219,7 +240,7 @@ let id = ""
 function Id() {
   // It is not an empty function
 }
-Id.prototype.toString = () => {
+Id.prototype.toString = function() {
   return `${id}`
 }
 
@@ -281,6 +302,10 @@ export default {
       multapercentualatraso: {},
       multavaloratraso: {},
       diastoleranciamulta: { minValue: minValue(0) },
+
+      datadistratosemmulta: {},
+      tipomultadistrato: {},
+      multavalordistrato: {},
 
       objetocontrato: {}
     }
@@ -360,7 +385,7 @@ export default {
       this.value.tipocontrato = { id: value }
     },
     "value.id"(value) {
-      // id = value
+      id = value
       // const { name, params, query } = this.$route
       const { query } = this.$route
       // params.id = value || 0
@@ -384,15 +409,6 @@ export default {
 h6
   color $primary
   margin-top 32px
-
-.play-backtotop
-  background-color $secondary
-  border-radius 10px 0 0 10px
-  padding 26px
-
-  &:hover
-    color $grey-4
-    cursor pointer
 
 * > img
   max-width 100%

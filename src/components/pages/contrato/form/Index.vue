@@ -355,6 +355,7 @@ export default {
     //      })
     // }
 
+
     this.options.tipocontrato = []
     this.services.tipoContrato
       .get({

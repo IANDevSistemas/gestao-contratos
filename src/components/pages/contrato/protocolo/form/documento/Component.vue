@@ -4,7 +4,7 @@
       <q-toolbar-title>
         Arquivos
       </q-toolbar-title>
-      <q-btn flat icon="add" @click="$refs.uploader.open()" />
+      <q-btn v-if="contratoProtocolo.id" flat icon="add" @click="$refs.uploader.open()" />
     </q-toolbar>
     <vuetable ref="table" :http-fetch="httpFetch" :fields="fields" :query-params="{ size: 'size', page:'page', perPage: 'size' }" :class="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
       <template slot="actions" slot-scope="props">
@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     onAction(action, item, index) {
-      // console.log(action, item, index)
+      //console.log(action, item, index)
       const query = {
         action: "execFunction",
         apelido: "GESTAOCONTRATOS-service-contrato-protocolo-documento-arquivo",
@@ -153,7 +153,7 @@ export default {
       }
 
       const args = merge({}, { params: { idcontratoprotocolo: this.contratoProtocolo.id || 0 }, options })
-      // console.log(self.filter, args, options)
+      //console.log(self.filter, args, options)
       return service.get(args)
     },
     urlFactory(file) {
@@ -175,6 +175,9 @@ export default {
   },
   watch: {
     filter() {
+      this.refresh()
+    },
+    contratoProtocolo: function (val) {
       this.refresh()
     }
   }

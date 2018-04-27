@@ -340,6 +340,21 @@ export default {
     }
   },
   created() {
+
+    // const { id } = this.$route.params
+    // if (id && Boolean(Number(id))) {
+    //    this.service
+    //      .get({ params: { id } })
+    //      .then(({ data }) => {
+    //        this.value = data || {}
+    //        this.autocompleteSelected('pessoa', this.value.pessoa)
+    //      })
+    //      .catch(error => {
+    //        // TODO: add some message
+    //        console.error(error)
+    //      })
+    // }
+
     this.options.tipocontrato = []
     this.services.tipoContrato
       .get({
@@ -369,7 +384,10 @@ export default {
         console.error(error)
       })
 
+
     const { value } = this
+
+    console.log(value)
 
     try {
       if (value.idcontrato) {

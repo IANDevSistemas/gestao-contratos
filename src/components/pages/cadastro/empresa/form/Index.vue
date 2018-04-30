@@ -75,7 +75,7 @@
 
       <div class="col-xs-12 col-sm-3">
         <!-- Complemento -->
-        <q-field :error="$v.value.complemento.$error" error-label="Entre com um valor válido" :count="255">
+        <q-field :count="255">
           <q-input v-model.trim="value.complemento" float-label="Complemento" @blur="$v.value.complemento.$touch"></q-input>
         </q-field>
       </div>
@@ -142,7 +142,7 @@ export default {
       endereco: { required },
       bairro: { required },
       numero: { required },
-      complemento: { required },
+      complemento: {},
       cep: { required },
       municipio: {}
     }

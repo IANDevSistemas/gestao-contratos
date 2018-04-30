@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     onAction(action, item, index) {
-      //console.log(action, item, index)
+      // console.log(action, item, index)
       const query = {
         action: "execFunction",
         apelido: "GESTAOCONTRATOS-service-contrato-protocolo-documento-arquivo",
@@ -153,7 +153,7 @@ export default {
       }
 
       const args = merge({}, { params: { idcontratoprotocolo: this.contratoProtocolo.id || 0 }, options })
-      //console.log(self.filter, args, options)
+      // console.log(self.filter, args, options)
       return service.get(args)
     },
     urlFactory(file) {

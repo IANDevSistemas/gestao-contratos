@@ -240,7 +240,7 @@ let id = ""
 function Id() {
   // It is not an empty function
 }
-Id.prototype.toString = function() {
+Id.prototype.toString = function () {
   return `${id}`
 }
 
@@ -265,7 +265,7 @@ export default {
           params: {
             idcontrato: new Id()
           }
-        },
+        }
         // uploadHandler(responseText){
         //   console.log(responseText)
         // }
@@ -319,7 +319,7 @@ export default {
   methods: {
     afterGetData() {
       // execute after service request
-      this.autocompleteSelected('pessoa', this.value.pessoa)
+      this.autocompleteSelected("pessoa", this.value.pessoa)
     },
     change() {
       // console.log(arguments)

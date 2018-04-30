@@ -27,6 +27,8 @@ export default {
     }
   },
   methods: {
+    afterGetData() {
+    },
     autocompleteSelected(name, value) {
       Vue.set(this.value, name, value)
       Vue.set(this.autocomplete, name, value.label)
@@ -177,6 +179,7 @@ export default {
         .get({ params: { id } })
         .then(({ data }) => {
           this.value = data || {}
+          this.afterGetData()
           Loading.hide()
         })
         .catch(error => {

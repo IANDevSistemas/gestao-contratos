@@ -265,7 +265,10 @@ export default {
           params: {
             idcontrato: new Id()
           }
-        }
+        },
+        // uploadHandler(responseText){
+        //   console.log(responseText)
+        // }
       }
     })
   },
@@ -314,10 +317,15 @@ export default {
     serviceName: "contrato"
   }),
   methods: {
+    afterGetData() {
+      // execute after service request
+      this.autocompleteSelected('pessoa', this.value.pessoa)
+    },
     change() {
       // console.log(arguments)
     },
     editorOnChange(content) {
+      console.log(content)
       this.editor.content = content
     },
     modalEditorOnClose() {
@@ -340,22 +348,6 @@ export default {
     }
   },
   created() {
-
-    // const { id } = this.$route.params
-    // if (id && Boolean(Number(id))) {
-    //    this.service
-    //      .get({ params: { id } })
-    //      .then(({ data }) => {
-    //        this.value = data || {}
-    //        this.autocompleteSelected('pessoa', this.value.pessoa)
-    //      })
-    //      .catch(error => {
-    //        // TODO: add some message
-    //        console.error(error)
-    //      })
-    // }
-
-
     this.options.tipocontrato = []
     this.services.tipoContrato
       .get({
@@ -384,19 +376,6 @@ export default {
         // TODO add some message
         console.error(error)
       })
-
-
-    const { value } = this
-
-    console.log(value)
-
-    try {
-      if (value.idcontrato) {
-        this.autocomplete.pessoa = value.pessoa.text
-      }
-    } catch (error) {
-      console.error(error)
-    }
   },
   watch: {
     // value(value) {},

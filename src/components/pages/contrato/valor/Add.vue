@@ -168,7 +168,6 @@ export default {
           this.list = data
         })
         .catch(error => {
-          // TODO add some message
           console.error(error)
         })
     }, 500)

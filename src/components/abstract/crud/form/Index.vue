@@ -28,6 +28,7 @@ export default {
   },
   methods: {
     afterGetData() {
+      // do nothing.
     },
     autocompleteSelected(name, value) {
       Vue.set(this.value, name, value)
@@ -183,7 +184,6 @@ export default {
           Loading.hide()
         })
         .catch(error => {
-          // TODO: add some message
           console.error(error)
         })
     }

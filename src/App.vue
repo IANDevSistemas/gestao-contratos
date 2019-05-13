@@ -1,45 +1,85 @@
 <template>
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
-    <q-layout ref="layout" view="hhh LpR lFr" :left-class="{ 'bg-white': true }">
-      <q-toolbar v-if="!isFullScreen" slot="header" class="print-hide">
-        <q-btn v-show="loggedIn" flat @click="$refs.layout.toggleLeft()">
+    <q-layout
+      ref="layout"
+      view="hhh LpR lFr"
+      :left-class="{ 'bg-white': true }"
+    >
+      <q-toolbar
+        v-if="!isFullScreen"
+        slot="header"
+        class="print-hide"
+      >
+        <q-btn
+          v-show="loggedIn"
+          flat
+          @click="$refs.layout.toggleLeft()"
+        >
           <q-icon name="menu" />
         </q-btn>
 
         <q-toolbar-title>Gestão de Contratos</q-toolbar-title>
 
-        <q-btn flat icon="exit_to_app" v-show="loggedIn" @click="$router.push('/logout')">Logout</q-btn>
+        <q-btn
+          flat
+          icon="exit_to_app"
+          v-show="loggedIn"
+          @click="$router.push('/logout')"
+        >Logout</q-btn>
       </q-toolbar>
 
-      <q-scroll-area class="print-hide" slot="left" v-if="!isFullScreen && loggedIn" style="width: 100%; height: 100%;">
-        <q-side-link item to="/diretorio/0">
+      <q-scroll-area
+        class="print-hide"
+        slot="left"
+        v-if="!isFullScreen && loggedIn"
+        style="width: 100%; height: 100%;"
+      >
+        <q-side-link
+          item
+          to="/diretorio/0"
+        >
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Contratos" />
         </q-side-link>
 
-        <q-side-link item to="/cadastro/empresa">
+        <q-side-link
+          item
+          to="/cadastro/empresa"
+        >
           <q-item-side icon="fa-building" />
           <q-item-main label="Empresa" />
         </q-side-link>
-        <q-side-link item to="/cadastro/pessoa">
+        <q-side-link
+          item
+          to="/cadastro/pessoa"
+        >
           <q-item-side icon="fa-users" />
           <q-item-main label="Pessoas" />
         </q-side-link>
 
-        <q-side-link item to="/cadastro/motivo-contrato">
+        <!-- <q-side-link item to="/cadastro/motivo-contrato">
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Motivo Contrato" />
-        </q-side-link>
-        <q-side-link item to="/cadastro/tipo-contrato">
+        </q-side-link> -->
+        <q-side-link
+          item
+          to="/cadastro/tipo-contrato"
+        >
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Tipo Contrato" />
         </q-side-link>
-        <q-side-link item to="/cadastro/tipo-responsavel-contrato">
+        <q-side-link
+          item
+          to="/cadastro/tipo-responsavel-contrato"
+        >
           <q-item-side icon="fa-file-text" />
           <q-item-main label="Tipo Responsável" />
         </q-side-link>
-        <q-side-link item to="/cadastro/indice">
+        <q-side-link
+          item
+          to="/cadastro/indice"
+        >
           <q-item-side icon="fa-line-chart" />
           <q-item-main label="Índice Financeiro" />
         </q-side-link>

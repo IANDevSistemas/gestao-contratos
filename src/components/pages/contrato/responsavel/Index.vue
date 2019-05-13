@@ -4,27 +4,58 @@
     <crud-table-filter v-model="filter" />
     <crud-table-actions @add="$refs.modal.open()" />
 
-    <vuetable ref="table" :http-fetch="httpFetch" :fields="fields" :query-params="{ size: 'size', page:'page', perPage: 'size' }" :class="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
-      <template slot="actions" slot-scope="props">
-        <q-toolbar color="primary" inverted>
-          <q-btn round small flat icon="mode_edit" @click="onAction('edit', props.rowData, props.rowIndex)" />
-          <q-btn round small flat icon="delete_forever" @click="onAction('delete', props.rowData, props.rowIndex)" />
+    <vuetable
+      ref="table"
+      :http-fetch="httpFetch"
+      :fields="fields"
+      :query-params="{ size: 'size', page:'page', perPage: 'size' }"
+      :class="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }"
+      pagination-path=""
+    >
+      <template
+        slot="actions"
+        slot-scope="props"
+      >
+        <q-toolbar
+          color="primary"
+          inverted
+        >
+          <q-btn
+            round
+            small
+            flat
+            icon="mode_edit"
+            @click="onAction('edit', props.rowData, props.rowIndex)"
+          />
+          <q-btn
+            round
+            small
+            flat
+            icon="delete_forever"
+            @click="onAction('delete', props.rowData, props.rowIndex)"
+          />
         </q-toolbar>
       </template>
     </vuetable>
 
-    <q-modal ref="modal" @close="refresh()" :content-css="{ minWidth: '1000px', minHeight: '100vh' }">
+    <q-modal
+      ref="modal"
+      @close="refresh()"
+      :content-css="{ minWidth: '1000px', minHeight: '100vh' }"
+    >
       <q-modal-layout>
         <q-toolbar slot="header">
           <div class="q-toolbar-title">Adicionar Responsáveis</div>
-          <q-btn flat @click="$refs.modal.close()">
+          <q-btn
+            flat
+            @click="$refs.modal.close()"
+          >
             <q-icon name="close" />
           </q-btn>
         </q-toolbar>
         <add :idcontrato="contrato.id" />
       </q-modal-layout>
     </q-modal>
-    <crud-form-modal ref="modal" />
   </section>
 </template>
 
@@ -54,7 +85,11 @@ export default {
       fields: [
         { name: "pessoa.text", sortField: "pessoa", title: "Pessoa" },
         { name: "funcao", sortField: "funcao", title: "Função" },
-        { name: "tiporesponsavelcontrato.text", sortField: "tiporesponsavelcontrato", title: "Tipo Responsável" },
+        {
+          name: "tiporesponsavelcontrato.text",
+          sortField: "tiporesponsavelcontrato",
+          title: "Tipo Responsável"
+        },
         { name: "__slot:actions", title: "", width: "110px" }
       ]
     }
@@ -87,7 +122,6 @@ export default {
                     })
                     .catch(error => {
                       this.refresh()
-                      // TODO add some message
                       console.error(error)
                     })
                 }
@@ -103,7 +137,11 @@ export default {
       this.$refs.table.refresh()
     },
     httpFetch(url, options) {
-      const args = merge({}, { params: { ...this.filter, idcontrato: this.contrato.id } }, options)
+      const args = merge(
+        {},
+        { params: { ...this.filter, idcontrato: this.contrato.id } },
+        options
+      )
       return service.get(args)
     },
 

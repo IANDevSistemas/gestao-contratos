@@ -152,7 +152,7 @@ export default {
       this.value.telefone = value.join(";")
     },
     value(value) {
-      this.telefone = isArray(value.telefone) ? value.telefone.split(";") : []
+      this.telefone = value.telefone && !isArray(value.telefone) ? (value.telefone.length > 1 ? value.telefone.split(";") : []) : []
       this.municipio = value.municipio ? value.municipio.text : ""
     }
   }

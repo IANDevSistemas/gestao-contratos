@@ -2,24 +2,46 @@
   <section>
     <q-card>
       <q-card-main>
-        <crud-form-actions @back="$router.go(-1)" @copy="value.id = null" @clear="value = {}" @save="onSave()" @delete="onDelete()" />
+        <crud-form-actions
+          @back="$router.go(-1)"
+          @copy="value.id = null"
+          @clear="value = {}"
+          @save="onSave()"
+          @delete="onDelete()"
+        />
 
         <h6>{{value.pessoa && value.pessoa.text}}</h6>
 
         <!-- Função -->
-        <q-field :error="$v.value.funcao.$error" error-label="Entre com uma função válida" :count="255">
-          <q-input v-model.trim="value.funcao" float-label="Função" @blur="$v.value.funcao.$touch"></q-input>
+        <q-field
+          :error="$v.value.funcao.$error"
+          error-label="Entre com uma função válida"
+          :count="255"
+        >
+          <q-input
+            v-model.trim="value.funcao"
+            float-label="Função"
+            @blur="$v.value.funcao.$touch"
+          ></q-input>
         </q-field>
 
         <div class="row sm-gutter">
           <div class="col-xs-12 col-sm-4">
             <!-- Tipo Responsavel Contrato -->
-            <q-field :error="$v.value.idtiporesponsavelcontrato.$error" error-label="Entre com um valor válido">
-              <q-select v-model="value.idtiporesponsavelcontrato" filter float-label="Tipo Responsável" filter-placeholder="Filtro..." :options="options.tipoResponsavelContrato" />
+            <q-field
+              :error="$v.value.idtiporesponsavelcontrato.$error"
+              error-label="Entre com um valor válido"
+            >
+              <q-select
+                v-model="value.idtiporesponsavelcontrato"
+                filter
+                float-label="Tipo Responsável"
+                filter-placeholder="Filtro..."
+                :options="options.tipoResponsavelContrato"
+              />
             </q-field>
           </div>
         </div>
-
       </q-card-main>
     </q-card>
     <crud-form-modal ref="modal" />

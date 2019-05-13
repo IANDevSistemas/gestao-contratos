@@ -131,7 +131,6 @@ export default {
                     })
                     .catch(error => {
                       this.refresh()
-                      // TODO add some message
                       console.error(error)
                     })
                 }

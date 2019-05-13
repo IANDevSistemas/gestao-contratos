@@ -1,68 +1,154 @@
 <template>
   <section>
-    <div class="row sm-gutter" :style="{ margin: 'auto', width: '98%' }">
+    <div
+      class="row sm-gutter"
+      :style="{ margin: 'auto', width: '98%' }"
+    >
       <div class="col-xs-12 col-sm-2">
         <!-- Nome -->
         <q-field>
-          <q-input v-model="form.nome" float-label="Nome" />
+          <q-input
+            v-model="form.nome"
+            float-label="Nome"
+          />
         </q-field>
       </div>
       <div class="col-xs-12 col-sm-2">
         <!-- Tipo -->
         <q-field>
-          <q-select v-model="form.tipopessoa" float-label="Tipo" clearable :options="[ { value: 'F', label: 'Fornecedor' }, { value: 'C', label: 'Cliente' }, { value: 'U', label: 'Usuário' } ]" />
+          <q-select
+            v-model="form.tipopessoa"
+            float-label="Tipo"
+            clearable
+            :options="[ { value: 'F', label: 'Fornecedor' }, { value: 'C', label: 'Cliente' }, { value: 'U', label: 'Usuário' } ]"
+          />
         </q-field>
       </div>
       <div class="col-xs-12 col-sm-2">
         <!-- Cód ERP -->
         <q-field>
-          <q-input v-model="form.idpessoaerp" float-label="Cód. ERP" />
+          <q-input
+            v-model="form.idpessoaerp"
+            float-label="Cód. ERP"
+          />
         </q-field>
       </div>
       <div class="col-xs-12 col-sm-3">
         <!-- Tipo Responsável -->
         <q-field>
-          <q-select v-model="form.idtiporesponsavelcontrato" radio filter clearable float-label="Tipo Responsável" filter-placeholder="Filtro..." :options="options.tiporesponsavelcontrato" />
+          <q-select
+            v-model="form.idtiporesponsavelcontrato"
+            radio
+            filter
+            clearable
+            float-label="Tipo Responsável"
+            filter-placeholder="Filtro..."
+            :options="options.tiporesponsavelcontrato"
+          />
         </q-field>
       </div>
       <div class="col-xs-12 col-sm-3">
         <!-- Função -->
         <q-field>
-          <q-input v-model="form.funcao" float-label="Função" />
+          <q-input
+            v-model="form.funcao"
+            float-label="Função"
+          />
         </q-field>
       </div>
     </div>
 
     <q-toolbar>
-      <q-toolbar-title/>
-      <q-btn flat round small @click="refresh()" icon="loop">
+      <q-toolbar-title />
+      <q-btn
+        flat
+        round
+        small
+        @click="refresh()"
+        icon="loop"
+      >
         <q-tooltip>Gerar Novamente</q-tooltip>
       </q-btn>
-      <q-btn flat round small @click="saveAll()" icon="save">
+      <q-btn
+        flat
+        round
+        small
+        @click="saveAll()"
+        icon="save"
+      >
         <q-tooltip>Salvar Todos</q-tooltip>
       </q-btn>
     </q-toolbar>
     </div>
-    <vuetable ref="table" :api-mode="false" :fields="fields" table-height="calc(100vh - 250px)" :class="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
-      <template slot="idtiporesponsavelcontrato" slot-scope="props">
+    <vuetable
+      ref="table"
+      :api-mode="false"
+      :fields="fields"
+      table-height="calc(100vh - 250px)"
+      :class="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }"
+      pagination-path=""
+    >
+      <template
+        slot="idtiporesponsavelcontrato"
+        slot-scope="props"
+      >
         <!-- Tipo Responsável -->
-        <q-field v-if="!props.rowData.id" class="compact">
-          <q-select v-model="props.rowData.idtiporesponsavelcontrato" radio filter clearable filter-placeholder="Filtro..." :options="options.tiporesponsavelcontrato" />
+        <q-field
+          v-if="!props.rowData.id"
+          class="compact"
+        >
+          <q-select
+            v-model="props.rowData.idtiporesponsavelcontrato"
+            inverted
+            radio
+            filter
+            clearable
+            filter-placeholder="Filtro..."
+            :options="options.tiporesponsavelcontrato"
+          />
         </q-field>
         <span v-else>{{props.rowData.tiporesponsavelcontrato.text}}</span>
       </template>
-      <template slot="funcao" slot-scope="props">
+      <template
+        slot="funcao"
+        slot-scope="props"
+      >
         <q-field class="compact">
-          <input v-model="props.rowData.funcao" :readonly="props.rowData.id" />
+          <q-input
+            v-model="props.rowData.funcao"
+            :readonly="props.rowData.id"
+          />
         </q-field>
       </template>
-      <template slot="actions" slot-scope="props">
-        <q-toolbar v-if="!props.rowData.id" class="compact" inverted>
+      <template
+        slot="actions"
+        slot-scope="props"
+      >
+        <q-toolbar
+          v-if="!props.rowData.id"
+          class="compact"
+          inverted
+        >
           <q-spinner v-show="props.rowData.isSaving" />
-          <q-btn v-show="!props.rowData.isSaving" round small flat icon="delete_forever" @click="onAction('delete', props.rowData, props.rowIndex)">
+          <q-btn
+            v-show="!props.rowData.isSaving"
+            round
+            small
+            flat
+            icon="delete_forever"
+            @click="onAction('delete', props.rowData, props.rowIndex)"
+          >
             <q-tooltip>Remover</q-tooltip>
           </q-btn>
-          <q-btn v-show="!props.rowData.isSaving" round small flat :disable="!props.rowData.idtiporesponsavelcontrato" icon="save" @click="onAction('save', props.rowData, props.rowIndex)">
+          <q-btn
+            v-show="!props.rowData.isSaving"
+            round
+            small
+            flat
+            :disable="!props.rowData.idtiporesponsavelcontrato"
+            icon="save"
+            @click="onAction('save', props.rowData, props.rowIndex)"
+          >
             <q-tooltip>Salvar</q-tooltip>
           </q-btn>
         </q-toolbar>
@@ -104,10 +190,30 @@ export default {
       contrato: {},
       list: [],
       fields: [
-        { name: "nomerazaosocial", sortField: "nomerazaosocial", title: "Razão Social", width: "280px" },
-        { name: "nomefantasia", sortField: "nomefantasia", title: "Nome Fantasia", width: "280px" },
-        { name: "__slot:funcao", sortField: "funcao", title: "Função", width: "180px" },
-        { name: "__slot:idtiporesponsavelcontrato", sortField: "idtiporesponsavelcontrato", title: "Tipo Responsável", width: "220px" },
+        {
+          name: "nomerazaosocial",
+          sortField: "nomerazaosocial",
+          title: "Razão Social",
+          width: "280px"
+        },
+        {
+          name: "nomefantasia",
+          sortField: "nomefantasia",
+          title: "Nome Fantasia",
+          width: "280px"
+        },
+        {
+          name: "__slot:funcao",
+          sortField: "funcao",
+          title: "Função",
+          width: "180px"
+        },
+        {
+          name: "__slot:idtiporesponsavelcontrato",
+          sortField: "idtiporesponsavelcontrato",
+          title: "Tipo Responsável",
+          width: "220px"
+        },
         { name: "__slot:actions", title: "", width: "100px" }
       ]
     }
@@ -163,14 +269,16 @@ export default {
   },
   created() {
     refresh = debounce(() => {
-      const args = merge({}, { params: { idcontrato: this.idcontrato || 0, ...this.form } })
+      const args = merge(
+        {},
+        { params: { idcontrato: this.idcontrato || 0, ...this.form } }
+      )
       services.contratoResponsavelAdicionar
         .get(args)
         .then(({ data }) => {
           this.list = data
         })
         .catch(error => {
-          // TODO add some message
           console.error(error)
         })
     }, 500)
@@ -182,7 +290,6 @@ export default {
         this.options.tiporesponsavelcontrato = data.data
       })
       .catch(error => {
-        // TODO add some message
         console.error(error)
       })
   },

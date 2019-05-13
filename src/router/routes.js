@@ -109,7 +109,7 @@ export default [
   {
     path: "/cadastro",
     component: load("/cadastro"),
-    children: [crudRouter("empresa"), crudRouter("indice"), crudRouter("tipo-contrato"), crudRouter("tipo-responsavel-contrato"), crudRouter("motivo-contrato"), crudRouter("pessoa")]
+    children: [crudRouter("empresa"), crudRouter("indice"), crudRouter("tipo-contrato"), crudRouter("tipo-responsavel-contrato"), /* crudRouter("motivo-contrato"),*/ crudRouter("pessoa")]
   },
 
   // Raíz

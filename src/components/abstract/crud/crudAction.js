@@ -13,59 +13,55 @@ import { Dialog } from "quasar"
 // ]
 
 
-
-export default (promisse, messages = []) => {
-  return new Promise((resolve, reject) => {
-    try {
-      // Etapa 1: Confirmação a ação
-      const dialog1 = Dialog.create({
-        title: "Confirma a realização da ação ?",
-        ...messages[0],
-        buttons: [
-          "Não",
-          {
-            label: "Sim",
-            handler() {
-              dialog1.close()
-
-              // Etapa 2: Bloqueia a tela e efetua a ação
-              const dialog2 = Dialog.create({
-                title: "Processando...",
-                ...messages[1],
-                nobuttons: true,
-                progress: {
-                  indeterminate: true
-                },
-                noBackdropDismiss: true,
-                noEscDismiss: true
+export default (promisse, messages = []) => new Promise((resolve, reject) => {
+  try {
+    // Etapa 1: Confirmação a ação
+    const dialog1 = Dialog.create({
+      title: "Confirma a realização da ação ?",
+      ...messages[0],
+      buttons: [
+        "Não",
+        {
+          label: "Sim",
+          handler() {
+            dialog1.close()
+            // Etapa 2: Bloqueia a tela e efetua a ação
+            const dialog2 = Dialog.create({
+              title: "Processando...",
+              ...messages[1],
+              nobuttons: true,
+              progress: {
+                indeterminate: true
+              },
+              noBackdropDismiss: true,
+              noEscDismiss: true
+            })
+            promisse()
+              .then(() => {
+                // Etapa 3: Mostra a mensagem de sucesso e volta para o grid
+                dialog2.close()
+                Dialog.create({
+                  title: "Sucesso!",
+                  message: "",
+                  ...messages[2]
+                })
+                this.tab = "grid"
               })
-
-              promisse()
-                .then((response) => {
-                  // Etapa 3: Mostra a mensagem de sucesso e volta para o grid
-                  dialog2.close()
-                  Dialog.create({
-                    title: "Sucesso!",
-                    message: "",
-                    ...messages[2]
-                  })
-                  this.tab = "grid"
+              .catch(error => {
+                dialog2.close()
+                Dialog.create({
+                  title: "Erro!",
+                  message: "",
+                  ...messages[3]
                 })
-                .catch((error) => {
-                  dialog2.close()
-                  Dialog.create({
-                    title: "Erro!",
-                    message: "",
-                    ...messages[3]
-                  })
-                  console.error(error)
-                })
-                .catch(reject)
-            }
+                console.error(error)
+              })
+              .catch(reject)
           }
-        ]
-      })
-    } catch (error) {
-      reject(error)
-    }
-  })
+        }
+      ]
+    })
+  } catch (error) {
+    reject(error)
+  }
+})

@@ -19,9 +19,9 @@
         <q-btn flat @click="$router.push({ name: 'contrato.unidade' })">
           Unidades
         </q-btn>
-        <!-- <q-btn flat @click="$router.push({ name: 'contrato.responsavel' })"> -->
-        <!-- Responsáveis -->
-        <!-- </q-btn> -->
+        <q-btn flat @click="$router.push({ name: 'contrato.responsavel' })">
+          Responsáveis
+        </q-btn>
         <q-btn flat @click="$router.push({ name: 'contrato.protocolo' })">
           Protocolos
         </q-btn>
@@ -227,13 +227,12 @@
 
 <script>
 import { between, minValue, required } from "vuelidate/lib/validators"
-import { Toast } from "quasar"
-
 import AbsctractCrudForm from "@/abstract/crud/form"
 import Vue from "vue"
 import VueHtml5Editor from "vue-html5-editor"
 import { baseURL } from "service/config"
 import { computed } from "@/abstract/util/mixins"
+
 
 // ID do contrato deve ser passado de forma dinamica então é criado um encapsulador
 let id = ""
@@ -359,7 +358,6 @@ export default {
         this.options.tipocontrato = data.data
       })
       .catch(error => {
-        // TODO add some message
         console.error(error)
       })
 
@@ -373,7 +371,6 @@ export default {
         this.options.indice = data.data
       })
       .catch(error => {
-        // TODO add some message
         console.error(error)
       })
   },

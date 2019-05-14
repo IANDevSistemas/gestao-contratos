@@ -40,7 +40,7 @@
               <q-item-side icon="people" />
             </q-item>
             <q-item :to="{ name: 'contrato.protocolo', params: { id: contrato.id } }">
-              <q-item-main label="Responsáveis" />
+              <q-item-main label="Protocolos" />
               <q-item-side icon="description" />
             </q-item>
           </q-list>

@@ -9,7 +9,7 @@
       <q-toolbar
         v-if="!isFullScreen"
         slot="header"
-        class="print-hide"
+        class="print-hide q-toolbar-main"
       >
         <q-btn
           v-show="loggedIn"
@@ -20,6 +20,10 @@
         </q-btn>
 
         <q-toolbar-title>Gestão de Contratos</q-toolbar-title>
+
+        <div class="logo">
+          <a target="_blank" href="http://www.iandev.com.br"><img style="max-height:30px;" src="statics/IANDEV-169x50.png" alt="IANDev Sistemas"></a>
+        </div>
 
         <q-btn
           flat
@@ -39,7 +43,7 @@
           item
           to="/diretorio/0"
         >
-          <q-item-side icon="fa-file-text" />
+          <q-item-side color="secondary" icon="fa-archive" />
           <q-item-main label="Contratos" />
         </q-side-link>
 
@@ -47,14 +51,14 @@
           item
           to="/cadastro/empresa"
         >
-          <q-item-side icon="fa-building" />
+          <q-item-side color="secondary" icon="fa-building" />
           <q-item-main label="Empresa/Unidade" />
         </q-side-link>
         <q-side-link
           item
           to="/cadastro/pessoa"
         >
-          <q-item-side icon="fa-users" />
+          <q-item-side color="secondary" icon="fa-users" />
           <q-item-main label="Pessoas" />
         </q-side-link>
 
@@ -66,21 +70,21 @@
           item
           to="/cadastro/tipo-contrato"
         >
-          <q-item-side icon="fa-file-text" />
+          <q-item-side color="secondary" icon="fa-file-text" />
           <q-item-main label="Tipo Contrato" />
         </q-side-link>
         <q-side-link
           item
           to="/cadastro/tipo-responsavel-contrato"
         >
-          <q-item-side icon="fa-file-text" />
+          <q-item-side color="secondary" icon="fa-id-card" />
           <q-item-main label="Tipo Responsável" />
         </q-side-link>
         <q-side-link
           item
           to="/cadastro/indice"
         >
-          <q-item-side icon="fa-line-chart" />
+          <q-item-side color="secondary" icon="fa-line-chart" />
           <q-item-main label="Índice Financeiro" />
         </q-side-link>
       </q-scroll-area>
@@ -209,6 +213,9 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
+.q-toolbar-main
+  background-image linear-gradient(to right, rgba(131, 31, 130, 1), rgba(0, 157, 204, 1));
+
 .layout-page
   background-color $grey-3
 
@@ -232,4 +239,11 @@ text-center
 
 .layout-page
   padding-bottom 32px
+
+.logo
+  padding-right 50px
+
+@media screen and (max-width: 500px)
+  .logo 
+    display none
 </style>

@@ -142,6 +142,9 @@ export default {
               console.error(error)
             })
         })
+        .catch(() => {
+          modal.close()
+        })
     },
     delete() {
       return new Promise((resolve, reject) => {

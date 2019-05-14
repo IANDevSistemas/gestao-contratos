@@ -20,7 +20,7 @@
     <div class="col">
       <div class="row justify-end">
         <div class="col-2 justify-end">
-          <q-btn @click="$emit('save')" round color="negative" icon="save">
+          <q-btn @click="$emit('save')" round color="positive" icon="save">
             <q-tooltip>Salvar</q-tooltip>
           </q-btn>
         </div>

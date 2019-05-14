@@ -10,10 +10,12 @@
       <template slot="actions" slot-scope="props">
         <q-toolbar class="compact" inverted>
           <q-spinner v-show="props.rowData.isSaving" />
-          <q-btn v-if="!props.rowData.isSaving && props.rowData.id && props.rowData.situacao == 'A'" small icon="delete_forever" color="negative" @click="onAction('remove', props.rowData, props.rowIndex)">
+          <q-btn v-if="!props.rowData.isSaving && props.rowData.id && props.rowData.situacao == 'A'" small color="negative" @click="onAction('remove', props.rowData, props.rowIndex)">
+            <q-icon name="delete_forever" />
             <q-tooltip>Remover</q-tooltip>
           </q-btn>
-          <q-btn v-else small icon="add" color="positive" @click="onAction('add', props.rowData, props.rowIndex)">
+          <q-btn v-else small color="positive" @click="onAction('add', props.rowData, props.rowIndex)">
+            <q-icon name="add" />
             <q-tooltip>Adicionar</q-tooltip>
           </q-btn>
         </q-toolbar>

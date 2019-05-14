@@ -48,7 +48,7 @@
           to="/cadastro/empresa"
         >
           <q-item-side icon="fa-building" />
-          <q-item-main label="Empresa" />
+          <q-item-main label="Empresa/Unidade" />
         </q-side-link>
         <q-side-link
           item

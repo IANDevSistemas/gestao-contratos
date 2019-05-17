@@ -70,6 +70,7 @@ export default {
       this.message = message
       this.title = title
       this.isLoading = isLoading
+
       return new Promise((resolve, reject) => {
         this.ok = resolve
         this.cancel = reject

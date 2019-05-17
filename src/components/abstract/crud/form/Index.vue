@@ -83,8 +83,9 @@ export default {
         .catch(error => {
           console.error(error)
           Loading.hide()
-          modal.dialog("Erro !", "Erro ao salvar os dados.").then(() => {
-            modal.close()
+          Toast.create["negative"]({
+            timeout: 5000,
+            html: "Não foi possível salvar os dados."
           })
         })
     },
@@ -131,13 +132,14 @@ export default {
             .then(response => {
               // Etapa 3: Mostra a mensagem de sucesso e volta para a tabela
               Loading.hide()
-              console.log("ué")
               Toast.create("Os dados foram removidos com sucesso.")
               this.$router.go(-1)
             })
             .catch(error => {
-              modal.dialog("Erro!", "Erro ao remover os dados.").then(() => {
-                modal.close()
+              Loading.hide()
+              Toast.create["negative"]({
+                timeout: 5000,
+                html: "Não foi possível remover os dados."
               })
               console.error(error)
             })

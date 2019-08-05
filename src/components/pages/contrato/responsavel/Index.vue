@@ -41,7 +41,7 @@
     <q-modal
       ref="modal"
       @close="refresh()"
-      :content-css="{ minWidth: '1000px', minHeight: '100vh' }"
+      :content-css="{ minWidth: '100%', minHeight: '100vh' }"
     >
       <q-modal-layout>
         <q-toolbar slot="header">
@@ -60,10 +60,10 @@
 </template>
 
 <script>
+import { Dialog, Toast } from "quasar"
 import Add from "./Add"
 import CrudTableActions from "@/abstract/crud/table/Actions"
 import CrudTableFilter from "./Filter"
-import { Dialog } from "quasar"
 import Vuetable from "vuetable-2"
 import { baseURL } from "service/config"
 import merge from "lodash/merge"
@@ -118,6 +118,7 @@ export default {
                   service
                     .delete({ params: { id: item.id } })
                     .then(response => {
+                      Toast.create("Responsável removido")
                       this.refresh()
                     })
                     .catch(error => {
@@ -144,7 +145,6 @@ export default {
       )
       return service.get(args)
     },
-
     // Formatters
     dateFormatter(value) {
       const date = moment(value)
@@ -169,15 +169,11 @@ export default {
 <style lang="stylus" scoped>
 section
   margin auto
-  max-width 1000px
-
 table
   width 100%
-
 .q-toolbar
   min-height 0
   padding 0
-
 iframe
   border none
   min-height calc(100vh - 40px)

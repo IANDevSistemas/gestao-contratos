@@ -13,7 +13,7 @@
       </template>
     </vuetable>
 
-    <q-modal ref="modal" @close="refresh()" :content-css="{ minWidth: '800px', minHeight: '100vh' }">
+    <q-modal ref="modal" @close="refresh()"  :content-css="{ minWidth: '100%', minHeight: '100vh' }">
       <q-modal-layout>
         <q-toolbar slot="header">
           <div class="q-toolbar-title">Adicionar Valores</div>
@@ -147,4 +147,11 @@ iframe
   border none
   min-height calc(100vh - 40px)
   width 100%
+
+modal-content
+  min-width: 800px
+
+@media only screen and (max-width: 800px)
+  modal-content
+    min-width: 100%
 </style>

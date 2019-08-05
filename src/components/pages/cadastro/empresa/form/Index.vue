@@ -144,7 +144,7 @@ export default {
       numero: { required },
       complemento: {},
       cep: { required },
-      municipio: {}
+      municipio: { required }
     }
   },
   watch: {

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <form @submit.stop.prevent="filter">
+    <form>
       <div class="row sm-gutter">
         <div class="col-xs-12 col-sm-10">
           <!-- Unidade -->

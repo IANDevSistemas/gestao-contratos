@@ -1,6 +1,6 @@
 <template>
   <section>
-    <form @submit.prevent.stop="$emit('input', JSON.parse(JSON.stringify(value)))">
+    <form>
       <div class="row sm-gutter">
         <div class="col-xs-12 col-sm-6">
           <!-- Descrição -->

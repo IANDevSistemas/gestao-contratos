@@ -32,6 +32,7 @@ export default {
       Vue.set(this.autocomplete, name, value.label)
     },
     filter() {
+      console.log("onFILTER...")
       LocalStorage.set(STORAGE_KEY, this.value)
       this.$emit("input", JSON.parse(JSON.stringify(this.value)))
     },

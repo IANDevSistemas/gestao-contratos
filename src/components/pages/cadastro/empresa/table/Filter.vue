@@ -1,6 +1,6 @@
 <template>
   <section>
-    <form @submit.stop.prevent="filter">
+    <form>
       <div class="row sm-gutter">
         <div class="col-xs-12 col-sm-4">
           <!-- Razão Social -->
@@ -12,7 +12,7 @@
         <div class="col-xs-12 col-sm-4">
           <!-- Apelido -->
           <q-field :count="255">
-            <q-input v-model.trim="value.apelido" float-label="Apelido"></q-input>
+            <q-input v-model.trim="value.apelidoempresa" float-label="Apelido" />
           </q-field>
         </div>
 

@@ -6,17 +6,20 @@
         <q-tooltip>Voltar</q-tooltip>
       </q-btn>
     </q-card-actions>
-    <vuetable ref="table" :http-fetch="httpFetch" :fields="fields" :query-params="{ size: 'size', page:'page', perPage: 'size' }" :class="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
+    <vuetable ref="table" :http-fetch="httpFetch" :fields="fields" :query-params="{ size: 'size', page:'page', perPage: '0' }" :class="{ 'bordered': true, 'striped': true, 'highlight': true, 'responsive': true, 'q-table': true }" pagination-path="">
       <template slot="actions" slot-scope="props">
         <q-toolbar class="compact" inverted>
           <q-spinner v-show="props.rowData.isSaving" />
+
           <q-btn v-if="!props.rowData.isSaving && props.rowData.id && props.rowData.situacao == 'A'" small color="negative" @click="onAction('remove', props.rowData, props.rowIndex)">
             <q-icon name="delete_forever" />
-            <q-tooltip>Remover</q-tooltip>
+            Remover
+            <q-tooltip>Clique para remover a unidade do contrato</q-tooltip>
           </q-btn>
           <q-btn v-else small color="positive" @click="onAction('add', props.rowData, props.rowIndex)">
             <q-icon name="add" />
-            <q-tooltip>Adicionar</q-tooltip>
+            Adicionar
+            <q-tooltip>Clique para adicionar a unidade ao contrato</q-tooltip>
           </q-btn>
         </q-toolbar>
       </template>
@@ -27,6 +30,7 @@
 <script>
 import CrudTableFilter from "./Filter"
 import Vuetable from "vuetable-2"
+import VuetablePagination from "vuetable-2/src/components/VuetablePagination"
 import { baseURL } from "service/config"
 import merge from "lodash/merge"
 import service from "service/contratoUnidade"
@@ -34,7 +38,8 @@ import service from "service/contratoUnidade"
 export default {
   components: {
     CrudTableFilter,
-    Vuetable
+    Vuetable,
+    VuetablePagination
   },
   data() {
     return {

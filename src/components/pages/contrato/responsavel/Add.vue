@@ -79,7 +79,7 @@
         <q-tooltip>Salvar Todos</q-tooltip>
       </q-btn>
     </q-toolbar>
-    </div>
+
     <vuetable
       ref="table"
       :api-mode="false"
@@ -116,7 +116,7 @@
         <q-field class="compact">
           <q-input
             v-model="props.rowData.funcao"
-            :readonly="props.rowData.id"
+            :readonly="Boolean(props.rowData.id)"
           />
         </q-field>
       </template>
@@ -159,6 +159,7 @@
 </template>
 
 <script>
+import { Toast } from "quasar"
 import Vue from "vue"
 import Vuetable from "vuetable-2"
 import { baseURL } from "service/config"
@@ -168,9 +169,7 @@ import merge from "lodash/merge"
 import moment from "moment"
 import numeral from "numeral"
 import services from "service/all"
-
 let refresh
-
 export default {
   components: {
     Vuetable
@@ -183,6 +182,7 @@ export default {
   data() {
     return {
       form: {},
+      bol: true,
       options: {
         tiporesponsavelcontrato: []
       },
@@ -219,10 +219,14 @@ export default {
     }
   },
   methods: {
-    onAction(action, item, index) {
+    onAction(action, item, index, type) {
+      this.bol = true
       switch (action) {
         case "delete":
           this.list.splice(index, 1)
+          if (type !== "all") {
+            Toast.create("Responsável removido")
+          }
           break
         case "save":
           // Validation
@@ -235,22 +239,65 @@ export default {
             .then(({ data }) => {
               Vue.set(item, "isSaving", false)
               Vue.set(item, "id", data.msg)
+              services.tipoResponsavelContrato
+                .get({ params: { id: item.idtiporesponsavelcontrato } })
+                .then(({ data }) => {
+                  item.tiporesponsavelcontrato = {
+                    id: data.id,
+                    text: data.text
+                  }
+
+                  if (type !== "all") {
+                    Toast.create("Responsável adicionado")
+                  }
+                })
+                .catch(error => {
+                  console.error(error)
+                  this.bol = false
+                  if (type !== "all") {
+                    Toast.create["negative"]({
+                      timeout: 5000,
+                      html: "Erro ao carregar tipo do responsável"
+                    })
+                  }
+                })
             })
             .catch(error => {
               console.error(error)
+              this.bol = false
               Vue.set(item, "isSaving", false)
+              if (type !== "all") {
+                Toast.create["negative"]({
+                  timeout: 5000,
+                  html: "Erro ao adicionar responsável"
+                })
+              }
             })
           break
         default:
           console.error(new Error("Invalid action"))
+          this.bol = false
       }
     },
     saveAll() {
       for (let i = 0, l = this.list.length; i < l; i++) {
         const item = this.list[i]
         if (!item.id) {
-          this.onAction("save", item, i)
+          this.onAction("save", item, i, "all")
         }
+
+        if (!this.bol) {
+          break
+        }
+      }
+
+      if (!this.bol) {
+        Toast.create["negative"]({
+          timeout: 5000,
+          html: "Erro ao adicionar responsável"
+        })
+      } else {
+        Toast.create("Responsável adicionado")
       }
     },
     refresh() {
@@ -283,7 +330,6 @@ export default {
         })
     }, 500)
     refresh()
-
     services.tipoResponsavelContrato
       .get({ params: { situacao: "A" } })
       .then(({ data }) => {
@@ -315,40 +361,31 @@ section
   margin auto
   // padding 12px 32px
   width 100%
-
 .q-datetimepicker-range
   padding-top 10px
-
 .q-field.compact
   margin 0
   padding 0
-
 .q-toolbar.compact
   min-height 0
   padding 0
-
   button
     height 32px
     margin 0
     padding 0
     width 32px
-
 .q-if
   margin-bottom 0
   margin-top 0
   padding-bottom 0
-
 table
   width 100%
-
 label
   font-size 12px
   height 12px
   position absolute
-
 input
   background-color #ffffff00
-
   &[readonly]
     border-style none
 </style>

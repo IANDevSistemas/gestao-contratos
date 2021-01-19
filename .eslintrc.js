@@ -258,7 +258,7 @@ module.exports = {
       }
     ],
     // enforce consistent linebreak style
-    "linebreak-style": ["warn", "unix"],
+    // "linebreak-style": ["warn", "unix"],
     // enforce a maximum number of parameters in function definitions
     "max-params": ["warn", 5],
     // enforce a maximum number of statements allowed in function blocks

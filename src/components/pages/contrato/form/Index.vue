@@ -59,7 +59,14 @@
           </q-field>
         </div>
       </div>
-
+      <div class="row sm-gutter">
+        <div class="col-xs-12 col-sm-5">
+          <!-- Modalidade Contrato -->
+          <q-field :error="$v.value.idmodalidadecontrato.$error" error-label="Selecione um valor">
+            <q-select v-model="value.idmodalidadecontrato" filter clearable float-label="Modalidade Contrato" radio :options="options.modalidadecontrato" @blur="$v.value.idmodalidadecontrato.$touch" />
+          </q-field>
+        </div>
+      </div>
       <h6>Vigência</h6>
       <div class="row sm-gutter">
         <div class="col-xs-12 col-sm-4">
@@ -280,7 +287,8 @@ export default {
       },
       options: {
         tipocontrato: [],
-        indice: []
+        indice: [],
+        modalidadecontrato: []
       },
       isSaving: false
     }
@@ -290,6 +298,7 @@ export default {
       descricao: { required },
       pessoa: { required },
       idtipocontrato: { required },
+      idmodalidadecontrato: {},
       idindiceatualizacao: {},
       numero: {},
 
@@ -361,6 +370,20 @@ export default {
         console.error(error)
       })
 
+    this.options.modalidadecontrato = []
+    this.services.modalidadeContrato
+      .get({
+        params: {
+          situacao: "A"
+        }
+      })
+      .then(({ data }) => {
+        this.options.modalidadecontrato = data.data
+      })
+      .catch(error => {
+        console.error(error)
+      })
+
     this.services.indice
       .get({
         params: {
@@ -378,6 +401,9 @@ export default {
     // value(value) {},
     "value.idtipocontrato"(value) {
       this.value.tipocontrato = { id: value }
+    },
+    "value.idmodalidadecontrato"(value) {
+      this.value.modalidadecontrato = { id: value }
     },
     "value.id"(value) {
       id = value

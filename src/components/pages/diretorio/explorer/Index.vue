@@ -169,7 +169,6 @@ import DetailContrato from "./detail/Contrato"
 import SearchFilter from "./SearchFilter"
 import ViewList from "./list/Component"
 import ViewModule from "./module/Component"
-
 import services from "service/all"
 
 export default {
@@ -331,6 +330,10 @@ export default {
   },
   mounted() {
     this.onRefresh()
+
+    this.$root.$on("refresh", () => {
+      this.onRefresh()
+    })
   }
 }
 </script>

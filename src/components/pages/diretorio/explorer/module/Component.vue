@@ -126,6 +126,18 @@ export default {
       }
     }
   },
+  emptyDir: {
+    iddiretorio: null,
+    iddiretoriopai: null,
+    cor: "grey",
+    countfilho: 0,
+    label: "Sem diretório",
+    descricao: "Sem diretório",
+    path: null,
+    id: null,
+    text: "Sem diretório",
+    value: "Sem diretório"
+  },
   data() {
     // const self = this
     return {
@@ -178,6 +190,9 @@ export default {
               this.diretorio = "Diretórios"
             }
           }
+          if (this.contratoToMove.iddiretorio) {
+            this.diretoriosToMove.push(this.$options.emptyDir)
+          }
           this.diretorioLoading = false
         })
         .catch(error => {
@@ -196,6 +211,7 @@ export default {
     moveTo(contrato, iddiretorio) {
       this.diretorioLoading = true
       contrato.iddiretorio = iddiretorio
+      contrato.diretorio = { id: null }
       services.contrato
         .put({
           id: contrato.id,

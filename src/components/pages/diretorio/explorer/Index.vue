@@ -79,7 +79,7 @@
       <!-- </q-btn> -->
     </q-toolbar>
 
-    <ul class="breadcrumb print-hide">
+    <ul class="breadcrumb black print-hide">
       <li>
         <a @click="onNavTo({ iddiretorio: 0 })">
           <q-icon name="home" />
